@@ -1,0 +1,30 @@
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { API_MAL_HOST } from '../../../../lib/myanimelist';
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { id, episode, completed, watching, todayStart, todayEnd } = req.body;
+
+  var body = new URLSearchParams({
+    num_watched_episodes: episode,
+  });
+
+  const today = new Date();
+
+  !!watching && body.set('status', 'watching');
+  !!completed && body.set('status', 'completed');
+  !!todayStart && body.set('start_date', today.toISOString().slice(0, 10));
+  !!todayEnd && body.set('finish_date', today.toISOString().slice(0, 10));
+
+  const resp = await fetch(`${API_MAL_HOST}/v2/anime/${id}/my_list_status`, {
+    headers: {
+      Authorization: req.headers.authorization || '',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    method: req.method,
+    body: body,
+  });
+
+  const data = await resp.json();
+  res.status(resp.status).json(data);
+}
