@@ -115,7 +115,15 @@ export default function Animelist() {
   };
 
   React.useEffect(() => {
-    setUser(getUser());
+    if (!router.isReady) return;
+
+    const u = getUser();
+    if (!u) {
+      router.push('/auth/login');
+      return;
+    }
+
+    setUser(u);
 
     const cached = getUserAnimelist();
     if (cached) {
@@ -124,7 +132,7 @@ export default function Animelist() {
     }
 
     callAPI();
-  }, []);
+  }, [router]);
 
   if (loading) {
     return <LoadingAnimelist />;

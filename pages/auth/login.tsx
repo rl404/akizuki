@@ -9,11 +9,12 @@ export default function Login() {
   const router = useRouter();
 
   React.useEffect(() => {
+    if (!router.isReady) return;
     const token = getAccessToken();
     if (token) {
       router.push('/');
     }
-  }, []);
+  }, [router]);
 
   return (
     <>

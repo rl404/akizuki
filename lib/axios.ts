@@ -7,7 +7,7 @@ export const akizukiAxios = axios.create();
 
 akizukiAxios.interceptors.request.use(
   async (config) => {
-    config.headers.authorization = `Bearer ${getAccessToken()}`;
+    config && config.headers && (config.headers.authorization = `Bearer ${getAccessToken()}`);
     return config;
   },
   (error) => {

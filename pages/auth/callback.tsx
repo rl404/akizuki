@@ -6,21 +6,20 @@ import axios from 'axios';
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { Data } from '../api/mal/oauth2/token';
 import { saveToken } from '../../lib/storage';
+import Link from 'next/link';
 
 export default function Callback() {
   const router = useRouter();
-
-  const { code, state } = router.query;
 
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
-    if (!code || !state) {
-      return;
-    }
+    if (!router.isReady) return;
 
-    if (!validateState(state.toString())) {
+    const { code, state } = router.query;
+
+    if (!code || !state || !validateState(state.toString())) {
       setError('invalid myanimelist authorization');
       setLoading(false);
       return;
@@ -45,7 +44,7 @@ export default function Callback() {
         setError('invalid myanimelist authorization');
       })
       .finally(() => setLoading(false));
-  }, [code, state]);
+  }, [router]);
 
   return (
     <>
@@ -68,7 +67,13 @@ export default function Callback() {
         <DialogContent dividers sx={{ textAlign: 'center' }}>
           {loading ? <CircularProgress color="warning" /> : <Typography>{error}</Typography>}
         </DialogContent>
-        <DialogActions>{error !== '' && <Button href="/auth/login">Back to Login</Button>}</DialogActions>
+        <DialogActions>
+          {error !== '' && (
+            <Button href="/auth/login" color="warning" LinkComponent={Link}>
+              Back to Login
+            </Button>
+          )}
+        </DialogActions>
       </Dialog>
     </>
   );

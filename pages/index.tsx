@@ -24,10 +24,11 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Data } from './api/mal/user';
-import { saveUser } from '../lib/storage';
+import { getAccessToken, saveUser } from '../lib/storage';
 import { WEB_MAL_HOST } from '../lib/myanimelist';
 import { randomInt } from '../lib/utils';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const style = {
   subtitle: {
@@ -41,6 +42,8 @@ export default function Home() {
   const [loading, setLoading] = React.useState<boolean>(true);
   const [showAnimeStats, setShowAnimeStats] = React.useState<boolean>(false);
 
+  const router = useRouter();
+
   const toggleAnimeStats = () => {
     setShowAnimeStats((curr) => {
       return !curr;
@@ -48,6 +51,13 @@ export default function Home() {
   };
 
   React.useEffect(() => {
+    if (!router.isReady) return;
+
+    if (!getAccessToken()) {
+      router.push('/auth/login');
+      return;
+    }
+
     akizukiAxios
       .get(`/api/mal/user`)
       .then((resp) => {
@@ -76,7 +86,7 @@ export default function Home() {
         setError(error.message);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [router]);
 
   if (loading) {
     return <LoadingHome />;

@@ -401,7 +401,7 @@ export default function AnimeDialog({
                   onChange={onChangeUserTags}
                   renderTags={(value: readonly string[], getTagProps) =>
                     value.map((option: string, index: number) => (
-                      <Chip label={option} {...getTagProps({ index })} size="small" color="warning" />
+                      <Chip label={option} {...getTagProps({ index })} size="small" color="warning" key={option} />
                     ))
                   }
                   renderInput={(params) => (

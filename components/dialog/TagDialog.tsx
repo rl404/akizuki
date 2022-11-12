@@ -35,7 +35,7 @@ export default function TagDialog({ open, onClose, type }: { open: boolean; onCl
 
   React.useEffect(() => {
     updateVars(formula);
-  }, []);
+  }, [formula]);
 
   const updateVars = (f: string) => {
     const v = extractVarFromFormula(f);
@@ -327,7 +327,7 @@ export default function TagDialog({ open, onClose, type }: { open: boolean; onCl
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom>
-                  Don't forget to save the formula so you can use it later when updating your anime. Have fun.
+                  {`Don't forget to save the formula so you can use it later when updating your anime. Have fun.`}
                 </Typography>
                 <Divider />
               </Grid>
