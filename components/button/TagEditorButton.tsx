@@ -3,7 +3,7 @@ import { IconButton, Tooltip } from '@mui/material';
 import SellIcon from '@mui/icons-material/Sell';
 import TagDialog from '../dialog/TagDialog';
 
-export default function TagButton({ username, type }: { username: string; type: string }) {
+export default function TagEditorButton({ username, type }: { username: string; type: string }) {
   const [tagDialog, setTagDialog] = React.useState<boolean>(false);
 
   const handleOpenTagDialog = () => {

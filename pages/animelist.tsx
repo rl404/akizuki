@@ -24,7 +24,7 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import UserAnimeList from '../components/list/UserAnimeList';
 import { theme } from '../components/theme';
-import TagButton from '../components/button/TagButton';
+import TagEditorButton from '../components/button/TagEditorButton';
 
 const statusOrder = ['watching', 'completed', 'on_hold', 'dropped', 'plan_to_watch'];
 
@@ -37,7 +37,7 @@ const style = {
 export default function Animelist() {
   const router = useRouter();
 
-  const [user, setUser] = React.useState<User>();
+  const [user, setUser] = React.useState<User>({ username: '', picture: '' });
   const [list, setList] = React.useState<Array<UserAnime>>([]);
   const [error, setError] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -61,7 +61,7 @@ export default function Animelist() {
             return {
               id: a.node.id,
               title: a.node.title,
-              picture: a.node.main_picture?.large || a.node.main_picture?.medium,
+              picture: a.node.main_picture?.large || a.node.main_picture?.medium || '',
               rank: a.node.rank || 0,
               score: a.node.mean || 0,
               popularity: a.node.popularity || 0,
@@ -144,7 +144,7 @@ export default function Animelist() {
           <Grid item xs={12}>
             <Stack direction="row" justifyContent="space-between" spacing={1}>
               <Typography variant="h4" gutterBottom sx={{ flex: 1 }}>
-                {`${user?.username}'s animelist `}
+                {`${user.username}'s animelist `}
                 <Typography display="inline" sx={style.subtitle}>
                   — {list.length.toLocaleString()}
                 </Typography>
@@ -157,7 +157,7 @@ export default function Animelist() {
                 </Tooltip>
               </div>
               <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                <TagButton username={user?.username || ''} type="anime" />
+                <TagEditorButton username={user.username} type="anime" />
               </div>
               <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                 <Tooltip title="Data not updated? Try sync" placement="top" arrow>
@@ -174,7 +174,7 @@ export default function Animelist() {
               return (
                 <Grid item xs={12} sm={6} md={6} lg={4} key={a.id}>
                   <RenderIfVisible defaultHeight={200}>
-                    <UserAnimeCard username={user?.username || ''} userAnime={a} />
+                    <UserAnimeCard username={user.username} userAnime={a} />
                   </RenderIfVisible>
                 </Grid>
               );
@@ -183,7 +183,7 @@ export default function Animelist() {
             return (
               <Grid item xs={12} key={a.id}>
                 <RenderIfVisible defaultHeight={80}>
-                  <UserAnimeList username={user?.username || ''} userAnime={a} />
+                  <UserAnimeList username={user.username} userAnime={a} />
                 </RenderIfVisible>
               </Grid>
             );

@@ -63,32 +63,31 @@ export default function TagDialog({
   }, [formula]);
 
   const updateVars = (f: string) => {
-    const v = extractVarFromFormula(f).reduce((vars, v) => {
-      return { ...vars, [v]: 0 };
-    }, {});
-
-    setVars(v);
+    setVars(
+      extractVarFromFormula(f).reduce((vars, v) => {
+        return { ...vars, [v]: 0 };
+      }, {}),
+    );
   };
 
   const onChangeFormula = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError(() => {
-      return '';
-    });
-
     setFormula(e.target.value);
 
     if (!isFormulaValid(e.target.value)) {
-      setError(() => {
-        return 'invalid formula';
-      });
+      setError('invalid formula');
+    } else {
+      setError('');
     }
   };
 
   const onChangeVar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVars = { ...vars, [e.target.name]: parseInt(e.target.value) || 0 };
     setVars(newVars);
-    setResult(calculateFormula(formula, newVars));
   };
+
+  React.useEffect(() => {
+    setResult(calculateFormula(formula, vars));
+  }, [vars]);
 
   const onSave = () => {
     if (type === 'anime') {
