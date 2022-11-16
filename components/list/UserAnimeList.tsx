@@ -26,7 +26,7 @@ const userStatusToColor = (status: string): string => {
   }
 };
 
-export default function UserAnimeList({ userAnime }: { userAnime: UserAnime }) {
+export default function UserAnimeList({ username, userAnime }: { username: string; userAnime: UserAnime }) {
   const [data, setData] = React.useState<UserAnime>(userAnime);
 
   React.useEffect(() => {
@@ -208,7 +208,13 @@ export default function UserAnimeList({ userAnime }: { userAnime: UserAnime }) {
         />
       )}
       {openAnimeDialog && (
-        <AnimeDialog open={openAnimeDialog} onClose={onCloseAnimeDialog} userAnime={data} setData={setData} />
+        <AnimeDialog
+          open={openAnimeDialog}
+          onClose={onCloseAnimeDialog}
+          username={username}
+          userAnime={data}
+          setData={setData}
+        />
       )}
     </>
   );

@@ -45,11 +45,13 @@ const style = {
 export default function AnimeDialog({
   open,
   onClose,
+  username,
   userAnime,
   setData,
 }: {
   open: boolean;
   onClose: () => void;
+  username: string;
   userAnime: UserAnime;
   setData: (data: UserAnime) => void;
 }) {
@@ -135,16 +137,26 @@ export default function AnimeDialog({
   };
 
   const formulaVarToTag = (name: string, value: number) => {
-    setUserTags([...userTags, `${name.replaceAll('_', '-')}:${value}`]);
+    const tag = `${name.replaceAll('_', '-')}:${value}`;
+    !userTags.includes(tag) && setUserTags([...userTags, `${name.replaceAll('_', '-')}:${value}`]);
   };
 
-  const [formula, setFormula] = React.useState(getAnimeFormula());
+  const [formula, setFormula] = React.useState('');
   const [formulaResult, setFormulaResult] = React.useState(0);
-  const [formulaVars, setFormulaVars] = React.useState<{ [k: string]: number }>(
-    extractVarFromFormula(formula).reduce((vars, v) => {
-      return { ...vars, [v]: 0 };
-    }, {}),
-  );
+  const [formulaVars, setFormulaVars] = React.useState<{ [k: string]: number }>({});
+
+  React.useEffect(() => {
+    if (!username) return;
+
+    getAnimeFormula(username).then((f) => {
+      setFormula(f);
+      setFormulaVars(
+        extractVarFromFormula(f).reduce((vars, v) => {
+          return { ...vars, [v]: 0 };
+        }, {}),
+      );
+    });
+  }, [username]);
 
   const onChangeFormulaVar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVars = { ...formulaVars, [e.target.name]: parseInt(e.target.value) || 0 };
@@ -470,7 +482,7 @@ export default function AnimeDialog({
                       />
                       <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                         <Tooltip title="Add to tag" placement="right" arrow>
-                          <IconButton size="small" onClick={() => formulaVarToTag(v[0], v[1])}>
+                          <IconButton size="small" onClick={() => formulaVarToTag(v[0], v[1])} color="warning">
                             <AddIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>

@@ -27,45 +27,61 @@ import {
 import { calculateFormula, extractVarFromFormula, isFormulaValid } from '../../lib/formula';
 import { theme } from '../theme';
 
-export default function TagDialog({ open, onClose, type }: { open: boolean; onClose: () => void; type: string }) {
-  const [formula, setFormula] = React.useState<string>(type === 'anime' ? getAnimeFormula() : getMangaFormula());
+export default function TagDialog({
+  open,
+  onClose,
+  username,
+  type,
+}: {
+  open: boolean;
+  onClose: () => void;
+  username: string;
+  type: string;
+}) {
+  const [formula, setFormula] = React.useState<string>('');
   const [vars, setVars] = React.useState<{ [k: string]: number }>({});
   const [result, setResult] = React.useState<number>(0);
   const [error, setError] = React.useState('');
+
+  React.useEffect(() => {
+    if (!type || !username) return;
+
+    switch (type) {
+      case 'anime':
+        getAnimeFormula(username).then((f) => {
+          setFormula(f);
+        });
+      case 'manga':
+        getMangaFormula(username).then((f) => {
+          setFormula(f);
+        });
+    }
+  }, [username, type]);
 
   React.useEffect(() => {
     updateVars(formula);
   }, [formula]);
 
   const updateVars = (f: string) => {
-    const v = extractVarFromFormula(f);
+    const v = extractVarFromFormula(f).reduce((vars, v) => {
+      return { ...vars, [v]: 0 };
+    }, {});
 
-    setVars(() => {
-      return {};
-    });
-
-    v.forEach((vv: string) => {
-      setVars((k) => {
-        return { ...k, [vv]: 0 };
-      });
-    });
+    setVars(v);
   };
 
   const onChangeFormula = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError((s) => {
+    setError(() => {
       return '';
     });
 
     setFormula(e.target.value);
 
     if (!isFormulaValid(e.target.value)) {
-      setError((s) => {
+      setError(() => {
         return 'invalid formula';
       });
-      return;
     }
-
-    updateVars(e.target.value);
   };
 
   const onChangeVar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,9 +92,9 @@ export default function TagDialog({ open, onClose, type }: { open: boolean; onCl
 
   const onSave = () => {
     if (type === 'anime') {
-      saveAnimeFormula(formula);
+      saveAnimeFormula(username, formula);
     } else {
-      saveMangaFormula(formula);
+      saveMangaFormula(username, formula);
     }
 
     onClose();

@@ -18,14 +18,13 @@ import { akizukiAxios } from '../lib/axios';
 import { getUser, getUserAnimelist, saveUserAnimelist } from '../lib/storage';
 import { User, UserAnime } from '../type/Types';
 import { Data } from './api/mal/animelist';
-import SellIcon from '@mui/icons-material/Sell';
 import SyncIcon from '@mui/icons-material/Sync';
-import TagDialog from '../components/dialog/TagDialog';
 import RenderIfVisible from 'react-render-if-visible';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import UserAnimeList from '../components/list/UserAnimeList';
 import { theme } from '../components/theme';
+import TagButton from '../components/button/TagButton';
 
 const statusOrder = ['watching', 'completed', 'on_hold', 'dropped', 'plan_to_watch'];
 
@@ -47,16 +46,6 @@ export default function Animelist() {
 
   const toggleLayout = () => {
     setLayout(layout === 'grid' ? 'list' : 'grid');
-  };
-
-  const [tagDialog, setTagDialog] = React.useState<boolean>(false);
-
-  const handleOpenTagDialog = () => {
-    setTagDialog(true);
-  };
-
-  const handleCloseTagDialog = () => {
-    setTagDialog(false);
   };
 
   const callAPI = (withLoading: boolean = false) => {
@@ -168,11 +157,7 @@ export default function Animelist() {
                 </Tooltip>
               </div>
               <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                <Tooltip title="Tags Editor" placement="top" arrow>
-                  <IconButton onClick={handleOpenTagDialog}>
-                    <SellIcon />
-                  </IconButton>
-                </Tooltip>
+                <TagButton username={user?.username || ''} type="anime" />
               </div>
               <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                 <Tooltip title="Data not updated? Try sync" placement="top" arrow>
@@ -189,7 +174,7 @@ export default function Animelist() {
               return (
                 <Grid item xs={12} sm={6} md={6} lg={4} key={a.id}>
                   <RenderIfVisible defaultHeight={200}>
-                    <UserAnimeCard userAnime={a} />
+                    <UserAnimeCard username={user?.username || ''} userAnime={a} />
                   </RenderIfVisible>
                 </Grid>
               );
@@ -198,14 +183,13 @@ export default function Animelist() {
             return (
               <Grid item xs={12} key={a.id}>
                 <RenderIfVisible defaultHeight={80}>
-                  <UserAnimeList userAnime={a} />
+                  <UserAnimeList username={user?.username || ''} userAnime={a} />
                 </RenderIfVisible>
               </Grid>
             );
           })}
         </Grid>
       </Container>
-      {tagDialog && <TagDialog open={tagDialog} onClose={handleCloseTagDialog} type="anime" />}
     </>
   );
 }

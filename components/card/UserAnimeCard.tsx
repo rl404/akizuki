@@ -32,7 +32,7 @@ const style = {
   },
 };
 
-export default function UserAnimeCard({ userAnime }: { userAnime: UserAnime }) {
+export default function UserAnimeCard({ username, userAnime }: { username: string; userAnime: UserAnime }) {
   const [data, setData] = React.useState<UserAnime>(userAnime);
 
   React.useEffect(() => {
@@ -213,7 +213,13 @@ export default function UserAnimeCard({ userAnime }: { userAnime: UserAnime }) {
         />
       )}
       {openAnimeDialog && (
-        <AnimeDialog open={openAnimeDialog} onClose={onCloseAnimeDialog} userAnime={data} setData={setData} />
+        <AnimeDialog
+          open={openAnimeDialog}
+          onClose={onCloseAnimeDialog}
+          username={username}
+          userAnime={data}
+          setData={setData}
+        />
       )}
     </>
   );
