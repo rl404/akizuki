@@ -144,7 +144,7 @@ export default function Animelist() {
           <Grid item xs={12}>
             <Stack direction="row" justifyContent="space-between" spacing={1}>
               <Typography variant="h4" gutterBottom sx={{ flex: 1 }}>
-                {`${user.username}'s animelist `}
+                {`${user.username}'s Animelist `}
                 <Typography display="inline" sx={style.subtitle}>
                   — {list.length.toLocaleString()}
                 </Typography>

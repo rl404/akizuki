@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { Card, CardContent, CardMedia, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { UserManga } from '../../type/Types';
 import { theme } from '../theme';
-import { UserAnime } from '../../type/Types';
-import { animeTypeToStr, WEB_MAL_HOST } from '../../lib/myanimelist';
+import Link from 'next/link';
+import { mangaTypeToStr, WEB_MAL_HOST } from '../../lib/myanimelist';
 import EditIcon from '@mui/icons-material/Edit';
 import ScoreDialog from '../dialog/ScoreDialog';
-import EpisodeDialog from '../dialog/EpisodeDialog';
-import AnimeDialog from '../dialog/AnimeDialog';
-import Link from 'next/link';
+import ChapterDialog from '../dialog/ChapterDialog';
+import MangaDialog from '../dialog/MangaDialog';
 
 const userStatusToColor = (status: string): string => {
   switch (status) {
-    case 'watching':
+    case 'reading':
       return theme.palette.success.main;
     case 'completed':
       return theme.palette.info.main;
@@ -19,7 +19,7 @@ const userStatusToColor = (status: string): string => {
       return theme.palette.warning.main;
     case 'dropped':
       return theme.palette.error.main;
-    case 'plan_to_watch':
+    case 'plan_to_read':
       return theme.palette.text.primary;
     default:
       return theme.palette.common.black;
@@ -32,12 +32,12 @@ const style = {
   },
 };
 
-export default function UserAnimeCard({ username, userAnime }: { username: string; userAnime: UserAnime }) {
-  const [data, setData] = React.useState<UserAnime>(userAnime);
+export default function UserMangaCard({ username, userManga }: { username: string; userManga: UserManga }) {
+  const [data, setData] = React.useState<UserManga>(userManga);
 
   React.useEffect(() => {
-    setData(userAnime);
-  }, [userAnime]);
+    setData(userManga);
+  }, [userManga]);
 
   const [hoverScore, setHoverScore] = React.useState(false);
   const [openScoreDialog, setOpenScoreDialog] = React.useState(false);
@@ -62,29 +62,44 @@ export default function UserAnimeCard({ username, userAnime }: { username: strin
     setOpenScoreDialog(false);
   };
 
-  const [hoverEpisode, setHoverEpisode] = React.useState(false);
-  const [openEpisodeDialog, setOpenEpisodeDialog] = React.useState(false);
+  const [hoverChapter, setHoverChapter] = React.useState(false);
+  const [hoverVolume, setHoverVolume] = React.useState(false);
+  const [openChapterDialog, setOpenChapterDialog] = React.useState(false);
 
-  const onHoverEpisode = () => {
-    setHoverEpisode(true);
+  const onHoverChapter = () => {
+    setHoverChapter(true);
   };
 
-  const onUnhoverEpisode = () => {
-    setHoverEpisode(false);
+  const onUnhoverChapter = () => {
+    setHoverChapter(false);
   };
 
-  const setEpisode = (e: number) => {
+  const setChapter = (e: number) => {
     setData((d) => {
-      return { ...d, userEpisode: e };
+      return { ...d, userChapter: e };
     });
   };
 
-  const onOpenEpisodeDialog = () => {
-    setOpenEpisodeDialog(true);
+  const onHoverVolume = () => {
+    setHoverVolume(true);
   };
 
-  const onCloseEpisodeDialog = () => {
-    setOpenEpisodeDialog(false);
+  const onUnhoverVolume = () => {
+    setHoverVolume(false);
+  };
+
+  const setVolume = (e: number) => {
+    setData((d) => {
+      return { ...d, userVolume: e };
+    });
+  };
+
+  const onOpenChapterDialog = () => {
+    setOpenChapterDialog(true);
+  };
+
+  const onCloseChapterDialog = () => {
+    setOpenChapterDialog(false);
   };
 
   const setStatus = (s: string) => {
@@ -105,14 +120,14 @@ export default function UserAnimeCard({ username, userAnime }: { username: strin
     });
   };
 
-  const [openAnimeDialog, setOpenAnimeDialog] = React.useState(false);
+  const [openMangaDialog, setOpenMangaDialog] = React.useState(false);
 
-  const onOpenAnimeDialog = () => {
-    setOpenAnimeDialog(true);
+  const onOpenMangaDialog = () => {
+    setOpenMangaDialog(true);
   };
 
-  const onCloseAnimeDialog = () => {
-    setOpenAnimeDialog(false);
+  const onCloseMangaDialog = () => {
+    setOpenMangaDialog(false);
   };
 
   return (
@@ -131,10 +146,10 @@ export default function UserAnimeCard({ username, userAnime }: { username: strin
           <Grid container spacing={0.5}>
             <Grid item xs={12}>
               <Tooltip title={data.title}>
-                <Link href={`${WEB_MAL_HOST}/anime/${data.id}`} target="_blank">
+                <Link href={`${WEB_MAL_HOST}/manga/${data.id}`} target="_blank">
                   <Typography
                     variant="h6"
-                    gutterBottom={data.status !== 'currently_airing'}
+                    gutterBottom={data.status !== 'currently_publishing'}
                     sx={{ overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                   >
                     {data.title}
@@ -142,7 +157,7 @@ export default function UserAnimeCard({ username, userAnime }: { username: strin
                 </Link>
               </Tooltip>
               <Divider sx={{ color: theme.palette.warning.main }}>
-                {data.status === 'currently_airing' && 'Airing'}
+                {data.status === 'currently_publishing' && 'Publishing'}
               </Divider>
             </Grid>
             <Grid item xs={6} onMouseEnter={onHoverScore} onMouseLeave={onUnhoverScore} onClick={onOpenScoreDialog}>
@@ -155,19 +170,27 @@ export default function UserAnimeCard({ username, userAnime }: { username: strin
             </Grid>
             <Grid item xs={6}>
               <Typography>
-                <span style={style.subtitle}>Type:</span> {animeTypeToStr(data.mediaType)}
+                <span style={style.subtitle}>Type:</span> {mangaTypeToStr(data.mediaType)}
               </Typography>
             </Grid>
             <Grid
               item
-              xs={12}
-              onMouseEnter={onHoverEpisode}
-              onMouseLeave={onUnhoverEpisode}
-              onClick={onOpenEpisodeDialog}
+              xs={6}
+              onMouseEnter={onHoverChapter}
+              onMouseLeave={onUnhoverChapter}
+              onClick={onOpenChapterDialog}
             >
               <Typography sx={{ cursor: 'pointer' }}>
-                <span style={style.subtitle}>Episode:</span> {data.userEpisode}/{data.episode}
-                {hoverEpisode && (
+                <span style={style.subtitle}>Chapter:</span> {data.userChapter}/{data.chapter}
+                {hoverChapter && (
+                  <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
+                )}
+              </Typography>
+            </Grid>
+            <Grid item xs={6} onMouseEnter={onHoverVolume} onMouseLeave={onUnhoverVolume} onClick={onOpenChapterDialog}>
+              <Typography sx={{ cursor: 'pointer' }}>
+                <span style={style.subtitle}>Volume:</span> {data.userVolume}/{data.volume}
+                {hoverVolume && (
                   <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
                 )}
               </Typography>
@@ -178,7 +201,7 @@ export default function UserAnimeCard({ username, userAnime }: { username: strin
               sx={{ position: 'absolute', right: 5, bottom: 5 }}
               color="warning"
               size="small"
-              onClick={onOpenAnimeDialog}
+              onClick={onOpenMangaDialog}
             >
               <EditIcon fontSize="small" />
             </IconButton>
@@ -189,36 +212,39 @@ export default function UserAnimeCard({ username, userAnime }: { username: strin
         <ScoreDialog
           open={openScoreDialog}
           onClose={onCloseScoreDialog}
-          type="anime"
+          type="manga"
           id={data.id}
           title={data.title}
           score={data.userScore}
           setScore={setScore}
         />
       )}
-      {openEpisodeDialog && (
-        <EpisodeDialog
-          open={openEpisodeDialog}
-          onClose={onCloseEpisodeDialog}
+      {openChapterDialog && (
+        <ChapterDialog
+          open={openChapterDialog}
+          onClose={onCloseChapterDialog}
           id={data.id}
           title={data.title}
-          episode={data.episode}
-          userEpisode={data.userEpisode}
+          chapter={data.chapter}
+          volume={data.volume}
+          userChapter={data.userChapter}
+          userVolume={data.userVolume}
           userStatus={data.userStatus}
           userStartDate={data.userStartDate}
           userEndDate={data.userEndDate}
-          setEpisode={setEpisode}
+          setChapter={setChapter}
+          setVolume={setVolume}
           setStatus={setStatus}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
         />
       )}
-      {openAnimeDialog && (
-        <AnimeDialog
-          open={openAnimeDialog}
-          onClose={onCloseAnimeDialog}
+      {openMangaDialog && (
+        <MangaDialog
+          open={openMangaDialog}
+          onClose={onCloseMangaDialog}
           username={username}
-          userAnime={data}
+          userManga={data}
           setData={setData}
         />
       )}

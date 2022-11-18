@@ -61,6 +61,29 @@ export const animeTypeToStr = (t: string): string => {
   }
 };
 
+export const mangaTypeToStr = (t: string): string => {
+  switch (t) {
+    case 'manga':
+      return 'Manga';
+    case 'novel':
+      return 'Novel';
+    case 'one_shot':
+      return 'One-Shot';
+    case 'doujinshi':
+      return 'Doujinshi';
+    case 'manhwa':
+      return 'Manhwa';
+    case 'manhua':
+      return 'Manhua';
+    case 'oel':
+      return 'OEL';
+    case 'light_novel':
+      return 'Light Novel';
+    default:
+      return '-';
+  }
+};
+
 export const animeStatusToStr = (s: string): string => {
   switch (s) {
     case 'finished_airing':
@@ -69,6 +92,23 @@ export const animeStatusToStr = (s: string): string => {
       return 'Airing';
     case 'not_yet_aired':
       return 'Not Yet Aired';
+    default:
+      return '-';
+  }
+};
+
+export const mangaStatusToStr = (s: string): string => {
+  switch (s) {
+    case 'finished':
+      return 'Finished';
+    case 'currently_publishing':
+      return 'Publishing';
+    case 'not_yet_published':
+      return 'Not Yet Published';
+    case 'on_hiatus':
+      return 'On Hiatus';
+    case 'discontinued':
+      return 'Discontinued';
     default:
       return '-';
   }

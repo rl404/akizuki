@@ -1,4 +1,10 @@
 import * as React from 'react';
+import { UserManga } from '../../type/Types';
+import { theme } from '../theme';
+import moment, { Moment } from 'moment';
+import { getMangaFormula } from '../../lib/storage';
+import { calculateFormula, extractVarFromFormula } from '../../lib/formula';
+import { akizukiAxios } from '../../lib/axios';
 import {
   Autocomplete,
   Button,
@@ -18,23 +24,16 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { UserAnime } from '../../type/Types';
-import { LoadingButton } from '@mui/lab';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { DatePicker } from '@mui/x-date-pickers';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import ClearIcon from '@mui/icons-material/Clear';
-import moment, { Moment } from 'moment';
-import { akizukiAxios } from '../../lib/axios';
-import { theme } from '../theme';
-import { animeStatusToStr, animeTypeToStr, WEB_MAL_HOST } from '../../lib/myanimelist';
-import ConstructionIcon from '@mui/icons-material/Construction';
 import CloseIcon from '@mui/icons-material/Close';
-import { getAnimeFormula } from '../../lib/storage';
-import { calculateFormula, extractVarFromFormula } from '../../lib/formula';
+import { mangaStatusToStr, mangaTypeToStr, WEB_MAL_HOST } from '../../lib/myanimelist';
 import Link from 'next/link';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import { LoadingButton } from '@mui/lab';
 
 const style = {
   subtitle: {
@@ -42,56 +41,70 @@ const style = {
   },
 };
 
-export default function AnimeDialog({
+export default function MangaDialog({
   open,
   onClose,
   username,
-  userAnime,
+  userManga,
   setData,
 }: {
   open: boolean;
   onClose: () => void;
   username: string;
-  userAnime: UserAnime;
-  setData: (data: UserAnime) => void;
+  userManga: UserManga;
+  setData: (data: UserManga) => void;
 }) {
-  const [showAnime, setShowAnime] = React.useState(false);
-  const [userStatus, setUserStatus] = React.useState(userAnime.userStatus);
-  const [userEpisode, setUserEpisode] = React.useState(userAnime.userEpisode);
-  const [userScore, setUserScore] = React.useState(userAnime.userScore);
-  const [userStartDate, setUserStartDate] = React.useState(userAnime.userStartDate);
-  const [userEndDate, setUserEndDate] = React.useState(userAnime.userEndDate);
-  const [userComment, setUserComment] = React.useState(userAnime.comments);
-  const [userTags, setUserTags] = React.useState(userAnime.tags);
+  const [showManga, setShowManga] = React.useState(false);
+  const [userStatus, setUserStatus] = React.useState(userManga.userStatus);
+  const [userChapter, setUserChapter] = React.useState(userManga.userChapter);
+  const [userVolume, setUserVolume] = React.useState(userManga.userVolume);
+  const [userScore, setUserScore] = React.useState(userManga.userScore);
+  const [userStartDate, setUserStartDate] = React.useState(userManga.userStartDate);
+  const [userEndDate, setUserEndDate] = React.useState(userManga.userEndDate);
+  const [userComment, setUserComment] = React.useState(userManga.comments);
+  const [userTags, setUserTags] = React.useState(userManga.tags);
 
   const onReset = () => {
-    setUserStatus(userAnime.userStatus);
-    setUserEpisode(userAnime.userEpisode);
-    setUserScore(userAnime.userScore);
-    setUserStartDate(userAnime.userStartDate);
-    setUserEndDate(userAnime.userEndDate);
-    setUserComment(userAnime.comments);
-    setUserTags(userAnime.tags);
+    setUserStatus(userManga.userStatus);
+    setUserChapter(userManga.userChapter);
+    setUserVolume(userManga.userVolume);
+    setUserScore(userManga.userScore);
+    setUserStartDate(userManga.userStartDate);
+    setUserEndDate(userManga.userEndDate);
+    setUserComment(userManga.comments);
+    setUserTags(userManga.tags);
   };
 
-  const toggleShowAnime = () => {
-    setShowAnime(!showAnime);
+  const toggleShowManga = () => {
+    setShowManga(!showManga);
   };
 
   const onChangeUserStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserStatus(e.target.value);
   };
 
-  const onChangeUserEpisode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserEpisode(parseInt(e.target.value, 10) || 0);
+  const onChangeUserChapter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserChapter(parseInt(e.target.value, 10) || 0);
   };
 
-  const decreaseEpisode = () => {
-    setUserEpisode(userEpisode - 1);
+  const decreaseChapter = () => {
+    setUserChapter(userChapter - 1);
   };
 
-  const increaseEpisode = () => {
-    setUserEpisode(userEpisode + 1);
+  const increaseChapter = () => {
+    setUserChapter(userChapter + 1);
+  };
+
+  const onChangeUserVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserVolume(parseInt(e.target.value, 10) || 0);
+  };
+
+  const decreaseVolume = () => {
+    setUserVolume(userVolume - 1);
+  };
+
+  const increaseVolume = () => {
+    setUserVolume(userVolume + 1);
   };
 
   const onChangeUserScore = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,7 +142,7 @@ export default function AnimeDialog({
   };
 
   const genresToTags = () => {
-    setUserTags([...userTags, ...userAnime.genres.map((g) => g.toLowerCase()).filter((g) => !userTags.includes(g))]);
+    setUserTags([...userTags, ...userManga.genres.map((g) => g.toLowerCase()).filter((g) => !userTags.includes(g))]);
   };
 
   const tagsToComment = () => {
@@ -148,7 +161,7 @@ export default function AnimeDialog({
   React.useEffect(() => {
     if (!username) return;
 
-    getAnimeFormula(username).then((f) => {
+    getMangaFormula(username).then((f) => {
       setFormula(f);
       setFormulaVars(
         extractVarFromFormula(f).reduce((vars, v) => {
@@ -171,11 +184,12 @@ export default function AnimeDialog({
     setLoading(true);
 
     akizukiAxios
-      .patch(`/api/mal/animelist/update`, {
-        id: userAnime.id,
+      .patch(`/api/mal/mangalist/update`, {
+        id: userManga.id,
         status: userStatus,
         score: userScore,
-        episode: userEpisode,
+        chapter: userChapter,
+        volume: userVolume,
         startDate: userStartDate,
         endDate: userEndDate,
         comment: userComment,
@@ -183,10 +197,11 @@ export default function AnimeDialog({
       })
       .then(() => {
         setData({
-          ...userAnime,
+          ...userManga,
           status: userStatus,
           userScore: userScore,
-          userEpisode: userEpisode,
+          userChapter: userChapter,
+          userVolume: userVolume,
           userStartDate: userStartDate,
           userEndDate: userEndDate,
           comments: userComment,
@@ -215,11 +230,11 @@ export default function AnimeDialog({
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Dialog open={open} maxWidth={showAnime ? 'md' : 'sm'}>
+    <Dialog open={open} maxWidth={showManga ? 'md' : 'sm'}>
       <DialogTitle>
         <Stack direction="row" justifyContent="space-between" spacing={2}>
-          <Link href={`${WEB_MAL_HOST}/anime/${userAnime.id}`} target="_blank">
-            {userAnime.title}
+          <Link href={`${WEB_MAL_HOST}/manga/${userManga.id}`} target="_blank">
+            {userManga.title}
           </Link>
           <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
             <IconButton onClick={onClose} size="small">
@@ -230,12 +245,12 @@ export default function AnimeDialog({
       </DialogTitle>
       <DialogContent dividers>
         <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
-          {!isSm && showAnime && (
+          {!isSm && showManga && (
             <Grid container spacing={2}>
               <Grid item xs={12} sx={{ textAlign: 'center' }}>
                 <img
-                  src={userAnime.picture}
-                  alt={userAnime.title}
+                  src={userManga.picture}
+                  alt={userManga.title}
                   height={200}
                   style={{ objectFit: 'cover', borderRadius: 5 }}
                 />
@@ -243,56 +258,56 @@ export default function AnimeDialog({
               <Grid item xs={4}>
                 <Divider sx={style.subtitle}>Rank</Divider>
                 <Typography variant="h6" align="center">
-                  <b>#{userAnime.rank.toLocaleString()}</b>
+                  <b>#{userManga.rank.toLocaleString()}</b>
                 </Typography>
               </Grid>
               <Grid item xs={4}>
                 <Divider sx={style.subtitle}>Score</Divider>
                 <Typography variant="h6" align="center">
-                  <b> {userAnime.score.toLocaleString()}</b>
+                  <b> {userManga.score.toLocaleString()}</b>
                 </Typography>
               </Grid>
               <Grid item xs={4}>
                 <Divider sx={style.subtitle}>Popularity</Divider>
                 <Typography variant="h6" align="center">
-                  <b>#{userAnime.popularity.toLocaleString()}</b>
+                  <b>#{userManga.popularity.toLocaleString()}</b>
                 </Typography>
               </Grid>
               <Grid item xs={6}>
                 <Divider sx={style.subtitle}>Status</Divider>
                 <Typography variant="h6" align="center">
-                  <b> {animeStatusToStr(userAnime.status)}</b>
+                  <b> {mangaStatusToStr(userManga.status)}</b>
                 </Typography>
               </Grid>
               <Grid item xs={6}>
                 <Divider sx={style.subtitle}>Type</Divider>
                 <Typography variant="h6" align="center">
-                  <b> {animeTypeToStr(userAnime.mediaType)}</b>
+                  <b> {mangaTypeToStr(userManga.mediaType)}</b>
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Synopsis</Divider>
-                <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{userAnime.synopsis}</Typography>
+                <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{userManga.synopsis}</Typography>
               </Grid>
               <Grid item xs={12} sx={{ textAlign: 'center' }}>
                 <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
-                {userAnime.genres.map((g) => {
+                {userManga.genres.map((g) => {
                   return <Chip size="small" label={g} key={g} sx={{ margin: 0.5 }} color="warning" />;
                 })}
               </Grid>
             </Grid>
           )}
-          <Grid container spacing={2} direction={showAnime ? 'column' : 'row'}>
-            <Grid item xs={showAnime ? false : 12} sm={showAnime ? false : 4}>
+          <Grid container spacing={2} direction={showManga ? 'column' : 'row'}>
+            <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
               <TextField select label="Status" value={userStatus} onChange={onChangeUserStatus} size="small" fullWidth>
-                <MenuItem value="watching">Watching</MenuItem>
+                <MenuItem value="reading">Reading</MenuItem>
                 <MenuItem value="completed">Completed</MenuItem>
                 <MenuItem value="on_hold">On Hold</MenuItem>
                 <MenuItem value="dropped">Dropped</MenuItem>
-                <MenuItem value="plan_to_watch">Plan to Watch</MenuItem>
+                <MenuItem value="plan_to_read">Plan to Read</MenuItem>
               </TextField>
             </Grid>
-            <Grid item xs={showAnime ? false : 12} sm={showAnime ? false : 4}>
+            <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
               <TextField select label="Score" value={userScore} onChange={onChangeUserScore} size="small" fullWidth>
                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((s) => {
                   return (
@@ -303,13 +318,13 @@ export default function AnimeDialog({
                 })}
               </TextField>
             </Grid>
-            <Grid item xs={showAnime ? false : 12} sm={showAnime ? false : 4}>
+            <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
               <Stack direction="row" spacing={1}>
                 <TextField
-                  label="Episode"
-                  value={userEpisode}
+                  label="Chapter"
+                  value={userChapter}
                   fullWidth
-                  onChange={onChangeUserEpisode}
+                  onChange={onChangeUserChapter}
                   size="small"
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {
@@ -317,26 +332,59 @@ export default function AnimeDialog({
                     }
                   }}
                   InputProps={{
-                    endAdornment: <InputAdornment position="end">{`/ ${userAnime.episode}`}</InputAdornment>,
+                    endAdornment: <InputAdornment position="end">{`/ ${userManga.chapter}`}</InputAdornment>,
                   }}
                 />
                 <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                  <IconButton size="small" onClick={decreaseEpisode} disabled={userEpisode <= 0}>
+                  <IconButton size="small" onClick={decreaseChapter} disabled={userChapter <= 0}>
                     <RemoveIcon fontSize="small" />
                   </IconButton>
                 </div>
                 <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                   <IconButton
                     size="small"
-                    onClick={increaseEpisode}
-                    disabled={userAnime.episode !== 0 && userEpisode >= userAnime.episode}
+                    onClick={increaseChapter}
+                    disabled={userManga.chapter !== 0 && userChapter >= userManga.chapter}
                   >
                     <AddIcon fontSize="small" />
                   </IconButton>
                 </div>
               </Stack>
             </Grid>
-            <Grid item xs={showAnime ? false : 12} sm={showAnime ? false : 6}>
+            <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
+              <Stack direction="row" spacing={1}>
+                <TextField
+                  label="Volume"
+                  value={userVolume}
+                  fullWidth
+                  onChange={onChangeUserVolume}
+                  size="small"
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                    }
+                  }}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">{`/ ${userManga.volume}`}</InputAdornment>,
+                  }}
+                />
+                <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                  <IconButton size="small" onClick={decreaseVolume} disabled={userVolume <= 0}>
+                    <RemoveIcon fontSize="small" />
+                  </IconButton>
+                </div>
+                <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                  <IconButton
+                    size="small"
+                    onClick={increaseVolume}
+                    disabled={userManga.volume !== 0 && userVolume >= userManga.volume}
+                  >
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                </div>
+              </Stack>
+            </Grid>
+            <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   label="Start Date"
@@ -369,7 +417,7 @@ export default function AnimeDialog({
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={showAnime ? false : 12} sm={showAnime ? false : 6}>
+            <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   label="End Date"
@@ -403,7 +451,7 @@ export default function AnimeDialog({
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={showAnime ? false : 12}>
+            <Grid item xs={showManga ? false : 12}>
               <Stack direction="row" spacing={1}>
                 <Autocomplete
                   multiple
@@ -432,7 +480,7 @@ export default function AnimeDialog({
               </Stack>
             </Grid>
             {tools && (
-              <Grid item xs={showAnime ? false : 12} container spacing={2}>
+              <Grid item xs={showManga ? false : 12} container spacing={2}>
                 <Grid item xs={6}>
                   <Tooltip title="Add anime genres to tags" placement="bottom" arrow>
                     <Button variant="outlined" onClick={genresToTags} size="small" fullWidth color="warning">
@@ -465,7 +513,7 @@ export default function AnimeDialog({
                   />
                 </Grid>
                 {Object.entries(formulaVars).map((v) => (
-                  <Grid item xs={12} sm={showAnime ? 12 : 6} key={v[0]}>
+                  <Grid item xs={12} sm={showManga ? 12 : 6} key={v[0]}>
                     <Stack direction="row" spacing={1}>
                       <TextField
                         size="small"
@@ -494,7 +542,7 @@ export default function AnimeDialog({
                 ))}
               </Grid>
             )}
-            <Grid item xs={showAnime ? false : 12}>
+            <Grid item xs={showManga ? false : 12}>
               <TextField
                 multiline
                 fullWidth
@@ -502,7 +550,7 @@ export default function AnimeDialog({
                 rows={3}
                 value={userComment}
                 onChange={onChangeUserComment}
-                placeholder="your anime review..."
+                placeholder="your manga review..."
                 size="small"
               />
             </Grid>
@@ -516,8 +564,8 @@ export default function AnimeDialog({
           </Typography>
         )}
         {!isSm && (
-          <Button onClick={toggleShowAnime} color="warning">
-            {showAnime ? 'hide anime' : 'Show Anime'}
+          <Button onClick={toggleShowManga} color="warning">
+            {showManga ? 'hide manga' : 'Show Manga'}
           </Button>
         )}
         <Button onClick={onReset} color="warning" variant="outlined">

@@ -18,6 +18,7 @@ import { theme } from '../theme';
 export default function ScoreDialog({
   open,
   onClose,
+  type,
   id,
   title,
   score,
@@ -25,6 +26,7 @@ export default function ScoreDialog({
 }: {
   open: boolean;
   onClose: () => void;
+  type: string;
   id: number;
   title: string;
   score: number;
@@ -49,7 +51,7 @@ export default function ScoreDialog({
     setLoading(true);
 
     akizukiAxios
-      .patch(`/api/mal/animelist/score`, {
+      .patch(`/api/mal/${type}list/score`, {
         id: id,
         score: newScore,
       })
@@ -82,7 +84,7 @@ export default function ScoreDialog({
       <DialogTitle>{`${title}'s Score`}</DialogTitle>
       <DialogContent dividers>
         {!isSm ? (
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} justifyContent="center">
             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((s) => {
               return (
                 <Button
