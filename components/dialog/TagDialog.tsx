@@ -86,7 +86,7 @@ export default function TagDialog({
   };
 
   React.useEffect(() => {
-    setResult(calculateFormula(formula, vars));
+    setResult(calculateFormula(formula, vars) || 0);
   }, [vars]);
 
   const onSave = () => {

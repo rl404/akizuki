@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ref, set, get, child } from 'firebase/database';
-import { firebaseDB } from '../../../../lib/firebase';
+import { getDatabase } from 'firebase/database';
+import { firebaseApp } from '../../../../lib/firebase';
 
 export type Data = string;
 
@@ -15,6 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const user = userType[0];
   const type = userType[1];
+
+  const firebaseDB = getDatabase(firebaseApp);
 
   switch (req.method) {
     case 'GET':

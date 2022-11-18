@@ -11,8 +11,12 @@ export const isFormulaValid = (formula: string): boolean => {
 };
 
 export const calculateFormula = (formula: string, vars: { [v: string]: number }): number => {
-  const math = create(all);
-  return math.evaluate(formula, vars);
+  try {
+    const math = create(all);
+    return math.evaluate(formula, vars);
+  } catch (err) {
+    return 0;
+  }
 };
 
 export const extractVarFromFormula = (formula: string): Array<string> => {

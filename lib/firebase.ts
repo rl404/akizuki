@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { defaultFormula } from './storage';
 
-const firebaseConfig = JSON.parse(process.env.FIREBASE_CREDENTIAL || '');
-const firebaseApp = initializeApp(firebaseConfig);
-export const firebaseDB = getDatabase(firebaseApp);
+const firebaseConfig = JSON.parse(process.env.FIREBASE_CREDENTIAL || '{}');
+
+export const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
 const saveFormula = async (username: string, type: string, formula: string): Promise<void> => {
   await axios.post(`api/firebase/formula/${username}/${type}`, {
