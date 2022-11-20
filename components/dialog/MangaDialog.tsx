@@ -81,6 +81,10 @@ export default function MangaDialog({
 
   const onChangeUserStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserStatus(e.target.value);
+    if (e.target.value === 'completed') {
+      setUserChapter(userManga.chapter);
+      setUserVolume(userManga.volume);
+    }
   };
 
   const onChangeUserChapter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,7 +202,7 @@ export default function MangaDialog({
       .then(() => {
         setData({
           ...userManga,
-          status: userStatus,
+          userStatus: userStatus,
           userScore: userScore,
           userChapter: userChapter,
           userVolume: userVolume,

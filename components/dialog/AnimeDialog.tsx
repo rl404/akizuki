@@ -80,6 +80,9 @@ export default function AnimeDialog({
 
   const onChangeUserStatus = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserStatus(e.target.value);
+    if (e.target.value === 'completed') {
+      setUserEpisode(userAnime.episode);
+    }
   };
 
   const onChangeUserEpisode = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,7 +187,7 @@ export default function AnimeDialog({
       .then(() => {
         setData({
           ...userAnime,
-          status: userStatus,
+          userStatus: userStatus,
           userScore: userScore,
           userEpisode: userEpisode,
           userStartDate: userStartDate,
