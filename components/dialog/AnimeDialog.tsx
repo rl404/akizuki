@@ -187,7 +187,7 @@ export default function AnimeDialog({
       .then(() => {
         setData({
           ...userAnime,
-          status: userStatus,
+          userStatus: userStatus,
           userScore: userScore,
           userEpisode: userEpisode,
           userStartDate: userStartDate,
