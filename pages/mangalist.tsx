@@ -52,7 +52,7 @@ export default function Mangalist() {
     withLoading && setLoading(true);
 
     akizukiAxios
-      .get(`api/mal/mangalist`)
+      .get(`/api/mal/mangalist`)
       .then((resp) => {
         const data: Data = resp.data;
 

@@ -17,15 +17,10 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import {
-  defaultFormula,
-  getAnimeFormula,
-  getMangaFormula,
-  saveAnimeFormula,
-  saveMangaFormula,
-} from '../../lib/storage';
+import { defaultFormula, getUserFormula, saveUserFormula } from '../../lib/storage';
 import { calculateFormula, extractVarFromFormula, isFormulaValid } from '../../lib/formula';
 import { theme } from '../theme';
+import axios from 'axios';
 
 export default function TagDialog({
   open,
@@ -46,29 +41,29 @@ export default function TagDialog({
   React.useEffect(() => {
     if (!type || !username) return;
 
-    switch (type) {
-      case 'anime':
-        getAnimeFormula(username).then((f) => {
-          setFormula(f);
-        });
-      case 'manga':
-        getMangaFormula(username).then((f) => {
-          setFormula(f);
-        });
-    }
+    axios
+      .get(`/api/firebase/formula/${username}/${type}`)
+      .then((resp) => {
+        if (resp.status === 202) {
+          setFormula(getUserFormula(type));
+          return;
+        }
+
+        setFormula(resp.data);
+      })
+      .catch((error) => {
+        setFormula(defaultFormula);
+        console.log(error);
+      });
   }, [username, type]);
 
   React.useEffect(() => {
-    updateVars(formula);
-  }, [formula]);
-
-  const updateVars = (f: string) => {
     setVars(
-      extractVarFromFormula(f).reduce((vars, v) => {
+      extractVarFromFormula(formula).reduce((vars, v) => {
         return { ...vars, [v]: 0 };
       }, {}),
     );
-  };
+  }, [formula]);
 
   const onChangeFormula = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormula(e.target.value);
@@ -90,13 +85,21 @@ export default function TagDialog({
   }, [vars]);
 
   const onSave = () => {
-    if (type === 'anime') {
-      saveAnimeFormula(username, formula);
-    } else {
-      saveMangaFormula(username, formula);
-    }
-
-    onClose();
+    axios
+      .post(`/api/firebase/formula/${username}/${type}`, {
+        formula: formula,
+      })
+      .then((resp) => {
+        if (resp.status === 202) {
+          saveUserFormula(type, formula);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        onClose();
+      });
   };
 
   const [help, setHelp] = React.useState(0);

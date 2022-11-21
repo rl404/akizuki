@@ -52,7 +52,7 @@ export default function Animelist() {
     withLoading && setLoading(true);
 
     akizukiAxios
-      .get(`api/mal/animelist`)
+      .get(`/api/mal/animelist`)
       .then((resp) => {
         const data: Data = resp.data;
 

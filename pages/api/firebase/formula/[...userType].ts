@@ -1,8 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { ref, set, get, child } from 'firebase/database';
-import { getDatabase } from 'firebase/database';
-import { firebaseApp } from '../../../../lib/firebase';
+import firebase from '../../../../lib/firebase';
+import { defaultFormula } from '../../../../lib/storage';
 
 export type Data = string;
 
@@ -17,31 +16,54 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const user = userType[0];
   const type = userType[1];
 
-  const firebaseDB = getDatabase(firebaseApp);
-
   switch (req.method) {
     case 'GET':
-      var f = await get(child(ref(firebaseDB), `formulas/${user}/${type}`))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            return snapshot.val();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (firebase.apps.length === 0) {
+        res.status(202).json(defaultFormula);
+        return;
+      }
 
-      res.status(200).json(f);
+      {
+        const ref = firebase.database().ref(`formulas/${user}/${type}`);
+        await ref.once(
+          'value',
+          (snapshot) => {
+            if (snapshot.exists()) {
+              res.status(200).json(snapshot.val());
+              return;
+            }
+
+            res.status(200).json(defaultFormula);
+          },
+          (error) => {
+            console.log(error.message);
+            res.status(500).json('error get from db');
+          },
+        );
+      }
+
       return;
+
     case 'POST':
-      const { formula } = req.body;
+      if (firebase.apps.length === 0) {
+        res.status(202).end();
+        return;
+      }
 
-      await set(ref(firebaseDB, `formulas/${user}/${type}`), formula).catch((error) => {
-        console.log(error);
-      });
+      {
+        const ref = firebase.database().ref(`formulas/${user}/${type}`);
+        await ref.set(req.body.formula, (error) => {
+          if (error) {
+            console.log(error.message);
+            res.status(500).json('error saving to db');
+          } else {
+            res.status(200).end();
+          }
+        });
+      }
 
-      res.status(200).json(f);
       return;
+
     default:
       res.status(405).end();
   }
