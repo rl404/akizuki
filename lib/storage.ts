@@ -1,12 +1,5 @@
 import { Token, User, UserAnime, UserManga } from '../type/Types';
 
-import {
-  saveAnimeFormula as saveAnimeFormulaDB,
-  saveMangaFormula as saveMangaFormulaDB,
-  getAnimeFormula as getAnimeFormulaDB,
-  getMangaFormula as getMangaFormulaDB,
-} from './firebase';
-
 const tokenKey = 'mal-token';
 const userKey = 'mal-user';
 const userAnimelistKey = 'mal-user-animelist';
@@ -73,28 +66,10 @@ const mangaFormula = 'formula-manga';
 
 export const defaultFormula = '(art*0.3) + (story*0.4) + (sound*0.3)';
 
-export const saveAnimeFormula = (username: string, formula: string) => {
-  localStorage.setItem(`${username}-${animeFormula}`, formula);
-  saveAnimeFormulaDB(username, formula);
+export const saveUserFormula = (type: string, formula: string) => {
+  localStorage.setItem(type === 'anime' ? animeFormula : mangaFormula, formula);
 };
 
-export const getAnimeFormula = async (username: string): Promise<string> => {
-  const formula = localStorage.getItem(`${username}-${animeFormula}`);
-  if (formula) {
-    return formula;
-  }
-  return (await getAnimeFormulaDB(username)) || defaultFormula;
-};
-
-export const saveMangaFormula = (username: string, formula: string) => {
-  localStorage.setItem(`${username}-${mangaFormula}`, formula);
-  saveMangaFormulaDB(username, formula);
-};
-
-export const getMangaFormula = async (username: string): Promise<string> => {
-  const formula = localStorage.getItem(`${username}-${mangaFormula}`);
-  if (formula) {
-    return formula;
-  }
-  return (await getMangaFormulaDB(username)) || defaultFormula;
+export const getUserFormula = (type: string): string => {
+  return localStorage.getItem(type === 'anime' ? animeFormula : mangaFormula) || defaultFormula;
 };

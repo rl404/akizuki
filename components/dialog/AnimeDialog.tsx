@@ -32,9 +32,10 @@ import { theme } from '../theme';
 import { animeStatusToStr, animeTypeToStr, WEB_MAL_HOST } from '../../lib/myanimelist';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import CloseIcon from '@mui/icons-material/Close';
-import { getAnimeFormula } from '../../lib/storage';
 import { calculateFormula, extractVarFromFormula } from '../../lib/formula';
 import Link from 'next/link';
+import axios from 'axios';
+import { defaultFormula, getUserFormula } from '../../lib/storage';
 
 const style = {
   subtitle: {
@@ -151,15 +152,29 @@ export default function AnimeDialog({
   React.useEffect(() => {
     if (!username) return;
 
-    getAnimeFormula(username).then((f) => {
-      setFormula(f);
-      setFormulaVars(
-        extractVarFromFormula(f).reduce((vars, v) => {
-          return { ...vars, [v]: 0 };
-        }, {}),
-      );
-    });
+    axios
+      .get(`/api/firebase/formula/${username}/anime`)
+      .then((resp) => {
+        if (resp.status === 202) {
+          setFormula(getUserFormula('anime'));
+          return;
+        }
+
+        setFormula(resp.data);
+      })
+      .catch((error) => {
+        setFormula(defaultFormula);
+        console.log(error);
+      });
   }, [username]);
+
+  React.useEffect(() => {
+    setFormulaVars(
+      extractVarFromFormula(formula).reduce((vars, v) => {
+        return { ...vars, [v]: 0 };
+      }, {}),
+    );
+  }, [formula]);
 
   const onChangeFormulaVar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVars = { ...formulaVars, [e.target.name]: parseInt(e.target.value) || 0 };

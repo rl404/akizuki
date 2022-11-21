@@ -2,7 +2,6 @@ import * as React from 'react';
 import { UserManga } from '../../type/Types';
 import { theme } from '../theme';
 import moment, { Moment } from 'moment';
-import { getMangaFormula } from '../../lib/storage';
 import { calculateFormula, extractVarFromFormula } from '../../lib/formula';
 import { akizukiAxios } from '../../lib/axios';
 import {
@@ -34,6 +33,8 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { LoadingButton } from '@mui/lab';
+import axios from 'axios';
+import { defaultFormula, getUserFormula } from '../../lib/storage';
 
 const style = {
   subtitle: {
@@ -165,15 +166,29 @@ export default function MangaDialog({
   React.useEffect(() => {
     if (!username) return;
 
-    getMangaFormula(username).then((f) => {
-      setFormula(f);
-      setFormulaVars(
-        extractVarFromFormula(f).reduce((vars, v) => {
-          return { ...vars, [v]: 0 };
-        }, {}),
-      );
-    });
+    axios
+      .get(`/api/firebase/formula/${username}/manga`)
+      .then((resp) => {
+        if (resp.status === 202) {
+          setFormula(getUserFormula('manga'));
+          return;
+        }
+
+        setFormula(resp.data);
+      })
+      .catch((error) => {
+        setFormula(defaultFormula);
+        console.log(error);
+      });
   }, [username]);
+
+  React.useEffect(() => {
+    setFormulaVars(
+      extractVarFromFormula(formula).reduce((vars, v) => {
+        return { ...vars, [v]: 0 };
+      }, {}),
+    );
+  }, [formula]);
 
   const onChangeFormulaVar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVars = { ...formulaVars, [e.target.name]: parseInt(e.target.value) || 0 };
