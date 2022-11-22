@@ -74,12 +74,6 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
     setHoverChapter(false);
   };
 
-  const setChapter = (e: number) => {
-    setData((d) => {
-      return { ...d, userChapter: e };
-    });
-  };
-
   const onHoverVolume = () => {
     setHoverVolume(true);
   };
@@ -88,36 +82,12 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
     setHoverVolume(false);
   };
 
-  const setVolume = (e: number) => {
-    setData((d) => {
-      return { ...d, userVolume: e };
-    });
-  };
-
   const onOpenChapterDialog = () => {
     setOpenChapterDialog(true);
   };
 
   const onCloseChapterDialog = () => {
     setOpenChapterDialog(false);
-  };
-
-  const setStatus = (s: string) => {
-    setData((d) => {
-      return { ...d, userStatus: s };
-    });
-  };
-
-  const setStartDate = (s: string) => {
-    setData((d) => {
-      return { ...d, userStartDate: s };
-    });
-  };
-
-  const setEndDate = (s: string) => {
-    setData((d) => {
-      return { ...d, userEndDate: s };
-    });
   };
 
   const [openMangaDialog, setOpenMangaDialog] = React.useState(false);
@@ -220,24 +190,7 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
         />
       )}
       {openChapterDialog && (
-        <ChapterDialog
-          open={openChapterDialog}
-          onClose={onCloseChapterDialog}
-          id={data.id}
-          title={data.title}
-          chapter={data.chapter}
-          volume={data.volume}
-          userChapter={data.userChapter}
-          userVolume={data.userVolume}
-          userStatus={data.userStatus}
-          userStartDate={data.userStartDate}
-          userEndDate={data.userEndDate}
-          setChapter={setChapter}
-          setVolume={setVolume}
-          setStatus={setStatus}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-        />
+        <ChapterDialog open={openChapterDialog} onClose={onCloseChapterDialog} userManga={data} setData={setData} />
       )}
       {openMangaDialog && (
         <MangaDialog

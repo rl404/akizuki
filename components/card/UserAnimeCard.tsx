@@ -73,36 +73,12 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
     setHoverEpisode(false);
   };
 
-  const setEpisode = (e: number) => {
-    setData((d) => {
-      return { ...d, userEpisode: e };
-    });
-  };
-
   const onOpenEpisodeDialog = () => {
     setOpenEpisodeDialog(true);
   };
 
   const onCloseEpisodeDialog = () => {
     setOpenEpisodeDialog(false);
-  };
-
-  const setStatus = (s: string) => {
-    setData((d) => {
-      return { ...d, userStatus: s };
-    });
-  };
-
-  const setStartDate = (s: string) => {
-    setData((d) => {
-      return { ...d, userStartDate: s };
-    });
-  };
-
-  const setEndDate = (s: string) => {
-    setData((d) => {
-      return { ...d, userEndDate: s };
-    });
   };
 
   const [openAnimeDialog, setOpenAnimeDialog] = React.useState(false);
@@ -197,21 +173,7 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
         />
       )}
       {openEpisodeDialog && (
-        <EpisodeDialog
-          open={openEpisodeDialog}
-          onClose={onCloseEpisodeDialog}
-          id={data.id}
-          title={data.title}
-          episode={data.episode}
-          userEpisode={data.userEpisode}
-          userStatus={data.userStatus}
-          userStartDate={data.userStartDate}
-          userEndDate={data.userEndDate}
-          setEpisode={setEpisode}
-          setStatus={setStatus}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-        />
+        <EpisodeDialog open={openEpisodeDialog} onClose={onCloseEpisodeDialog} userAnime={data} setData={setData} />
       )}
       {openAnimeDialog && (
         <AnimeDialog
