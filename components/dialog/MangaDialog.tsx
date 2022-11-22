@@ -265,50 +265,54 @@ const MangaDialog = ({
       <DialogContent dividers>
         <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
           {!isSm && showManga && (
-            <Grid container spacing={2}>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+            <Grid container spacing={2} direction="column">
+              <Grid item sx={{ textAlign: 'center' }}>
                 <img
                   src={userManga.picture}
                   alt={userManga.title}
-                  height={200}
-                  style={{ objectFit: 'cover', borderRadius: 5 }}
+                  height={300}
+                  style={{ objectFit: 'cover', borderRadius: 5, maxWidth: '100%' }}
                 />
               </Grid>
-              <Grid item xs={4}>
-                <Divider sx={style.subtitle}>Rank</Divider>
-                <Typography variant="h6" align="center">
-                  <b>#{userManga.rank.toLocaleString()}</b>
-                </Typography>
+              <Grid item container spacing={2}>
+                <Grid item xs={4}>
+                  <Divider sx={style.subtitle}>Rank</Divider>
+                  <Typography variant="h6" align="center">
+                    <b>#{userManga.rank.toLocaleString()}</b>
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Divider sx={style.subtitle}>Score</Divider>
+                  <Typography variant="h6" align="center">
+                    <b> {userManga.score.toLocaleString()}</b>
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Divider sx={style.subtitle}>Popularity</Divider>
+                  <Typography variant="h6" align="center">
+                    <b>#{userManga.popularity.toLocaleString()}</b>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <Divider sx={style.subtitle}>Score</Divider>
-                <Typography variant="h6" align="center">
-                  <b> {userManga.score.toLocaleString()}</b>
-                </Typography>
+              <Grid item container spacing={2}>
+                <Grid item xs={6}>
+                  <Divider sx={style.subtitle}>Status</Divider>
+                  <Typography variant="h6" align="center">
+                    <b> {mangaStatusToStr(userManga.status)}</b>
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Divider sx={style.subtitle}>Type</Divider>
+                  <Typography variant="h6" align="center">
+                    <b> {mangaTypeToStr(userManga.mediaType)}</b>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <Divider sx={style.subtitle}>Popularity</Divider>
-                <Typography variant="h6" align="center">
-                  <b>#{userManga.popularity.toLocaleString()}</b>
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Divider sx={style.subtitle}>Status</Divider>
-                <Typography variant="h6" align="center">
-                  <b> {mangaStatusToStr(userManga.status)}</b>
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Divider sx={style.subtitle}>Type</Divider>
-                <Typography variant="h6" align="center">
-                  <b> {mangaTypeToStr(userManga.mediaType)}</b>
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
+              <Grid item>
                 <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Synopsis</Divider>
                 <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{userManga.synopsis}</Typography>
               </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+              <Grid item sx={{ textAlign: 'center' }}>
                 <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
                 {userManga.genres.map((g) => {
                   return <Chip size="small" label={g} key={g} sx={{ margin: 0.5 }} color="warning" />;
