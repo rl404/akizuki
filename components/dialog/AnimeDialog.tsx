@@ -443,6 +443,7 @@ const AnimeDialog = ({
                   renderInput={(params) => (
                     <TextField {...params} label="Tags" fullWidth placeholder="tags..." size="small" />
                   )}
+                  sx={{ maxWidth: 'calc(100% - 48px)' }}
                 />
                 <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                   <Tooltip title="Tools for tags editor" placement="right" arrow>

@@ -357,6 +357,7 @@ const MangaDialog = ({
                   InputProps={{
                     endAdornment: <InputAdornment position="end">{`/ ${userManga.chapter}`}</InputAdornment>,
                   }}
+                  sx={{ maxWidth: 'calc(100% - 48px)' }}
                 />
                 <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                   <IconButton size="small" onClick={decreaseChapter} disabled={userChapter <= 0}>
