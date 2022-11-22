@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-export default function AkizukiHead({ title = 'Home' }) {
+const AkizukiHead = ({ title = 'Home' }) => {
   const description = 'View and edit your anime and manga list in a more modern design with custom tags editor.';
   const image = '';
   return (
@@ -22,4 +22,6 @@ export default function AkizukiHead({ title = 'Home' }) {
       <meta httpEquiv="Content-Type" content="text/html charset=utf-8" />
     </Head>
   );
-}
+};
+
+export default AkizukiHead;

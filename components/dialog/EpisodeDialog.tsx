@@ -16,37 +16,20 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { akizukiAxios } from '../../lib/axios';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { UserAnime } from '../../type/Types';
 
-export default function EpisodeDialog({
+const EpisodeDialog = ({
   open,
   onClose,
-  id,
-  title,
-  episode,
-  userEpisode,
-  userStatus,
-  userStartDate,
-  userEndDate,
-  setEpisode,
-  setStatus,
-  setStartDate,
-  setEndDate,
+  userAnime,
+  setData,
 }: {
   open: boolean;
   onClose: () => void;
-  id: number;
-  title: string;
-  episode: number;
-  userEpisode: number;
-  userStatus: string;
-  userStartDate: string;
-  userEndDate: string;
-  setEpisode: (s: number) => void;
-  setStatus: (s: string) => void;
-  setStartDate: (s: string) => void;
-  setEndDate: (s: string) => void;
-}) {
-  const [newEpisode, setNewEpisode] = React.useState<number>(userEpisode);
+  userAnime: UserAnime;
+  setData: (data: UserAnime) => void;
+}) => {
+  const [newEpisode, setNewEpisode] = React.useState<number>(userAnime.userEpisode);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewEpisode(parseInt(e.target.value, 10) || 0);
@@ -92,7 +75,7 @@ export default function EpisodeDialog({
 
     akizukiAxios
       .patch(`/api/mal/animelist/episode`, {
-        id: id,
+        id: userAnime.id,
         episode: newEpisode,
         watching: watching,
         completed: completed,
@@ -102,11 +85,13 @@ export default function EpisodeDialog({
       .then(() => {
         const today = new Date();
 
-        setEpisode(newEpisode);
-        watching && setStatus('watching');
-        completed && setStatus('completed');
-        todayStart && setStartDate(today.toISOString().slice(0, 10));
-        todayEnd && setEndDate(today.toISOString().slice(0, 10));
+        setData({
+          ...userAnime,
+          userEpisode: newEpisode,
+          userStatus: completed ? 'completed' : watching ? 'watching' : userAnime.userStatus,
+          userStartDate: todayStart ? today.toISOString().slice(0, 10) : userAnime.userStartDate,
+          userEndDate: todayEnd ? today.toISOString().slice(0, 10) : userAnime.userEndDate,
+        });
 
         onClose();
       })
@@ -130,7 +115,7 @@ export default function EpisodeDialog({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{`${title}'s Episode`}</DialogTitle>
+      <DialogTitle>{`${userAnime.title}'s Episode`}</DialogTitle>
       <DialogContent dividers>
         <Stack direction="row" spacing={1} sx={{ marginBottom: 1 }}>
           <TextField
@@ -143,7 +128,7 @@ export default function EpisodeDialog({
               }
             }}
             InputProps={{
-              endAdornment: <InputAdornment position="end">{`/ ${episode}`}</InputAdornment>,
+              endAdornment: <InputAdornment position="end">{`/ ${userAnime.episode}`}</InputAdornment>,
             }}
           />
           <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
@@ -152,25 +137,29 @@ export default function EpisodeDialog({
             </IconButton>
           </div>
           <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-            <IconButton size="small" onClick={increaseEpisode} disabled={episode !== 0 && newEpisode >= episode}>
+            <IconButton
+              size="small"
+              onClick={increaseEpisode}
+              disabled={userAnime.episode !== 0 && newEpisode >= userAnime.episode}
+            >
               <AddIcon />
             </IconButton>
           </div>
         </Stack>
         <Stack>
-          {userStatus !== 'completed' && episode > 0 && newEpisode === episode && (
+          {userAnime.userStatus !== 'completed' && userAnime.episode > 0 && newEpisode === userAnime.episode && (
             <>
               <FormControlLabel
                 control={<Checkbox size="small" checked={completed} onChange={toggleCompleted} />}
                 label="Set status as Completed"
               />
-              {userStartDate === '' && (
+              {userAnime.userStartDate === '' && (
                 <FormControlLabel
                   control={<Checkbox size="small" checked={todayStart} onChange={toggleTodayStart} />}
                   label="Set today as start date"
                 />
               )}
-              {userEndDate === '' && (
+              {userAnime.userEndDate === '' && (
                 <FormControlLabel
                   control={<Checkbox size="small" checked={todayEnd} onChange={toggleTodayEnd} />}
                   label="Set today as finish date"
@@ -178,20 +167,23 @@ export default function EpisodeDialog({
               )}
             </>
           )}
-          {userStatus !== 'watching' && newEpisode > 0 && newEpisode !== userEpisode && newEpisode !== episode && (
-            <>
-              <FormControlLabel
-                control={<Checkbox size="small" checked={watching} onChange={toggleWatching} />}
-                label="Set status as Watching"
-              />
-              {userStartDate === '' && (
+          {userAnime.userStatus !== 'watching' &&
+            newEpisode > 0 &&
+            newEpisode !== userAnime.userEpisode &&
+            newEpisode !== userAnime.episode && (
+              <>
                 <FormControlLabel
-                  control={<Checkbox size="small" checked={todayStart} onChange={toggleTodayStart} />}
-                  label="Set today as start date"
+                  control={<Checkbox size="small" checked={watching} onChange={toggleWatching} />}
+                  label="Set status as Watching"
                 />
-              )}
-            </>
-          )}
+                {userAnime.userStartDate === '' && (
+                  <FormControlLabel
+                    control={<Checkbox size="small" checked={todayStart} onChange={toggleTodayStart} />}
+                    label="Set today as start date"
+                  />
+                )}
+              </>
+            )}
         </Stack>
       </DialogContent>
       <DialogActions>
@@ -206,4 +198,6 @@ export default function EpisodeDialog({
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default EpisodeDialog;

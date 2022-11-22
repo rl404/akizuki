@@ -21,7 +21,7 @@ import { getUser } from '../../lib/storage';
 import { theme } from '../theme';
 import Link from 'next/link';
 
-export default function AkizukiAppBar({ title = 'Akizuki' }: { title?: string }) {
+const AkizukiAppBar = React.memo(({ title = 'Akizuki' }: { title?: string }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -114,4 +114,6 @@ export default function AkizukiAppBar({ title = 'Akizuki' }: { title?: string })
       </Toolbar>
     </AppBar>
   );
-}
+});
+
+export default AkizukiAppBar;

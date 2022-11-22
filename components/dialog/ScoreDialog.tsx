@@ -15,7 +15,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { akizukiAxios } from '../../lib/axios';
 import { theme } from '../theme';
 
-export default function ScoreDialog({
+const ScoreDialog = ({
   open,
   onClose,
   type,
@@ -31,7 +31,7 @@ export default function ScoreDialog({
   title: string;
   score: number;
   setScore: (s: number) => void;
-}) {
+}) => {
   const [newScore, setNewScore] = React.useState<number>(score);
 
   const onClickScore = (s: number) => {
@@ -124,4 +124,6 @@ export default function ScoreDialog({
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default ScoreDialog;

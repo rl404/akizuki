@@ -13,8 +13,9 @@ import {
   Divider,
   Grid,
   IconButton,
+  InputAdornment,
   Skeleton,
-  Stack,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -25,6 +26,8 @@ import SyncIcon from '@mui/icons-material/Sync';
 import RenderIfVisible from 'react-render-if-visible';
 import UserMangaCard from '../components/card/UserMangaCard';
 import UserMangaList from '../components/list/UserMangaList';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const statusOrder = ['reading', 'completed', 'on_hold', 'dropped', 'plan_to_read'];
 
@@ -125,6 +128,16 @@ export default function Mangalist() {
     callAPI();
   }, [router]);
 
+  const [search, setSearch] = React.useState<string>('');
+
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const resetSearch = () => {
+    setSearch('');
+  };
+
   if (loading) {
     return <LoadingMangalist />;
   }
@@ -143,53 +156,83 @@ export default function Mangalist() {
       <AppBar />
       <Container sx={{ marginTop: 4, marginBottom: 4 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Stack direction="row" justifyContent="space-between" spacing={1}>
-              <Typography variant="h4" gutterBottom sx={{ flex: 1 }}>
+          <Grid item xs={12} container spacing={2}>
+            <Grid item xs={12} sm={12} md>
+              <Typography variant="h4">
                 {`${user.username}'s Mangalist `}
                 <Typography display="inline" sx={style.subtitle}>
-                  — {list.length.toLocaleString()}
+                  — {list.filter((a) => a.title.toLowerCase().includes(search)).length.toLocaleString()}
                 </Typography>
               </Typography>
-              <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+            </Grid>
+            <Grid item container spacing={1} xs={12} sm={12} md="auto">
+              <Grid item xs={12} sm>
+                <TextField
+                  label="Search"
+                  placeholder="manga title..."
+                  size="small"
+                  fullWidth
+                  value={search}
+                  onChange={onSearch}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon fontSize="inherit" />
+                      </InputAdornment>
+                    ),
+                    endAdornment: search !== '' && (
+                      <InputAdornment position="end">
+                        <IconButton size="small" onClick={resetSearch}>
+                          <ClearIcon fontSize="inherit" />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs sm="auto" textAlign="center">
                 <Tooltip title={layout === 'list' ? 'List Layout' : 'Grid Layout'} placement="top" arrow>
                   <IconButton onClick={toggleLayout}>
                     {layout === 'list' ? <TableRowsIcon /> : <ViewModuleIcon />}
                   </IconButton>
                 </Tooltip>
-              </div>
-              <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+              </Grid>
+              <Grid item xs sm="auto" textAlign="center">
                 <TagEditorButton username={user.username} type="manga" />
-              </div>
-              <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+              </Grid>
+              <Grid item xs sm="auto" textAlign="center">
                 <Tooltip title="Data not updated? Try sync" placement="top" arrow>
                   <IconButton onClick={() => callAPI(true)}>
                     <SyncIcon />
                   </IconButton>
                 </Tooltip>
-              </div>
-            </Stack>
-            <Divider />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
           </Grid>
-          {list.map((a) => {
-            if (layout === 'grid') {
+          {list
+            .filter((a) => a.title.toLowerCase().includes(search))
+            .map((a) => {
+              if (layout === 'grid') {
+                return (
+                  <Grid item xs={12} sm={6} md={6} lg={4} key={a.id}>
+                    <RenderIfVisible defaultHeight={200}>
+                      <UserMangaCard username={user.username} userManga={a} />
+                    </RenderIfVisible>
+                  </Grid>
+                );
+              }
+
               return (
-                <Grid item xs={12} sm={6} md={6} lg={4} key={a.id}>
-                  <RenderIfVisible defaultHeight={200}>
-                    <UserMangaCard username={user.username} userManga={a} />
+                <Grid item xs={12} key={a.id}>
+                  <RenderIfVisible defaultHeight={80}>
+                    <UserMangaList username={user.username} userManga={a} />
                   </RenderIfVisible>
                 </Grid>
               );
-            }
-
-            return (
-              <Grid item xs={12} key={a.id}>
-                <RenderIfVisible defaultHeight={80}>
-                  <UserMangaList username={user.username} userManga={a} />
-                </RenderIfVisible>
-              </Grid>
-            );
-          })}
+            })}
         </Grid>
       </Container>
     </>

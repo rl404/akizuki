@@ -26,7 +26,7 @@ const userStatusToColor = (status: string): string => {
   }
 };
 
-export default function UserMangaList({ username, userManga }: { username: string; userManga: UserManga }) {
+const UserMangaList = React.memo(({ username, userManga }: { username: string; userManga: UserManga }) => {
   const [data, setData] = React.useState<UserManga>(userManga);
 
   React.useEffect(() => {
@@ -68,12 +68,6 @@ export default function UserMangaList({ username, userManga }: { username: strin
     setHoverChapter(false);
   };
 
-  const setChapter = (e: number) => {
-    setData((d) => {
-      return { ...d, userChapter: e };
-    });
-  };
-
   const onHoverVolume = () => {
     setHoverVolume(true);
   };
@@ -94,24 +88,6 @@ export default function UserMangaList({ username, userManga }: { username: strin
 
   const onCloseChapterDialog = () => {
     setOpenChapterDialog(false);
-  };
-
-  const setStatus = (s: string) => {
-    setData((d) => {
-      return { ...d, userStatus: s };
-    });
-  };
-
-  const setStartDate = (s: string) => {
-    setData((d) => {
-      return { ...d, userStartDate: s };
-    });
-  };
-
-  const setEndDate = (s: string) => {
-    setData((d) => {
-      return { ...d, userEndDate: s };
-    });
   };
 
   const [openMangaDialog, setOpenMangaDialog] = React.useState(false);
@@ -226,24 +202,7 @@ export default function UserMangaList({ username, userManga }: { username: strin
         />
       )}
       {openChapterDialog && (
-        <ChapterDialog
-          open={openChapterDialog}
-          onClose={onCloseChapterDialog}
-          id={data.id}
-          title={data.title}
-          chapter={data.chapter}
-          volume={data.volume}
-          userChapter={data.userChapter}
-          userVolume={data.userVolume}
-          userStatus={data.userStatus}
-          userStartDate={data.userStartDate}
-          userEndDate={data.userEndDate}
-          setChapter={setChapter}
-          setVolume={setVolume}
-          setStatus={setStatus}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-        />
+        <ChapterDialog open={openChapterDialog} onClose={onCloseChapterDialog} userManga={data} setData={setData} />
       )}
       {openMangaDialog && (
         <MangaDialog
@@ -256,4 +215,6 @@ export default function UserMangaList({ username, userManga }: { username: strin
       )}
     </>
   );
-}
+});
+
+export default UserMangaList;
