@@ -26,7 +26,7 @@ const userStatusToColor = (status: string): string => {
   }
 };
 
-export default function UserMangaList({ username, userManga }: { username: string; userManga: UserManga }) {
+const UserMangaList = React.memo(({ username, userManga }: { username: string; userManga: UserManga }) => {
   const [data, setData] = React.useState<UserManga>(userManga);
 
   React.useEffect(() => {
@@ -256,4 +256,6 @@ export default function UserMangaList({ username, userManga }: { username: strin
       )}
     </>
   );
-}
+});
+
+export default UserMangaList;

@@ -22,7 +22,7 @@ import { calculateFormula, extractVarFromFormula, isFormulaValid } from '../../l
 import { theme } from '../theme';
 import axios from 'axios';
 
-export default function TagDialog({
+const TagDialog = ({
   open,
   onClose,
   username,
@@ -32,7 +32,7 @@ export default function TagDialog({
   onClose: () => void;
   username: string;
   type: string;
-}) {
+}) => {
   const [formula, setFormula] = React.useState<string>('');
   const [vars, setVars] = React.useState<{ [k: string]: number }>({});
   const [result, setResult] = React.useState<number>(0);
@@ -369,7 +369,9 @@ export default function TagDialog({
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default TagDialog;
 
 const toTitle = (type: string): string => {
   switch (type) {

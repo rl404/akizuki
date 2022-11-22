@@ -17,7 +17,7 @@ import { akizukiAxios } from '../../lib/axios';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-export default function EpisodeDialog({
+const EpisodeDialog = ({
   open,
   onClose,
   id,
@@ -45,7 +45,7 @@ export default function EpisodeDialog({
   setStatus: (s: string) => void;
   setStartDate: (s: string) => void;
   setEndDate: (s: string) => void;
-}) {
+}) => {
   const [newEpisode, setNewEpisode] = React.useState<number>(userEpisode);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -206,4 +206,6 @@ export default function EpisodeDialog({
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default EpisodeDialog;

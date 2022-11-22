@@ -42,7 +42,7 @@ const style = {
   },
 };
 
-export default function MangaDialog({
+const MangaDialog = ({
   open,
   onClose,
   username,
@@ -54,7 +54,7 @@ export default function MangaDialog({
   username: string;
   userManga: UserManga;
   setData: (data: UserManga) => void;
-}) {
+}) => {
   const [showManga, setShowManga] = React.useState(false);
   const [userStatus, setUserStatus] = React.useState(userManga.userStatus);
   const [userChapter, setUserChapter] = React.useState(userManga.userChapter);
@@ -596,4 +596,6 @@ export default function MangaDialog({
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default MangaDialog;

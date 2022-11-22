@@ -43,7 +43,7 @@ const style = {
   },
 };
 
-export default function AnimeDialog({
+const AnimeDialog = ({
   open,
   onClose,
   username,
@@ -55,7 +55,7 @@ export default function AnimeDialog({
   username: string;
   userAnime: UserAnime;
   setData: (data: UserAnime) => void;
-}) {
+}) => {
   const [showAnime, setShowAnime] = React.useState(false);
   const [userStatus, setUserStatus] = React.useState(userAnime.userStatus);
   const [userEpisode, setUserEpisode] = React.useState(userAnime.userEpisode);
@@ -547,4 +547,6 @@ export default function AnimeDialog({
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default AnimeDialog;

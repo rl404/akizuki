@@ -17,7 +17,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { LoadingButton } from '@mui/lab';
 
-export default function ChapterDialog({
+const ChapterDialog = ({
   open,
   onClose,
   id,
@@ -51,7 +51,7 @@ export default function ChapterDialog({
   setStatus: (s: string) => void;
   setStartDate: (s: string) => void;
   setEndDate: (s: string) => void;
-}) {
+}) => {
   const [newChapter, setNewChapter] = React.useState<number>(userChapter);
   const [newVolume, setNewVolume] = React.useState<number>(userVolume);
 
@@ -254,4 +254,6 @@ export default function ChapterDialog({
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default ChapterDialog;

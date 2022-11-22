@@ -32,7 +32,7 @@ const style = {
   },
 };
 
-export default function UserAnimeCard({ username, userAnime }: { username: string; userAnime: UserAnime }) {
+const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; userAnime: UserAnime }) => {
   const [data, setData] = React.useState<UserAnime>(userAnime);
 
   React.useEffect(() => {
@@ -224,4 +224,6 @@ export default function UserAnimeCard({ username, userAnime }: { username: strin
       )}
     </>
   );
-}
+});
+
+export default UserAnimeCard;

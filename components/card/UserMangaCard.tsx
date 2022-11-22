@@ -32,7 +32,7 @@ const style = {
   },
 };
 
-export default function UserMangaCard({ username, userManga }: { username: string; userManga: UserManga }) {
+const UserMangaCard = React.memo(({ username, userManga }: { username: string; userManga: UserManga }) => {
   const [data, setData] = React.useState<UserManga>(userManga);
 
   React.useEffect(() => {
@@ -250,4 +250,6 @@ export default function UserMangaCard({ username, userManga }: { username: strin
       )}
     </>
   );
-}
+});
+
+export default UserMangaCard;

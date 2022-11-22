@@ -26,7 +26,7 @@ const userStatusToColor = (status: string): string => {
   }
 };
 
-export default function UserAnimeList({ username, userAnime }: { username: string; userAnime: UserAnime }) {
+const UserAnimeList = React.memo(({ username, userAnime }: { username: string; userAnime: UserAnime }) => {
   const [data, setData] = React.useState<UserAnime>(userAnime);
 
   React.useEffect(() => {
@@ -219,4 +219,6 @@ export default function UserAnimeList({ username, userAnime }: { username: strin
       )}
     </>
   );
-}
+});
+
+export default UserAnimeList;
