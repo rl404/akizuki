@@ -249,50 +249,54 @@ const AnimeDialog = ({
       <DialogContent dividers>
         <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
           {!isSm && showAnime && (
-            <Grid container spacing={2}>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+            <Grid container spacing={2} direction="column">
+              <Grid item sx={{ textAlign: 'center' }}>
                 <img
                   src={userAnime.picture}
                   alt={userAnime.title}
-                  height={200}
-                  style={{ objectFit: 'cover', borderRadius: 5 }}
+                  height={300}
+                  style={{ objectFit: 'cover', borderRadius: 5, maxWidth: '100%' }}
                 />
               </Grid>
-              <Grid item xs={4}>
-                <Divider sx={style.subtitle}>Rank</Divider>
-                <Typography variant="h6" align="center">
-                  <b>#{userAnime.rank.toLocaleString()}</b>
-                </Typography>
+              <Grid item container spacing={2}>
+                <Grid item xs={4}>
+                  <Divider sx={style.subtitle}>Rank</Divider>
+                  <Typography variant="h6" align="center">
+                    <b>#{userAnime.rank.toLocaleString()}</b>
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Divider sx={style.subtitle}>Score</Divider>
+                  <Typography variant="h6" align="center">
+                    <b> {userAnime.score.toLocaleString()}</b>
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Divider sx={style.subtitle}>Popularity</Divider>
+                  <Typography variant="h6" align="center">
+                    <b>#{userAnime.popularity.toLocaleString()}</b>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <Divider sx={style.subtitle}>Score</Divider>
-                <Typography variant="h6" align="center">
-                  <b> {userAnime.score.toLocaleString()}</b>
-                </Typography>
+              <Grid item container spacing={2}>
+                <Grid item xs={6}>
+                  <Divider sx={style.subtitle}>Status</Divider>
+                  <Typography variant="h6" align="center">
+                    <b> {animeStatusToStr(userAnime.status)}</b>
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Divider sx={style.subtitle}>Type</Divider>
+                  <Typography variant="h6" align="center">
+                    <b> {animeTypeToStr(userAnime.mediaType)}</b>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <Divider sx={style.subtitle}>Popularity</Divider>
-                <Typography variant="h6" align="center">
-                  <b>#{userAnime.popularity.toLocaleString()}</b>
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Divider sx={style.subtitle}>Status</Divider>
-                <Typography variant="h6" align="center">
-                  <b> {animeStatusToStr(userAnime.status)}</b>
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Divider sx={style.subtitle}>Type</Divider>
-                <Typography variant="h6" align="center">
-                  <b> {animeTypeToStr(userAnime.mediaType)}</b>
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
+              <Grid item>
                 <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Synopsis</Divider>
                 <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{userAnime.synopsis}</Typography>
               </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+              <Grid item sx={{ textAlign: 'center' }}>
                 <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
                 {userAnime.genres.map((g) => {
                   return <Chip size="small" label={g} key={g} sx={{ margin: 0.5 }} color="warning" />;
@@ -439,6 +443,7 @@ const AnimeDialog = ({
                   renderInput={(params) => (
                     <TextField {...params} label="Tags" fullWidth placeholder="tags..." size="small" />
                   )}
+                  sx={{ maxWidth: 'calc(100% - 48px)' }}
                 />
                 <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                   <Tooltip title="Tools for tags editor" placement="right" arrow>
