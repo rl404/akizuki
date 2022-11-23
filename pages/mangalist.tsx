@@ -242,7 +242,7 @@ export default function Mangalist() {
 const LoadingMangalist = () => {
   return (
     <>
-      <Head title="Loading..." />
+      <Head title="Mangalist" />
       <AppBar />
       <Container sx={{ marginTop: 4, marginBottom: 4 }}>
         <Grid container spacing={2}>
