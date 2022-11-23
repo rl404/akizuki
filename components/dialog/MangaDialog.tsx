@@ -183,11 +183,19 @@ const MangaDialog = ({
   }, [username]);
 
   React.useEffect(() => {
-    setFormulaVars(
-      extractVarFromFormula(formula).reduce((vars, v) => {
-        return { ...vars, [v]: 0 };
-      }, {}),
-    );
+    const existVarTags: { [k: string]: number } = userTags
+      .filter((t) => t.split(':').length === 2)
+      .reduce((varTags, t) => {
+        const split = t.split(':');
+        return { ...varTags, [split[0].replaceAll('-', '_')]: parseInt(split[1]) || 0 };
+      }, {});
+
+    const newVars = extractVarFromFormula(formula).reduce((vars, v) => {
+      return { ...vars, [v]: existVarTags[v] || 0 };
+    }, {});
+
+    setFormulaVars(newVars);
+    setFormulaResult(calculateFormula(formula, newVars));
   }, [formula]);
 
   const onChangeFormulaVar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -538,30 +546,22 @@ const MangaDialog = ({
                 </Grid>
                 {Object.entries(formulaVars).map((v) => (
                   <Grid item xs={12} sm={showManga ? 12 : 6} key={v[0]}>
-                    <Stack direction="row" spacing={1}>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        name={v[0]}
-                        value={formulaVars[v[0]]}
-                        onChange={onChangeFormulaVar}
-                        InputProps={{
-                          startAdornment: <InputAdornment position="start">{v[0]} =</InputAdornment>,
-                        }}
-                        onKeyPress={(event) => {
-                          if (!/[0-9]/.test(event.key)) {
-                            event.preventDefault();
-                          }
-                        }}
-                      />
-                      <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                        <Tooltip title="Add to tag" placement="right" arrow>
-                          <IconButton size="small" onClick={() => formulaVarToTag(v[0], v[1])} color="warning">
-                            <AddIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                      </div>
-                    </Stack>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      name={v[0]}
+                      value={formulaVars[v[0]]}
+                      onChange={onChangeFormulaVar}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">{v[0]} =</InputAdornment>,
+                      }}
+                      onKeyPress={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                      onBlur={() => v[1] !== 0 && formulaVarToTag(v[0], v[1])}
+                    />
                   </Grid>
                 ))}
               </Grid>
