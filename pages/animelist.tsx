@@ -240,7 +240,7 @@ export default function Animelist() {
 const LoadingAnimelist = () => {
   return (
     <>
-      <Head title="Loading..." />
+      <Head title="Animelist" />
       <AppBar />
       <Container sx={{ marginTop: 4, marginBottom: 4 }}>
         <Grid container spacing={2}>

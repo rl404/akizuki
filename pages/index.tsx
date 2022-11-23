@@ -291,7 +291,7 @@ export default function Home() {
 const LoadingHome = () => {
   return (
     <>
-      <Head title="Loading..." />
+      <Head title="Home" />
       <AppBar />
       <Container sx={{ marginTop: 4, marginBottom: 4 }}>
         <Grid container justifyContent="center" spacing={2}>
