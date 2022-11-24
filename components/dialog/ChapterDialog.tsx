@@ -132,7 +132,7 @@ const ChapterDialog = ({
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{`${userManga.title}'s Chapter`}</DialogTitle>
       <DialogContent dividers>
-        <Stack direction="row" spacing={1} sx={{ marginBottom: 1 }}>
+        <Stack direction="row" spacing={1} sx={{ marginBottom: 2 }} justifyContent="center">
           <TextField
             label="Chapter"
             value={newChapter}
@@ -146,6 +146,7 @@ const ChapterDialog = ({
             InputProps={{
               endAdornment: <InputAdornment position="end">{`/ ${userManga.chapter}`}</InputAdornment>,
             }}
+            sx={{ width: 150 }}
           />
           <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
             <IconButton size="small" onClick={decreaseChapter} disabled={newChapter <= 0}>
@@ -162,7 +163,7 @@ const ChapterDialog = ({
             </IconButton>
           </div>
         </Stack>
-        <Stack direction="row" spacing={1} sx={{ marginBottom: 1 }}>
+        <Stack direction="row" spacing={1} justifyContent="center">
           <TextField
             label="Volume"
             value={newVolume}
@@ -176,6 +177,7 @@ const ChapterDialog = ({
             InputProps={{
               endAdornment: <InputAdornment position="end">{`/ ${userManga.volume}`}</InputAdornment>,
             }}
+            sx={{ width: 150 }}
           />
           <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
             <IconButton size="small" onClick={decreaseVolume} disabled={newVolume <= 0}>

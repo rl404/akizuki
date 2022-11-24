@@ -117,8 +117,9 @@ const EpisodeDialog = ({
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{`${userAnime.title}'s Episode`}</DialogTitle>
       <DialogContent dividers>
-        <Stack direction="row" spacing={1} sx={{ marginBottom: 1 }}>
+        <Stack direction="row" spacing={1} justifyContent="center">
           <TextField
+            label="Episode"
             value={newEpisode}
             size="small"
             onChange={onChange}
@@ -130,6 +131,7 @@ const EpisodeDialog = ({
             InputProps={{
               endAdornment: <InputAdornment position="end">{`/ ${userAnime.episode}`}</InputAdornment>,
             }}
+            sx={{ width: 150 }}
           />
           <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
             <IconButton size="small" onClick={decreaseEpisode} disabled={newEpisode <= 0}>

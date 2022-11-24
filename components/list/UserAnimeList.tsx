@@ -33,16 +33,7 @@ const UserAnimeList = React.memo(({ username, userAnime }: { username: string; u
     setData(userAnime);
   }, [userAnime]);
 
-  const [hoverScore, setHoverScore] = React.useState(false);
   const [openScoreDialog, setOpenScoreDialog] = React.useState(false);
-
-  const onHoverScore = () => {
-    setHoverScore(true);
-  };
-
-  const onUnhoverScore = () => {
-    setHoverScore(false);
-  };
 
   const setScore = (s: number) => {
     setData({ ...data, userScore: s });
@@ -56,16 +47,7 @@ const UserAnimeList = React.memo(({ username, userAnime }: { username: string; u
     setOpenScoreDialog(false);
   };
 
-  const [hoverEpisode, setHoverEpisode] = React.useState(false);
   const [openEpisodeDialog, setOpenEpisodeDialog] = React.useState(false);
-
-  const onHoverEpisode = () => {
-    setHoverEpisode(true);
-  };
-
-  const onUnhoverEpisode = () => {
-    setHoverEpisode(false);
-  };
 
   const onOpenEpisodeDialog = () => {
     setOpenEpisodeDialog(true);
@@ -108,41 +90,15 @@ const UserAnimeList = React.memo(({ username, userAnime }: { username: string; u
                 <Typography>{animeTypeToStr(data.mediaType)}</Typography>
               </Tooltip>
             </Grid>
-            <Grid
-              item
-              xs={3}
-              sm={1}
-              textAlign="center"
-              onMouseEnter={onHoverScore}
-              onMouseLeave={onUnhoverScore}
-              onClick={onOpenScoreDialog}
-              sx={{ margin: 'auto' }}
-            >
+            <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenScoreDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Score" placement="top" arrow>
-                <Typography sx={{ cursor: 'pointer' }}>
-                  {data.userScore}
-                  {hoverScore && (
-                    <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                  )}
-                </Typography>
+                <Typography sx={{ cursor: 'pointer' }}>{data.userScore}</Typography>
               </Tooltip>
             </Grid>
-            <Grid
-              item
-              xs={3}
-              sm={1}
-              textAlign="center"
-              onMouseEnter={onHoverEpisode}
-              onMouseLeave={onUnhoverEpisode}
-              onClick={onOpenEpisodeDialog}
-              sx={{ margin: 'auto' }}
-            >
+            <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenEpisodeDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Episode" placement="top" arrow>
                 <Typography sx={{ cursor: 'pointer' }}>
                   {data.userEpisode}/{data.episode}
-                  {hoverEpisode && (
-                    <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                  )}
                 </Typography>
               </Tooltip>
             </Grid>

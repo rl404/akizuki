@@ -39,16 +39,7 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
     setData(userManga);
   }, [userManga]);
 
-  const [hoverScore, setHoverScore] = React.useState(false);
   const [openScoreDialog, setOpenScoreDialog] = React.useState(false);
-
-  const onHoverScore = () => {
-    setHoverScore(true);
-  };
-
-  const onUnhoverScore = () => {
-    setHoverScore(false);
-  };
 
   const setScore = (s: number) => {
     setData({ ...data, userScore: s });
@@ -62,25 +53,7 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
     setOpenScoreDialog(false);
   };
 
-  const [hoverChapter, setHoverChapter] = React.useState(false);
-  const [hoverVolume, setHoverVolume] = React.useState(false);
   const [openChapterDialog, setOpenChapterDialog] = React.useState(false);
-
-  const onHoverChapter = () => {
-    setHoverChapter(true);
-  };
-
-  const onUnhoverChapter = () => {
-    setHoverChapter(false);
-  };
-
-  const onHoverVolume = () => {
-    setHoverVolume(true);
-  };
-
-  const onUnhoverVolume = () => {
-    setHoverVolume(false);
-  };
 
   const onOpenChapterDialog = () => {
     setOpenChapterDialog(true);
@@ -130,12 +103,9 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
                 {data.status === 'currently_publishing' && 'Publishing'}
               </Divider>
             </Grid>
-            <Grid item xs={6} onMouseEnter={onHoverScore} onMouseLeave={onUnhoverScore} onClick={onOpenScoreDialog}>
+            <Grid item xs={6} onClick={onOpenScoreDialog}>
               <Typography sx={{ cursor: 'pointer' }}>
                 <span style={style.subtitle}>Score:</span> {data.userScore}
-                {hoverScore && (
-                  <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                )}
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -143,26 +113,14 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
                 <span style={style.subtitle}>Type:</span> {mangaTypeToStr(data.mediaType)}
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={6}
-              onMouseEnter={onHoverChapter}
-              onMouseLeave={onUnhoverChapter}
-              onClick={onOpenChapterDialog}
-            >
+            <Grid item xs={6} onClick={onOpenChapterDialog}>
               <Typography sx={{ cursor: 'pointer' }}>
                 <span style={style.subtitle}>Chapter:</span> {data.userChapter}/{data.chapter}
-                {hoverChapter && (
-                  <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                )}
               </Typography>
             </Grid>
-            <Grid item xs={6} onMouseEnter={onHoverVolume} onMouseLeave={onUnhoverVolume} onClick={onOpenChapterDialog}>
+            <Grid item xs={6} onClick={onOpenChapterDialog}>
               <Typography sx={{ cursor: 'pointer' }}>
                 <span style={style.subtitle}>Volume:</span> {data.userVolume}/{data.volume}
-                {hoverVolume && (
-                  <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                )}
               </Typography>
             </Grid>
           </Grid>
