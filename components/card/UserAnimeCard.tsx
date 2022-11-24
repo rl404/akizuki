@@ -39,16 +39,7 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
     setData(userAnime);
   }, [userAnime]);
 
-  const [hoverScore, setHoverScore] = React.useState(false);
   const [openScoreDialog, setOpenScoreDialog] = React.useState(false);
-
-  const onHoverScore = () => {
-    setHoverScore(true);
-  };
-
-  const onUnhoverScore = () => {
-    setHoverScore(false);
-  };
 
   const setScore = (s: number) => {
     setData({ ...data, userScore: s });
@@ -62,16 +53,7 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
     setOpenScoreDialog(false);
   };
 
-  const [hoverEpisode, setHoverEpisode] = React.useState(false);
   const [openEpisodeDialog, setOpenEpisodeDialog] = React.useState(false);
-
-  const onHoverEpisode = () => {
-    setHoverEpisode(true);
-  };
-
-  const onUnhoverEpisode = () => {
-    setHoverEpisode(false);
-  };
 
   const onOpenEpisodeDialog = () => {
     setOpenEpisodeDialog(true);
@@ -121,12 +103,9 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
                 {data.status === 'currently_airing' && 'Airing'}
               </Divider>
             </Grid>
-            <Grid item xs={6} onMouseEnter={onHoverScore} onMouseLeave={onUnhoverScore} onClick={onOpenScoreDialog}>
+            <Grid item xs={6} onClick={onOpenScoreDialog}>
               <Typography sx={{ cursor: 'pointer' }}>
                 <span style={style.subtitle}>Score:</span> {data.userScore}
-                {hoverScore && (
-                  <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                )}
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -134,18 +113,9 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
                 <span style={style.subtitle}>Type:</span> {animeTypeToStr(data.mediaType)}
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              onMouseEnter={onHoverEpisode}
-              onMouseLeave={onUnhoverEpisode}
-              onClick={onOpenEpisodeDialog}
-            >
+            <Grid item xs={12} onClick={onOpenEpisodeDialog}>
               <Typography sx={{ cursor: 'pointer' }}>
                 <span style={style.subtitle}>Episode:</span> {data.userEpisode}/{data.episode}
-                {hoverEpisode && (
-                  <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                )}
               </Typography>
             </Grid>
           </Grid>

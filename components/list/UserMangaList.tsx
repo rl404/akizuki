@@ -33,16 +33,7 @@ const UserMangaList = React.memo(({ username, userManga }: { username: string; u
     setData(userManga);
   }, [userManga]);
 
-  const [hoverScore, setHoverScore] = React.useState(false);
   const [openScoreDialog, setOpenScoreDialog] = React.useState(false);
-
-  const onHoverScore = () => {
-    setHoverScore(true);
-  };
-
-  const onUnhoverScore = () => {
-    setHoverScore(false);
-  };
 
   const setScore = (s: number) => {
     setData({ ...data, userScore: s });
@@ -56,25 +47,7 @@ const UserMangaList = React.memo(({ username, userManga }: { username: string; u
     setOpenScoreDialog(false);
   };
 
-  const [hoverChapter, setHoverChapter] = React.useState(false);
-  const [hoverVolume, setHoverVolume] = React.useState(false);
   const [openChapterDialog, setOpenChapterDialog] = React.useState(false);
-
-  const onHoverChapter = () => {
-    setHoverChapter(true);
-  };
-
-  const onUnhoverChapter = () => {
-    setHoverChapter(false);
-  };
-
-  const onHoverVolume = () => {
-    setHoverVolume(true);
-  };
-
-  const onUnhoverVolume = () => {
-    setHoverVolume(false);
-  };
 
   const setVolume = (e: number) => {
     setData((d) => {
@@ -123,60 +96,22 @@ const UserMangaList = React.memo(({ username, userManga }: { username: string; u
                 <Typography>{mangaTypeToStr(data.mediaType)}</Typography>
               </Tooltip>
             </Grid>
-            <Grid
-              item
-              xs={3}
-              sm={1}
-              textAlign="center"
-              onMouseEnter={onHoverScore}
-              onMouseLeave={onUnhoverScore}
-              onClick={onOpenScoreDialog}
-              sx={{ margin: 'auto' }}
-            >
+            <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenScoreDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Score" placement="top" arrow>
-                <Typography sx={{ cursor: 'pointer' }}>
-                  {data.userScore}
-                  {hoverScore && (
-                    <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                  )}
-                </Typography>
+                <Typography sx={{ cursor: 'pointer' }}>{data.userScore}</Typography>
               </Tooltip>
             </Grid>
-            <Grid
-              item
-              xs={3}
-              sm={1}
-              textAlign="center"
-              onMouseEnter={onHoverChapter}
-              onMouseLeave={onUnhoverChapter}
-              onClick={onOpenChapterDialog}
-              sx={{ margin: 'auto' }}
-            >
+            <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenChapterDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Chapter" placement="top" arrow>
                 <Typography sx={{ cursor: 'pointer' }}>
                   {data.userChapter}/{data.chapter}
-                  {hoverChapter && (
-                    <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                  )}
                 </Typography>
               </Tooltip>
             </Grid>
-            <Grid
-              item
-              xs={3}
-              sm={1}
-              textAlign="center"
-              onMouseEnter={onHoverVolume}
-              onMouseLeave={onUnhoverVolume}
-              onClick={onOpenChapterDialog}
-              sx={{ margin: 'auto' }}
-            >
+            <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenChapterDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Volume" placement="top" arrow>
                 <Typography sx={{ cursor: 'pointer' }}>
                   {data.userVolume}/{data.volume}
-                  {hoverVolume && (
-                    <EditIcon fontSize="inherit" sx={{ color: theme.palette.warning.main, marginLeft: 1 }} />
-                  )}
                 </Typography>
               </Tooltip>
             </Grid>
