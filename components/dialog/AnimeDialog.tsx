@@ -141,8 +141,10 @@ const AnimeDialog = ({
   };
 
   const formulaVarToTag = (name: string, value: number) => {
-    const tag = `${name.replaceAll('_', '-')}:${value}`;
-    !userTags.includes(tag) && setUserTags([...userTags, `${name.replaceAll('_', '-')}:${value}`]);
+    name = name.replaceAll('_', '-');
+    const tag = `${name}:${value}`;
+    const existUserTags = userTags.filter((t) => name !== t.split(':')[0]);
+    !existUserTags.includes(tag) && setUserTags([...existUserTags, `${name}:${value}`]);
   };
 
   const [formula, setFormula] = React.useState('');
