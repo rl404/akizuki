@@ -34,6 +34,18 @@ const style = {
   subtitle: {
     color: theme.palette.grey[600],
   },
+  animeButton: {
+    background: `linear-gradient(90deg, ${theme.palette.info.dark} 0%, ${theme.palette.info.light} 100%)`,
+    '&:hover': {
+      background: `linear-gradient(90deg, ${theme.palette.info.dark} 0%, ${theme.palette.info.dark} 100%)`,
+    },
+  },
+  mangaButton: {
+    background: `linear-gradient(90deg, ${theme.palette.success.dark} 0%, ${theme.palette.success.light} 100%)`,
+    '&:hover': {
+      background: `linear-gradient(90deg, ${theme.palette.success.dark} 0%, ${theme.palette.success.dark} 100%)`,
+    },
+  },
 };
 
 export default function Home() {
@@ -253,6 +265,7 @@ export default function Home() {
                   startIcon={<MovieIcon />}
                   LinkComponent={Link}
                   href="/animelist"
+                  sx={style.animeButton}
                 >
                   AnimeList
                 </Button>
@@ -263,6 +276,7 @@ export default function Home() {
                   startIcon={<MenuBookIcon />}
                   LinkComponent={Link}
                   href="/mangalist"
+                  sx={style.mangaButton}
                 >
                   MangaList
                 </Button>
