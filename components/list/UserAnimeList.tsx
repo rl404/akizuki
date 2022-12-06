@@ -26,6 +26,14 @@ const userStatusToColor = (status: string): string => {
   }
 };
 
+const style = {
+  link: {
+    '&:hover': {
+      color: theme.palette.warning.main,
+    },
+  },
+};
+
 const UserAnimeList = React.memo(({ username, userAnime }: { username: string; userAnime: UserAnime }) => {
   const [data, setData] = React.useState<UserAnime>(userAnime);
 
@@ -74,7 +82,10 @@ const UserAnimeList = React.memo(({ username, userAnime }: { username: string; u
           <Grid container spacing={2}>
             <Grid item xs={12} sm={8}>
               <Link href={`${WEB_MAL_HOST}/anime/${data.id}`} target="_blank">
-                <Typography variant="h6" sx={{ overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                <Typography
+                  variant="h6"
+                  sx={{ ...style.link, overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                >
                   {data.title}
                   {data.status === 'currently_airing' && (
                     <Typography display="inline" sx={{ color: theme.palette.warning.main }}>
@@ -92,12 +103,12 @@ const UserAnimeList = React.memo(({ username, userAnime }: { username: string; u
             </Grid>
             <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenScoreDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Score" placement="top" arrow>
-                <Typography sx={{ cursor: 'pointer' }}>{data.userScore}</Typography>
+                <Typography sx={{ ...style.link, cursor: 'pointer' }}>{data.userScore}</Typography>
               </Tooltip>
             </Grid>
             <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenEpisodeDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Episode" placement="top" arrow>
-                <Typography sx={{ cursor: 'pointer' }}>
+                <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                   {data.userEpisode}/{data.episode}
                 </Typography>
               </Tooltip>

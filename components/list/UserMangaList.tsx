@@ -26,6 +26,14 @@ const userStatusToColor = (status: string): string => {
   }
 };
 
+const style = {
+  link: {
+    '&:hover': {
+      color: theme.palette.warning.main,
+    },
+  },
+};
+
 const UserMangaList = React.memo(({ username, userManga }: { username: string; userManga: UserManga }) => {
   const [data, setData] = React.useState<UserManga>(userManga);
 
@@ -48,12 +56,6 @@ const UserMangaList = React.memo(({ username, userManga }: { username: string; u
   };
 
   const [openChapterDialog, setOpenChapterDialog] = React.useState(false);
-
-  const setVolume = (e: number) => {
-    setData((d) => {
-      return { ...d, userVolume: e };
-    });
-  };
 
   const onOpenChapterDialog = () => {
     setOpenChapterDialog(true);
@@ -80,7 +82,10 @@ const UserMangaList = React.memo(({ username, userManga }: { username: string; u
           <Grid container spacing={2}>
             <Grid item xs={12} sm={7}>
               <Link href={`${WEB_MAL_HOST}/manga/${data.id}`} target="_blank">
-                <Typography variant="h6" sx={{ overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                <Typography
+                  variant="h6"
+                  sx={{ ...style.link, overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                >
                   {data.title}
                   {data.status === 'currently_publishing' && (
                     <Typography display="inline" sx={{ color: theme.palette.warning.main }}>
@@ -98,19 +103,19 @@ const UserMangaList = React.memo(({ username, userManga }: { username: string; u
             </Grid>
             <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenScoreDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Score" placement="top" arrow>
-                <Typography sx={{ cursor: 'pointer' }}>{data.userScore}</Typography>
+                <Typography sx={{ ...style.link, cursor: 'pointer' }}>{data.userScore}</Typography>
               </Tooltip>
             </Grid>
             <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenChapterDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Chapter" placement="top" arrow>
-                <Typography sx={{ cursor: 'pointer' }}>
+                <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                   {data.userChapter}/{data.chapter}
                 </Typography>
               </Tooltip>
             </Grid>
             <Grid item xs={3} sm={1} textAlign="center" onClick={onOpenChapterDialog} sx={{ margin: 'auto' }}>
               <Tooltip title="Volume" placement="top" arrow>
-                <Typography sx={{ cursor: 'pointer' }}>
+                <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                   {data.userVolume}/{data.volume}
                 </Typography>
               </Tooltip>

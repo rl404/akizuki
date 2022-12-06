@@ -30,6 +30,11 @@ const style = {
   subtitle: {
     color: theme.palette.grey[600],
   },
+  link: {
+    '&:hover': {
+      color: theme.palette.warning.main,
+    },
+  },
 };
 
 const UserMangaCard = React.memo(({ username, userManga }: { username: string; userManga: UserManga }) => {
@@ -93,7 +98,7 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
                   <Typography
                     variant="h6"
                     gutterBottom={data.status !== 'currently_publishing'}
-                    sx={{ overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                    sx={{ ...style.link, overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                   >
                     {data.title}
                   </Typography>
@@ -104,7 +109,7 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
               </Divider>
             </Grid>
             <Grid item xs={6} onClick={onOpenScoreDialog}>
-              <Typography sx={{ cursor: 'pointer' }}>
+              <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                 <span style={style.subtitle}>Score:</span> {data.userScore}
               </Typography>
             </Grid>
@@ -114,12 +119,12 @@ const UserMangaCard = React.memo(({ username, userManga }: { username: string; u
               </Typography>
             </Grid>
             <Grid item xs={6} onClick={onOpenChapterDialog}>
-              <Typography sx={{ cursor: 'pointer' }}>
+              <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                 <span style={style.subtitle}>Chapter:</span> {data.userChapter}/{data.chapter}
               </Typography>
             </Grid>
             <Grid item xs={6} onClick={onOpenChapterDialog}>
-              <Typography sx={{ cursor: 'pointer' }}>
+              <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                 <span style={style.subtitle}>Volume:</span> {data.userVolume}/{data.volume}
               </Typography>
             </Grid>

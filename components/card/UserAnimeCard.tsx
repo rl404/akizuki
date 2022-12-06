@@ -30,6 +30,11 @@ const style = {
   subtitle: {
     color: theme.palette.grey[600],
   },
+  link: {
+    '&:hover': {
+      color: theme.palette.warning.main,
+    },
+  },
 };
 
 const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; userAnime: UserAnime }) => {
@@ -93,7 +98,7 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
                   <Typography
                     variant="h6"
                     gutterBottom={data.status !== 'currently_airing'}
-                    sx={{ overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                    sx={{ ...style.link, overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                   >
                     {data.title}
                   </Typography>
@@ -104,7 +109,7 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
               </Divider>
             </Grid>
             <Grid item xs={6} onClick={onOpenScoreDialog}>
-              <Typography sx={{ cursor: 'pointer' }}>
+              <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                 <span style={style.subtitle}>Score:</span> {data.userScore}
               </Typography>
             </Grid>
@@ -114,7 +119,7 @@ const UserAnimeCard = React.memo(({ username, userAnime }: { username: string; u
               </Typography>
             </Grid>
             <Grid item xs={12} onClick={onOpenEpisodeDialog}>
-              <Typography sx={{ cursor: 'pointer' }}>
+              <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                 <span style={style.subtitle}>Episode:</span> {data.userEpisode}/{data.episode}
               </Typography>
             </Grid>

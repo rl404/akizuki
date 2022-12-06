@@ -28,12 +28,19 @@ import UserMangaCard from '../components/card/UserMangaCard';
 import UserMangaList from '../components/list/UserMangaList';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import Link from 'next/link';
+import { WEB_MAL_HOST } from '../lib/myanimelist';
 
 const statusOrder = ['reading', 'completed', 'on_hold', 'dropped', 'plan_to_read'];
 
 const style = {
   subtitle: {
     color: theme.palette.grey[600],
+  },
+  link: {
+    'a:hover': {
+      color: theme.palette.warning.main,
+    },
   },
 };
 
@@ -158,8 +165,10 @@ export default function Mangalist() {
         <Grid container spacing={2}>
           <Grid item xs={12} container spacing={2}>
             <Grid item xs={12} sm={12} md>
-              <Typography variant="h4">
-                {`${user.username}'s Mangalist `}
+              <Typography variant="h4" sx={style.link}>
+                <Link href={`${WEB_MAL_HOST}/mangalist/${user.username}`} target="_blank">
+                  {`${user.username}'s Mangalist `}
+                </Link>
                 <Typography display="inline" sx={style.subtitle}>
                   — {list.filter((a) => a.title.toLowerCase().includes(search)).length.toLocaleString()}
                 </Typography>

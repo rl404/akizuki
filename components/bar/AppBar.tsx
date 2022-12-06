@@ -46,7 +46,7 @@ const AkizukiAppBar = React.memo(({ title = 'Akizuki' }: { title?: string }) => 
       }}
     >
       <Toolbar>
-        <Typography variant="h5" sx={{ flexGrow: 1 }}>
+        <Typography variant="h5" sx={{ flexGrow: 1, userSelect: 'none' }}>
           <b>{title}</b>
         </Typography>
         <Box sx={{ flexGrow: 0, marginRight: 2 }}>

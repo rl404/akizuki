@@ -33,6 +33,7 @@ import { useRouter } from 'next/router';
 const style = {
   subtitle: {
     color: theme.palette.grey[600],
+    userSelect: 'none',
   },
   animeButton: {
     background: `linear-gradient(90deg, ${theme.palette.info.dark} 0%, ${theme.palette.info.light} 100%)`,
@@ -44,6 +45,11 @@ const style = {
     background: `linear-gradient(90deg, ${theme.palette.success.dark} 0%, ${theme.palette.success.light} 100%)`,
     '&:hover': {
       background: `linear-gradient(90deg, ${theme.palette.success.dark} 0%, ${theme.palette.success.dark} 100%)`,
+    },
+  },
+  link: {
+    '&:hover': {
+      color: theme.palette.warning.main,
     },
   },
 };
@@ -122,15 +128,15 @@ export default function Home() {
             <Card>
               <CardMedia component="img" image={user.picture} alt={user.name} />
               <CardContent>
-                <Typography variant="h4" textAlign="center" fontWeight="bold">
+                <Typography variant="h4" textAlign="center" fontWeight="bold" sx={style.link}>
                   <Link href={`${WEB_MAL_HOST}/profile/${user.name}`} target="_blank">
-                    {user.name}
-                  </Link>{' '}
-                  {user.is_supporter && (
-                    <Tooltip title="myanimelist supporter" arrow>
-                      <CheckCircleIcon />
-                    </Tooltip>
-                  )}
+                    {user.name}{' '}
+                    {user.is_supporter && (
+                      <Tooltip title="myanimelist supporter" arrow>
+                        <CheckCircleIcon />
+                      </Tooltip>
+                    )}
+                  </Link>
                 </Typography>
               </CardContent>
               <Divider />
