@@ -41,6 +41,11 @@ const style = {
   subtitle: {
     color: theme.palette.grey[600],
   },
+  link: {
+    'a:hover': {
+      color: theme.palette.warning.main,
+    },
+  },
 };
 
 const AnimeDialog = ({
@@ -245,7 +250,7 @@ const AnimeDialog = ({
   return (
     <Dialog open={open} maxWidth={showAnime ? 'md' : 'sm'}>
       <DialogTitle>
-        <Stack direction="row" justifyContent="space-between" spacing={2}>
+        <Stack direction="row" justifyContent="space-between" spacing={2} sx={style.link}>
           <Link href={`${WEB_MAL_HOST}/anime/${userAnime.id}`} target="_blank">
             {userAnime.title}
           </Link>

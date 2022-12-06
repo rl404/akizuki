@@ -40,6 +40,11 @@ const style = {
   subtitle: {
     color: theme.palette.grey[600],
   },
+  link: {
+    'a:hover': {
+      color: theme.palette.warning.main,
+    },
+  },
 };
 
 const MangaDialog = ({
@@ -261,7 +266,7 @@ const MangaDialog = ({
   return (
     <Dialog open={open} maxWidth={showManga ? 'md' : 'sm'}>
       <DialogTitle>
-        <Stack direction="row" justifyContent="space-between" spacing={2}>
+        <Stack direction="row" justifyContent="space-between" spacing={2} sx={style.link}>
           <Link href={`${WEB_MAL_HOST}/manga/${userManga.id}`} target="_blank">
             {userManga.title}
           </Link>

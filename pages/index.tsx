@@ -46,6 +46,11 @@ const style = {
       background: `linear-gradient(90deg, ${theme.palette.success.dark} 0%, ${theme.palette.success.dark} 100%)`,
     },
   },
+  link: {
+    '&:hover': {
+      color: theme.palette.warning.main,
+    },
+  },
 };
 
 export default function Home() {
@@ -122,15 +127,15 @@ export default function Home() {
             <Card>
               <CardMedia component="img" image={user.picture} alt={user.name} />
               <CardContent>
-                <Typography variant="h4" textAlign="center" fontWeight="bold">
+                <Typography variant="h4" textAlign="center" fontWeight="bold" sx={style.link}>
                   <Link href={`${WEB_MAL_HOST}/profile/${user.name}`} target="_blank">
-                    {user.name}
-                  </Link>{' '}
-                  {user.is_supporter && (
-                    <Tooltip title="myanimelist supporter" arrow>
-                      <CheckCircleIcon />
-                    </Tooltip>
-                  )}
+                    {user.name}{' '}
+                    {user.is_supporter && (
+                      <Tooltip title="myanimelist supporter" arrow>
+                        <CheckCircleIcon />
+                      </Tooltip>
+                    )}
+                  </Link>
                 </Typography>
               </CardContent>
               <Divider />

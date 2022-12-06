@@ -28,12 +28,19 @@ import { theme } from '../components/theme';
 import TagEditorButton from '../components/button/TagEditorButton';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import Link from 'next/link';
+import { WEB_MAL_HOST } from '../lib/myanimelist';
 
 const statusOrder = ['watching', 'completed', 'on_hold', 'dropped', 'plan_to_watch'];
 
 const style = {
   subtitle: {
     color: theme.palette.grey[600],
+  },
+  link: {
+    'a:hover': {
+      color: theme.palette.warning.main,
+    },
   },
 };
 
@@ -156,8 +163,11 @@ export default function Animelist() {
         <Grid container spacing={2}>
           <Grid item xs={12} container spacing={2}>
             <Grid item xs={12} sm={12} md>
-              <Typography variant="h4">
-                {`${user.username}'s Animelist `}
+              <Typography variant="h4" sx={style.link}>
+                <Link
+                  href={`${WEB_MAL_HOST}/animelist/${user.username}`}
+                  target="_blank"
+                >{`${user.username}'s Animelist `}</Link>
                 <Typography display="inline" sx={style.subtitle}>
                   — {list.filter((a) => a.title.toLowerCase().includes(search)).length.toLocaleString()}
                 </Typography>
