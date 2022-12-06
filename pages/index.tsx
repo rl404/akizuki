@@ -33,6 +33,7 @@ import { useRouter } from 'next/router';
 const style = {
   subtitle: {
     color: theme.palette.grey[600],
+    userSelect: 'none',
   },
   animeButton: {
     background: `linear-gradient(90deg, ${theme.palette.info.dark} 0%, ${theme.palette.info.light} 100%)`,
