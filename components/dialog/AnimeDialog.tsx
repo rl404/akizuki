@@ -40,6 +40,7 @@ import { defaultFormula, getUserFormula } from '../../lib/storage';
 const style = {
   subtitle: {
     color: theme.palette.grey[600],
+    userSelect: 'none',
   },
   link: {
     'a:hover': {
