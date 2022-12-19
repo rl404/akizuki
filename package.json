@@ -15,7 +15,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.112",
     "@mui/material": "^5.11.0",
-    "@mui/x-date-pickers": "^5.0.10",
+    "@mui/x-date-pickers": "^5.0.11",
     "axios": "^1.2.1",
     "firebase-admin": "^11.4.0",
     "mathjs": "^11.5.0",
