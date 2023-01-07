@@ -48,11 +48,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   var list: Array<MangalistData> = [];
 
+  const fields = [
+    'rank',
+    'mean',
+    'popularity',
+    'synopsis',
+    'genres',
+    'media_type',
+    'num_volumes',
+    'num_chapters',
+    'status',
+    'list_status{num_times_reread,reread_value,tags,comments}',
+  ];
+
   while (true) {
     const resp = await fetch(
-      `${API_MAL_HOST}/v2/users/@me/mangalist?limit=${
-        limit + 1
-      }&offset=${offset}&nsfw=true&fields=rank,mean,popularity,synopsis,genres,media_type,num_volumes,num_chapters,status,list_status{num_times_reread,reread_value,tags,comments}`,
+      `${API_MAL_HOST}/v2/users/@me/mangalist?limit=${limit + 1}&offset=${offset}&nsfw=true&fields=${fields.join(',')}`,
       {
         headers: {
           Authorization: req.headers.authorization || '',
