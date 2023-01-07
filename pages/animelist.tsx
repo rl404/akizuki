@@ -30,6 +30,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import Link from 'next/link';
 import { WEB_MAL_HOST } from '../lib/myanimelist';
+import AddAnimeButton from '../components/button/AddAnimeButton';
 
 const statusOrder = ['watching', 'completed', 'on_hold', 'dropped', 'plan_to_watch'];
 
@@ -207,6 +208,9 @@ export default function Animelist() {
               </Grid>
               <Grid item xs sm="auto" textAlign="center">
                 <TagEditorButton username={user.username} type="anime" />
+              </Grid>
+              <Grid item xs sm="auto" textAlign="center">
+                <AddAnimeButton username={user.username} />
               </Grid>
               <Grid item xs sm="auto" textAlign="center">
                 <Tooltip title="Data not updated? Try sync" placement="top" arrow>

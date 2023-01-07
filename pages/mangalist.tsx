@@ -30,6 +30,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import Link from 'next/link';
 import { WEB_MAL_HOST } from '../lib/myanimelist';
+import AddMangaButton from '../components/button/AddMangaButton';
 
 const statusOrder = ['reading', 'completed', 'on_hold', 'dropped', 'plan_to_read'];
 
@@ -208,6 +209,9 @@ export default function Mangalist() {
               </Grid>
               <Grid item xs sm="auto" textAlign="center">
                 <TagEditorButton username={user.username} type="manga" />
+              </Grid>
+              <Grid item xs sm="auto" textAlign="center">
+                <AddMangaButton username={user.username} />
               </Grid>
               <Grid item xs sm="auto" textAlign="center">
                 <Tooltip title="Data not updated? Try sync" placement="top" arrow>

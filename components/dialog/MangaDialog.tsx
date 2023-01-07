@@ -25,7 +25,6 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import ClearIcon from '@mui/icons-material/Clear';
 import CloseIcon from '@mui/icons-material/Close';
 import { mangaStatusToStr, mangaTypeToStr, WEB_MAL_HOST } from '../../lib/myanimelist';
 import Link from 'next/link';
@@ -445,7 +444,7 @@ const MangaDialog = ({
                             {userStartDate !== '' && (
                               <InputAdornment position="end">
                                 <IconButton onClick={resetUserStartDate}>
-                                  <ClearIcon />
+                                  <CloseIcon />
                                 </IconButton>
                               </InputAdornment>
                             )}
@@ -479,7 +478,7 @@ const MangaDialog = ({
                             {userEndDate !== '' && (
                               <InputAdornment position="end">
                                 <IconButton onClick={resetUserEndDate}>
-                                  <ClearIcon />
+                                  <CloseIcon />
                                 </IconButton>
                               </InputAdornment>
                             )}

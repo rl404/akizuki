@@ -25,7 +25,6 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import ClearIcon from '@mui/icons-material/Clear';
 import moment, { Moment } from 'moment';
 import { akizukiAxios } from '../../lib/axios';
 import { theme } from '../theme';
@@ -395,7 +394,7 @@ const AnimeDialog = ({
                             {userStartDate !== '' && (
                               <InputAdornment position="end">
                                 <IconButton onClick={resetUserStartDate}>
-                                  <ClearIcon />
+                                  <CloseIcon />
                                 </IconButton>
                               </InputAdornment>
                             )}
@@ -429,7 +428,7 @@ const AnimeDialog = ({
                             {userEndDate !== '' && (
                               <InputAdornment position="end">
                                 <IconButton onClick={resetUserEndDate}>
-                                  <ClearIcon />
+                                  <CloseIcon />
                                 </IconButton>
                               </InputAdornment>
                             )}
