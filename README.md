@@ -11,11 +11,12 @@ _Akizuki_ is a website where you can view and edit your [MyAnimeList](https://my
 
 - Login with Oauth2
 - View your profile
-- View your anime & manga list
+- View & add your anime & manga list
     - Search
     - Grid/list layout
     - Quick edit score
     - Quick edit episode/chapter/volume
+    - NSFW toggle
     - Edit form
         - Watching/reading status
         - Score
@@ -32,6 +33,7 @@ _Akizuki_ is a website where you can view and edit your [MyAnimeList](https://my
             - Airing/publishing status
             - Synopsis
             - Genres
+        - Delete
 - Tags editor for custom scoring formula
     - Test the formula
     - Tags preview

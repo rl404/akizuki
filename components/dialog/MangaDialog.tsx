@@ -6,6 +6,7 @@ import { calculateFormula, extractVarFromFormula } from '../../lib/formula';
 import { akizukiAxios } from '../../lib/axios';
 import {
   Autocomplete,
+  Box,
   Button,
   Chip,
   Dialog,
@@ -25,7 +26,6 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import ClearIcon from '@mui/icons-material/Clear';
 import CloseIcon from '@mui/icons-material/Close';
 import { mangaStatusToStr, mangaTypeToStr, WEB_MAL_HOST } from '../../lib/myanimelist';
 import Link from 'next/link';
@@ -262,6 +262,45 @@ const MangaDialog = ({
       });
   };
 
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
+
+  const onDelete = () => {
+    setLoadingDelete(true);
+
+    akizukiAxios
+      .delete(`/api/mal/mangalist/delete/${userManga.id}`)
+      .then(() => {
+        setData({
+          ...userManga,
+          userStatus: '',
+          userScore: 0,
+          userChapter: 0,
+          userVolume: 0,
+          userStartDate: '',
+          userEndDate: '',
+          comments: '',
+          tags: [],
+        });
+        onClose();
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.error) {
+            setError(error.response.error);
+            return;
+          }
+          if (error.response.message) {
+            setError(error.response.message);
+            return;
+          }
+        }
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoadingDelete(false);
+      });
+  };
+
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -445,7 +484,7 @@ const MangaDialog = ({
                             {userStartDate !== '' && (
                               <InputAdornment position="end">
                                 <IconButton onClick={resetUserStartDate}>
-                                  <ClearIcon />
+                                  <CloseIcon />
                                 </IconButton>
                               </InputAdornment>
                             )}
@@ -479,7 +518,7 @@ const MangaDialog = ({
                             {userEndDate !== '' && (
                               <InputAdornment position="end">
                                 <IconButton onClick={resetUserEndDate}>
-                                  <ClearIcon />
+                                  <CloseIcon />
                                 </IconButton>
                               </InputAdornment>
                             )}
@@ -590,6 +629,14 @@ const MangaDialog = ({
         </Stack>
       </DialogContent>
       <DialogActions>
+        {userManga.userStatus !== '' && (
+          <>
+            <LoadingButton onClick={onDelete} color="error" variant="outlined" loading={loadingDelete}>
+              Delete
+            </LoadingButton>
+            <Box sx={{ flex: 1 }} />
+          </>
+        )}
         {error && (
           <Typography color="error" sx={{ marginRight: 2 }}>
             {error}

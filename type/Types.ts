@@ -10,6 +10,7 @@ export type UserAnime = {
   synopsis: string;
   genres: Array<string>;
   mediaType: string;
+  nsfw: boolean;
   userStatus: string;
   userScore: number;
   userEpisode: number;
@@ -32,6 +33,7 @@ export type UserManga = {
   synopsis: string;
   genres: Array<string>;
   mediaType: string;
+  nsfw: boolean;
   userStatus: string;
   userScore: number;
   userChapter: number;

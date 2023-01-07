@@ -28,8 +28,11 @@ import UserMangaCard from '../components/card/UserMangaCard';
 import UserMangaList from '../components/list/UserMangaList';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Link from 'next/link';
 import { WEB_MAL_HOST } from '../lib/myanimelist';
+import AddMangaButton from '../components/button/AddMangaButton';
 
 const statusOrder = ['reading', 'completed', 'on_hold', 'dropped', 'plan_to_read'];
 
@@ -41,6 +44,14 @@ const style = {
     'a:hover': {
       color: theme.palette.warning.main,
     },
+  },
+  tooltipCount: {
+    padding: 1,
+    paddingLeft: 1.5,
+    paddingRight: 1.5,
+    background: theme.palette.background.paper,
+    backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))',
+    boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)',
   },
 };
 
@@ -56,6 +67,12 @@ export default function Mangalist() {
 
   const toggleLayout = () => {
     setLayout(layout === 'grid' ? 'list' : 'grid');
+  };
+
+  const [nsfw, setNsfw] = React.useState<boolean>(false);
+
+  const toggleNsfw = () => {
+    setNsfw(!nsfw);
   };
 
   const callAPI = (withLoading: boolean = false) => {
@@ -78,6 +95,7 @@ export default function Mangalist() {
               synopsis: a.node.synopsis || '',
               genres: a.node.genres?.map((g) => g.name) || [],
               status: a.node.status || '',
+              nsfw: a.node.nsfw !== 'white',
               chapter: a.node.num_chapters || 0,
               volume: a.node.num_volumes || 0,
               mediaType: a.node.media_type || '',
@@ -169,9 +187,73 @@ export default function Mangalist() {
                 <Link href={`${WEB_MAL_HOST}/mangalist/${user.username}`} target="_blank">
                   {`${user.username}'s Mangalist `}
                 </Link>
-                <Typography display="inline" sx={style.subtitle}>
-                  — {list.filter((a) => a.title.toLowerCase().includes(search)).length.toLocaleString()}
-                </Typography>
+                <Tooltip
+                  placement="right"
+                  arrow
+                  componentsProps={{
+                    tooltip: {
+                      sx: style.tooltipCount,
+                    },
+                  }}
+                  title={
+                    <Grid container spacing={0.5} sx={{ width: 200 }}>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>Reading</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'reading')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>Completed</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'completed')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>On-Hold</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'on_hold')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>Dropped</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'dropped')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>Plan to Read</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'plan_to_read')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  }
+                >
+                  <Typography display="inline" sx={style.subtitle}>
+                    — {list.filter((a) => a.title.toLowerCase().includes(search)).length.toLocaleString()}
+                  </Typography>
+                </Tooltip>
               </Typography>
             </Grid>
             <Grid item container spacing={1} xs={12} sm={12} md="auto">
@@ -207,7 +289,15 @@ export default function Mangalist() {
                 </Tooltip>
               </Grid>
               <Grid item xs sm="auto" textAlign="center">
+                <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
+                  <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
+                </Tooltip>
+              </Grid>
+              <Grid item xs sm="auto" textAlign="center">
                 <TagEditorButton username={user.username} type="manga" />
+              </Grid>
+              <Grid item xs sm="auto" textAlign="center">
+                <AddMangaButton username={user.username} />
               </Grid>
               <Grid item xs sm="auto" textAlign="center">
                 <Tooltip title="Data not updated? Try sync" placement="top" arrow>
@@ -228,7 +318,7 @@ export default function Mangalist() {
                 return (
                   <Grid item xs={12} sm={6} md={6} lg={4} key={a.id}>
                     <RenderIfVisible defaultHeight={200}>
-                      <UserMangaCard username={user.username} userManga={a} />
+                      <UserMangaCard username={user.username} userManga={a} nsfw={nsfw} />
                     </RenderIfVisible>
                   </Grid>
                 );

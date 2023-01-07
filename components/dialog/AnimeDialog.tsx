@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Autocomplete,
+  Box,
   Button,
   Chip,
   Dialog,
@@ -25,7 +26,6 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import ClearIcon from '@mui/icons-material/Clear';
 import moment, { Moment } from 'moment';
 import { akizukiAxios } from '../../lib/axios';
 import { theme } from '../theme';
@@ -246,6 +246,44 @@ const AnimeDialog = ({
       });
   };
 
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
+
+  const onDelete = () => {
+    setLoadingDelete(true);
+
+    akizukiAxios
+      .delete(`/api/mal/animelist/delete/${userAnime.id}`)
+      .then(() => {
+        setData({
+          ...userAnime,
+          userStatus: '',
+          userScore: 0,
+          userEpisode: 0,
+          userStartDate: '',
+          userEndDate: '',
+          comments: '',
+          tags: [],
+        });
+        onClose();
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.error) {
+            setError(error.response.error);
+            return;
+          }
+          if (error.response.message) {
+            setError(error.response.message);
+            return;
+          }
+        }
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoadingDelete(false);
+      });
+  };
+
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -395,7 +433,7 @@ const AnimeDialog = ({
                             {userStartDate !== '' && (
                               <InputAdornment position="end">
                                 <IconButton onClick={resetUserStartDate}>
-                                  <ClearIcon />
+                                  <CloseIcon />
                                 </IconButton>
                               </InputAdornment>
                             )}
@@ -429,7 +467,7 @@ const AnimeDialog = ({
                             {userEndDate !== '' && (
                               <InputAdornment position="end">
                                 <IconButton onClick={resetUserEndDate}>
-                                  <ClearIcon />
+                                  <CloseIcon />
                                 </IconButton>
                               </InputAdornment>
                             )}
@@ -541,6 +579,14 @@ const AnimeDialog = ({
         </Stack>
       </DialogContent>
       <DialogActions>
+        {userAnime.userStatus !== '' && (
+          <>
+            <LoadingButton onClick={onDelete} color="error" variant="outlined" loading={loadingDelete}>
+              Delete
+            </LoadingButton>
+            <Box sx={{ flex: 1 }} />
+          </>
+        )}
         {error && (
           <Typography color="error" sx={{ marginRight: 2 }}>
             {error}

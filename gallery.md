@@ -31,3 +31,11 @@
 ![edit 2](https://raw.githubusercontent.com/rl404/akizuki/master/public/images/edit-form-2.jpg)
 
 ![edit 3](https://raw.githubusercontent.com/rl404/akizuki/master/public/images/edit-form-3.jpg)
+
+## Add Anime (Card)
+
+![search card](https://raw.githubusercontent.com/rl404/akizuki/master/public/images/search-card.jpg)
+
+## Add Anime (List)
+
+![search list](https://raw.githubusercontent.com/rl404/akizuki/master/public/images/search-list.jpg)

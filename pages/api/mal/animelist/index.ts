@@ -21,6 +21,7 @@ type AnimelistData = {
       name: string;
     }>;
     status: string;
+    nsfw: string;
     media_type: string;
     num_episodes: number;
   };
@@ -46,11 +47,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   var list: Array<AnimelistData> = [];
 
+  const fields = [
+    'rank',
+    'mean',
+    'popularity',
+    'synopsis',
+    'genres',
+    'media_type',
+    'num_episodes',
+    'status',
+    'nsfw',
+    'list_status{num_times_rewatched,rewatch_value,tags,comments}',
+  ];
+
   while (true) {
     const resp = await fetch(
-      `${API_MAL_HOST}/v2/users/@me/animelist?limit=${
-        limit + 1
-      }&offset=${offset}&nsfw=true&fields=rank,mean,popularity,synopsis,genres,media_type,num_episodes,status,list_status{num_times_rewatched,rewatch_value,tags,comments}`,
+      `${API_MAL_HOST}/v2/users/@me/animelist?limit=${limit + 1}&offset=${offset}&nsfw=true&fields=${fields.join(',')}`,
       {
         headers: {
           Authorization: req.headers.authorization || '',
