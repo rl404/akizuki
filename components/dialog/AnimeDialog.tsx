@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Autocomplete,
+  Box,
   Button,
   Chip,
   Dialog,
@@ -242,6 +243,44 @@ const AnimeDialog = ({
       })
       .finally(() => {
         setLoading(false);
+      });
+  };
+
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
+
+  const onDelete = () => {
+    setLoadingDelete(true);
+
+    akizukiAxios
+      .delete(`/api/mal/animelist/delete/${userAnime.id}`)
+      .then(() => {
+        setData({
+          ...userAnime,
+          userStatus: '',
+          userScore: 0,
+          userEpisode: 0,
+          userStartDate: '',
+          userEndDate: '',
+          comments: '',
+          tags: [],
+        });
+        onClose();
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.error) {
+            setError(error.response.error);
+            return;
+          }
+          if (error.response.message) {
+            setError(error.response.message);
+            return;
+          }
+        }
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoadingDelete(false);
       });
   };
 
@@ -540,6 +579,14 @@ const AnimeDialog = ({
         </Stack>
       </DialogContent>
       <DialogActions>
+        {userAnime.userStatus !== '' && (
+          <>
+            <LoadingButton onClick={onDelete} color="error" variant="outlined" loading={loadingDelete}>
+              Delete
+            </LoadingButton>
+            <Box sx={{ flex: 1 }} />
+          </>
+        )}
         {error && (
           <Typography color="error" sx={{ marginRight: 2 }}>
             {error}

@@ -6,6 +6,7 @@ import { calculateFormula, extractVarFromFormula } from '../../lib/formula';
 import { akizukiAxios } from '../../lib/axios';
 import {
   Autocomplete,
+  Box,
   Button,
   Chip,
   Dialog,
@@ -258,6 +259,45 @@ const MangaDialog = ({
       })
       .finally(() => {
         setLoading(false);
+      });
+  };
+
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
+
+  const onDelete = () => {
+    setLoadingDelete(true);
+
+    akizukiAxios
+      .delete(`/api/mal/mangalist/delete/${userManga.id}`)
+      .then(() => {
+        setData({
+          ...userManga,
+          userStatus: '',
+          userScore: 0,
+          userChapter: 0,
+          userVolume: 0,
+          userStartDate: '',
+          userEndDate: '',
+          comments: '',
+          tags: [],
+        });
+        onClose();
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.error) {
+            setError(error.response.error);
+            return;
+          }
+          if (error.response.message) {
+            setError(error.response.message);
+            return;
+          }
+        }
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoadingDelete(false);
       });
   };
 
@@ -589,6 +629,14 @@ const MangaDialog = ({
         </Stack>
       </DialogContent>
       <DialogActions>
+        {userManga.userStatus !== '' && (
+          <>
+            <LoadingButton onClick={onDelete} color="error" variant="outlined" loading={loadingDelete}>
+              Delete
+            </LoadingButton>
+            <Box sx={{ flex: 1 }} />
+          </>
+        )}
         {error && (
           <Typography color="error" sx={{ marginRight: 2 }}>
             {error}
