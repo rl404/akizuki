@@ -28,6 +28,8 @@ import UserMangaCard from '../components/card/UserMangaCard';
 import UserMangaList from '../components/list/UserMangaList';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Link from 'next/link';
 import { WEB_MAL_HOST } from '../lib/myanimelist';
 import AddMangaButton from '../components/button/AddMangaButton';
@@ -59,6 +61,12 @@ export default function Mangalist() {
     setLayout(layout === 'grid' ? 'list' : 'grid');
   };
 
+  const [nsfw, setNsfw] = React.useState<boolean>(false);
+
+  const toggleNsfw = () => {
+    setNsfw(!nsfw);
+  };
+
   const callAPI = (withLoading: boolean = false) => {
     withLoading && setLoading(true);
 
@@ -79,6 +87,7 @@ export default function Mangalist() {
               synopsis: a.node.synopsis || '',
               genres: a.node.genres?.map((g) => g.name) || [],
               status: a.node.status || '',
+              nsfw: a.node.nsfw !== 'white',
               chapter: a.node.num_chapters || 0,
               volume: a.node.num_volumes || 0,
               mediaType: a.node.media_type || '',
@@ -208,6 +217,11 @@ export default function Mangalist() {
                 </Tooltip>
               </Grid>
               <Grid item xs sm="auto" textAlign="center">
+                <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
+                  <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
+                </Tooltip>
+              </Grid>
+              <Grid item xs sm="auto" textAlign="center">
                 <TagEditorButton username={user.username} type="manga" />
               </Grid>
               <Grid item xs sm="auto" textAlign="center">
@@ -232,7 +246,7 @@ export default function Mangalist() {
                 return (
                   <Grid item xs={12} sm={6} md={6} lg={4} key={a.id}>
                     <RenderIfVisible defaultHeight={200}>
-                      <UserMangaCard username={user.username} userManga={a} />
+                      <UserMangaCard username={user.username} userManga={a} nsfw={nsfw} />
                     </RenderIfVisible>
                   </Grid>
                 );

@@ -24,6 +24,7 @@ export type Manga = {
     name: string;
   }>;
   status: string;
+  nsfw: string;
   media_type: string;
   num_volumes: number;
   num_chapters: number;
@@ -57,6 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     'num_volumes',
     'num_chapters',
     'status',
+    'nsfw',
     'my_list_status{num_times_reread,reread_value,tags,comments}',
   ];
 

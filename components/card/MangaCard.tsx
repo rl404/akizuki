@@ -58,44 +58,52 @@ const style = {
   },
 };
 
-const MangaCard = React.memo(({ username, userManga }: { username: string; userManga: UserManga }) => {
-  const [data, setData] = React.useState<UserManga>(userManga);
+const MangaCard = React.memo(
+  ({ username, userManga, nsfw }: { username: string; userManga: UserManga; nsfw: boolean }) => {
+    const [data, setData] = React.useState<UserManga>(userManga);
 
-  const [openMangaDialog, setOpenMangaDialog] = React.useState(false);
+    const [openMangaDialog, setOpenMangaDialog] = React.useState(false);
 
-  const onOpenMangaDialog = () => {
-    setOpenMangaDialog(true);
-  };
+    const onOpenMangaDialog = () => {
+      setOpenMangaDialog(true);
+    };
 
-  const onCloseMangaDialog = () => {
-    setOpenMangaDialog(false);
-  };
+    const onCloseMangaDialog = () => {
+      setOpenMangaDialog(false);
+    };
 
-  return (
-    <>
-      <Card>
-        <CardActionArea onClick={onOpenMangaDialog}>
-          <CardMedia component="img" image={data.picture} alt={data.title} sx={{ height: 200 }} loading="lazy" />
-          <CardContent sx={style.typeArea}>
-            <Chip label={mangaTypeToStr(data.mediaType)} size="small" color="warning" sx={{ display: 'none' }} />
-          </CardContent>
-          <CardContent sx={{ ...style.titleArea, borderBottom: `solid 3px ${userStatusToColor(data.userStatus)}` }}>
-            {data.status === 'currently_publishing' && <Divider sx={style.airing}>Publishing</Divider>}
-            <Typography sx={style.title}>{data.title}</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      {openMangaDialog && (
-        <MangaDialog
-          open={openMangaDialog}
-          onClose={onCloseMangaDialog}
-          username={username}
-          userManga={data}
-          setData={setData}
-        />
-      )}
-    </>
-  );
-});
+    return (
+      <>
+        <Card>
+          <CardActionArea onClick={onOpenMangaDialog}>
+            <CardMedia
+              component="img"
+              image={data.picture}
+              alt={data.title}
+              sx={{ height: 200, filter: !nsfw && data.nsfw ? 'blur(5px)' : '', opacity: !nsfw && data.nsfw ? 0.5 : 1 }}
+              loading="lazy"
+            />
+            <CardContent sx={style.typeArea}>
+              <Chip label={mangaTypeToStr(data.mediaType)} size="small" color="warning" sx={{ display: 'none' }} />
+            </CardContent>
+            <CardContent sx={{ ...style.titleArea, borderBottom: `solid 3px ${userStatusToColor(data.userStatus)}` }}>
+              {data.status === 'currently_publishing' && <Divider sx={style.airing}>Publishing</Divider>}
+              <Typography sx={style.title}>{data.title}</Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+        {openMangaDialog && (
+          <MangaDialog
+            open={openMangaDialog}
+            onClose={onCloseMangaDialog}
+            username={username}
+            userManga={data}
+            setData={setData}
+          />
+        )}
+      </>
+    );
+  },
+);
 
 export default MangaCard;

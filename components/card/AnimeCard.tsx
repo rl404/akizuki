@@ -58,44 +58,52 @@ const style = {
   },
 };
 
-const AnimeCard = React.memo(({ username, userAnime }: { username: string; userAnime: UserAnime }) => {
-  const [data, setData] = React.useState<UserAnime>(userAnime);
+const AnimeCard = React.memo(
+  ({ username, userAnime, nsfw }: { username: string; userAnime: UserAnime; nsfw: boolean }) => {
+    const [data, setData] = React.useState<UserAnime>(userAnime);
 
-  const [openAnimeDialog, setOpenAnimeDialog] = React.useState(false);
+    const [openAnimeDialog, setOpenAnimeDialog] = React.useState(false);
 
-  const onOpenAnimeDialog = () => {
-    setOpenAnimeDialog(true);
-  };
+    const onOpenAnimeDialog = () => {
+      setOpenAnimeDialog(true);
+    };
 
-  const onCloseAnimeDialog = () => {
-    setOpenAnimeDialog(false);
-  };
+    const onCloseAnimeDialog = () => {
+      setOpenAnimeDialog(false);
+    };
 
-  return (
-    <>
-      <Card>
-        <CardActionArea onClick={onOpenAnimeDialog}>
-          <CardMedia component="img" image={data.picture} alt={data.title} sx={{ height: 200 }} loading="lazy" />
-          <CardContent sx={style.typeArea}>
-            <Chip label={animeTypeToStr(data.mediaType)} size="small" color="warning" sx={{ display: 'none' }} />
-          </CardContent>
-          <CardContent sx={{ ...style.titleArea, borderBottom: `solid 3px ${userStatusToColor(data.userStatus)}` }}>
-            {data.status === 'currently_airing' && <Divider sx={style.airing}>Airing</Divider>}
-            <Typography sx={style.title}>{data.title}</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      {openAnimeDialog && (
-        <AnimeDialog
-          open={openAnimeDialog}
-          onClose={onCloseAnimeDialog}
-          username={username}
-          userAnime={data}
-          setData={setData}
-        />
-      )}
-    </>
-  );
-});
+    return (
+      <>
+        <Card>
+          <CardActionArea onClick={onOpenAnimeDialog}>
+            <CardMedia
+              component="img"
+              image={data.picture}
+              alt={data.title}
+              sx={{ height: 200, filter: !nsfw && data.nsfw ? 'blur(5px)' : '', opacity: !nsfw && data.nsfw ? 0.5 : 1 }}
+              loading="lazy"
+            />
+            <CardContent sx={style.typeArea}>
+              <Chip label={animeTypeToStr(data.mediaType)} size="small" color="warning" sx={{ display: 'none' }} />
+            </CardContent>
+            <CardContent sx={{ ...style.titleArea, borderBottom: `solid 3px ${userStatusToColor(data.userStatus)}` }}>
+              {data.status === 'currently_airing' && <Divider sx={style.airing}>Airing</Divider>}
+              <Typography sx={style.title}>{data.title}</Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+        {openAnimeDialog && (
+          <AnimeDialog
+            open={openAnimeDialog}
+            onClose={onCloseAnimeDialog}
+            username={username}
+            userAnime={data}
+            setData={setData}
+          />
+        )}
+      </>
+    );
+  },
+);
 
 export default AnimeCard;

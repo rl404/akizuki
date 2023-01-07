@@ -21,6 +21,8 @@ import { theme } from '../theme';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MangaList from '../list/MangaList';
 
 const style = {
@@ -46,6 +48,12 @@ const SearchMangaDialog = ({ open, onClose, username }: { open: boolean; onClose
 
   const toggleLayout = () => {
     setLayout(layout === 'grid' ? 'list' : 'grid');
+  };
+
+  const [nsfw, setNsfw] = React.useState<boolean>(false);
+
+  const toggleNsfw = () => {
+    setNsfw(!nsfw);
   };
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +104,7 @@ const SearchMangaDialog = ({ open, onClose, username }: { open: boolean; onClose
               synopsis: a.node.synopsis || '',
               genres: a.node.genres?.map((g) => g.name) || [],
               status: a.node.status || '',
+              nsfw: a.node.nsfw != 'white',
               chapter: a.node.num_chapters || 0,
               volume: a.node.num_volumes || 0,
               mediaType: a.node.media_type || '',
@@ -163,6 +172,11 @@ const SearchMangaDialog = ({ open, onClose, username }: { open: boolean; onClose
             </IconButton>
           </div>
           <div>
+            <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
+              <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
+            </Tooltip>
+          </div>
+          <div>
             <Tooltip title={layout === 'list' ? 'List Layout' : 'Grid Layout'} placement="top" arrow>
               <IconButton onClick={toggleLayout}>
                 {layout === 'list' ? <TableRowsIcon /> : <ViewModuleIcon />}
@@ -190,7 +204,7 @@ const SearchMangaDialog = ({ open, onClose, username }: { open: boolean; onClose
                 return (
                   <Grid item xs={4} sm={3} md={2} lg={2} key={a.id}>
                     <RenderIfVisible defaultHeight={200}>
-                      <MangaCard username={username} userManga={a} />
+                      <MangaCard username={username} userManga={a} nsfw={nsfw} />
                     </RenderIfVisible>
                   </Grid>
                 );

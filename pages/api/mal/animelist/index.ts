@@ -21,6 +21,7 @@ type AnimelistData = {
       name: string;
     }>;
     status: string;
+    nsfw: string;
     media_type: string;
     num_episodes: number;
   };
@@ -55,6 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     'media_type',
     'num_episodes',
     'status',
+    'nsfw',
     'list_status{num_times_rewatched,rewatch_value,tags,comments}',
   ];
 
