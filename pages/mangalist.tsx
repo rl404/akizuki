@@ -45,6 +45,14 @@ const style = {
       color: theme.palette.warning.main,
     },
   },
+  tooltipCount: {
+    padding: 1,
+    paddingLeft: 1.5,
+    paddingRight: 1.5,
+    background: theme.palette.background.paper,
+    backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))',
+    boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)',
+  },
 };
 
 export default function Mangalist() {
@@ -179,9 +187,73 @@ export default function Mangalist() {
                 <Link href={`${WEB_MAL_HOST}/mangalist/${user.username}`} target="_blank">
                   {`${user.username}'s Mangalist `}
                 </Link>
-                <Typography display="inline" sx={style.subtitle}>
-                  — {list.filter((a) => a.title.toLowerCase().includes(search)).length.toLocaleString()}
-                </Typography>
+                <Tooltip
+                  placement="right"
+                  arrow
+                  componentsProps={{
+                    tooltip: {
+                      sx: style.tooltipCount,
+                    },
+                  }}
+                  title={
+                    <Grid container spacing={0.5} sx={{ width: 200 }}>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>Reading</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'reading')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>Completed</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'completed')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>On-Hold</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'on_hold')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>Dropped</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'dropped')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography sx={style.subtitle}>Plan to Read</Typography>
+                      </Grid>
+                      <Grid item xs={5}>
+                        <Typography textAlign="right">
+                          {list
+                            .filter((a) => a.title.toLowerCase().includes(search) && a.userStatus === 'plan_to_read')
+                            .length.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  }
+                >
+                  <Typography display="inline" sx={style.subtitle}>
+                    — {list.filter((a) => a.title.toLowerCase().includes(search)).length.toLocaleString()}
+                  </Typography>
+                </Tooltip>
               </Typography>
             </Grid>
             <Grid item container spacing={1} xs={12} sm={12} md="auto">
