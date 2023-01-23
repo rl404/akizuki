@@ -65,11 +65,11 @@ export default function Callback() {
       >
         <DialogTitle>Authentication</DialogTitle>
         <DialogContent dividers sx={{ textAlign: 'center' }}>
-          {loading ? <CircularProgress color="warning" /> : <Typography>{error}</Typography>}
+          {loading ? <CircularProgress /> : <Typography>{error}</Typography>}
         </DialogContent>
         <DialogActions>
           {error !== '' && (
-            <Button href="/auth/login" color="warning" LinkComponent={Link}>
+            <Button href="/auth/login" LinkComponent={Link}>
               Back to Login
             </Button>
           )}

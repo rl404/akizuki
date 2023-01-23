@@ -93,7 +93,6 @@ const ScoreDialog = ({
                   size="small"
                   onClick={() => onClickScore(s)}
                   sx={{ minWidth: '30px' }}
-                  color="warning"
                 >
                   {s}
                 </Button>
@@ -118,7 +117,7 @@ const ScoreDialog = ({
             {error}
           </Typography>
         )}
-        <LoadingButton variant="contained" loading={loading} onClick={onUpdate} color="warning">
+        <LoadingButton variant="contained" loading={loading} onClick={onUpdate}>
           Update
         </LoadingButton>
       </DialogActions>

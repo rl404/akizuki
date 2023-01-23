@@ -194,7 +194,7 @@ const SearchMangaDialog = ({ open, onClose, username }: { open: boolean; onClose
           style={{ display: 'flex', flexDirection: 'column', overflow: 'unset' }}
           loader={
             <div style={style.loadingArea}>
-              <CircularProgress color="warning" />
+              <CircularProgress />
             </div>
           }
         >
