@@ -29,7 +29,7 @@ const userStatusToColor = (status: string): string => {
 const style = {
   link: {
     '&:hover': {
-      color: theme.palette.warning.main,
+      color: theme.palette.primary.main,
     },
   },
 };
@@ -88,7 +88,7 @@ const UserAnimeList = React.memo(({ username, userAnime }: { username: string; u
                 >
                   {data.title}
                   {data.status === 'currently_airing' && (
-                    <Typography display="inline" sx={{ color: theme.palette.warning.main }}>
+                    <Typography display="inline" sx={{ color: theme.palette.primary.main }}>
                       {' '}
                       — Airing
                     </Typography>
@@ -115,7 +115,7 @@ const UserAnimeList = React.memo(({ username, userAnime }: { username: string; u
             </Grid>
             <Grid item xs={3} sm={1} textAlign="center" sx={{ margin: 'auto' }}>
               <Tooltip title="edit" placement="right" arrow>
-                <IconButton size="small" color="warning" onClick={onOpenAnimeDialog}>
+                <IconButton size="small" color="primary" onClick={onOpenAnimeDialog}>
                   <EditIcon fontSize="small" />
                 </IconButton>
               </Tooltip>

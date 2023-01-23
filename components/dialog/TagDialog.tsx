@@ -175,10 +175,10 @@ const TagDialog = ({
                   </Grid>
                   <Grid item xs={12} sx={{ paddingBottom: 0.5 }}>
                     <Stack direction="row" spacing={1} justifyContent="space-between">
-                      <Button onClick={toggleExample} size="small" color="warning">
+                      <Button onClick={toggleExample} size="small">
                         {example ? 'Hide example' : 'Show example'}
                       </Button>
-                      <Button onClick={nextHelp} size="small" color="warning">
+                      <Button onClick={nextHelp} size="small">
                         Next
                       </Button>
                     </Stack>
@@ -229,10 +229,10 @@ const TagDialog = ({
                     </Grid>
                     <Grid item xs={12} sx={{ paddingBottom: 0.5 }}>
                       <Stack direction="row" spacing={1} justifyContent="space-between">
-                        <Button onClick={prevHelp} size="small" color="warning">
+                        <Button onClick={prevHelp} size="small">
                           Back
                         </Button>
-                        <Button onClick={nextHelp} size="small" color="warning">
+                        <Button onClick={nextHelp} size="small">
                           Next
                         </Button>
                       </Stack>
@@ -293,10 +293,10 @@ const TagDialog = ({
                     </Grid>
                     <Grid item xs={12} sx={{ paddingBottom: 0.5 }}>
                       <Stack direction="row" spacing={1} justifyContent="space-between">
-                        <Button onClick={prevHelp} size="small" color="warning">
+                        <Button onClick={prevHelp} size="small">
                           Back
                         </Button>
-                        <Button onClick={nextHelp} size="small" color="warning">
+                        <Button onClick={nextHelp} size="small">
                           Next
                         </Button>
                       </Stack>
@@ -316,7 +316,7 @@ const TagDialog = ({
                     label={`${v[0]}:${v[1]}`.replaceAll('_', '-')}
                     size="small"
                     sx={{ margin: 0.5 }}
-                    color="warning"
+                    color="primary"
                   />
                 );
               })}
@@ -325,9 +325,7 @@ const TagDialog = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={toggleHelp} color="warning">
-          {help > 0 ? 'hide help' : 'show help'}
-        </Button>
+        <Button onClick={toggleHelp}>{help > 0 ? 'hide help' : 'show help'}</Button>
         <Tooltip
           placement={isSm ? 'top' : 'right'}
           arrow
@@ -351,10 +349,10 @@ const TagDialog = ({
               </Grid>
               <Grid item xs={12} sx={{ paddingBottom: 0.5 }}>
                 <Stack direction="row" spacing={1} justifyContent="space-between">
-                  <Button onClick={prevHelp} size="small" color="warning">
+                  <Button onClick={prevHelp} size="small">
                     Back
                   </Button>
-                  <Button onClick={toggleHelp} size="small" color="warning">
+                  <Button onClick={toggleHelp} size="small">
                     Done
                   </Button>
                 </Stack>
@@ -362,7 +360,7 @@ const TagDialog = ({
             </Grid>
           }
         >
-          <Button variant="contained" onClick={onSave} disabled={error !== ''} color="warning">
+          <Button variant="contained" onClick={onSave} disabled={error !== ''}>
             Save
           </Button>
         </Tooltip>

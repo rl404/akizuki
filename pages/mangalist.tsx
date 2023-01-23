@@ -42,7 +42,7 @@ const style = {
   },
   link: {
     'a:hover': {
-      color: theme.palette.warning.main,
+      color: theme.palette.primary.main,
     },
   },
   tooltipCount: {
@@ -352,7 +352,7 @@ const LoadingMangalist = () => {
             <Divider />
           </Grid>
           <Grid item xs={12} sx={{ textAlign: 'center' }}>
-            <CircularProgress color="warning" />
+            <CircularProgress />
           </Grid>
         </Grid>
       </Container>

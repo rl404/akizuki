@@ -43,7 +43,7 @@ const style = {
   },
   link: {
     'a:hover': {
-      color: theme.palette.warning.main,
+      color: theme.palette.primary.main,
     },
   },
 };
@@ -370,7 +370,7 @@ const MangaDialog = ({
               <Grid item sx={{ textAlign: 'center' }}>
                 <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
                 {userManga.genres.map((g) => {
-                  return <Chip size="small" label={g} key={g} sx={{ margin: 0.5 }} color="warning" />;
+                  return <Chip size="small" label={g} key={g} sx={{ margin: 0.5 }} color="primary" />;
                 })}
               </Grid>
             </Grid>
@@ -542,7 +542,7 @@ const MangaDialog = ({
                   onChange={onChangeUserTags}
                   renderTags={(value: readonly string[], getTagProps) =>
                     value.map((option: string, index: number) => (
-                      <Chip label={option} {...getTagProps({ index })} size="small" color="warning" key={option} />
+                      <Chip label={option} {...getTagProps({ index })} size="small" color="primary" key={option} />
                     ))
                   }
                   renderInput={(params) => (
@@ -562,7 +562,7 @@ const MangaDialog = ({
               <Grid item xs={showManga ? false : 12} container spacing={2}>
                 <Grid item xs={6}>
                   <Tooltip title="Add anime genres to tags" placement="bottom" arrow>
-                    <Button variant="outlined" onClick={genresToTags} size="small" fullWidth color="warning">
+                    <Button variant="outlined" onClick={genresToTags} size="small" fullWidth>
                       genres to tags
                     </Button>
                   </Tooltip>
@@ -573,7 +573,7 @@ const MangaDialog = ({
                     placement="bottom"
                     arrow
                   >
-                    <Button variant="outlined" onClick={tagsToComment} size="small" fullWidth color="warning">
+                    <Button variant="outlined" onClick={tagsToComment} size="small" fullWidth>
                       tags to comment
                     </Button>
                   </Tooltip>
@@ -642,15 +642,11 @@ const MangaDialog = ({
             {error}
           </Typography>
         )}
-        {!isSm && (
-          <Button onClick={toggleShowManga} color="warning">
-            {showManga ? 'hide manga' : 'Show Manga'}
-          </Button>
-        )}
-        <Button onClick={onReset} color="warning" variant="outlined">
+        {!isSm && <Button onClick={toggleShowManga}>{showManga ? 'hide manga' : 'Show Manga'}</Button>}
+        <Button onClick={onReset} variant="outlined">
           Reset
         </Button>
-        <LoadingButton variant="contained" loading={loading} onClick={onUpdate} color="warning">
+        <LoadingButton variant="contained" loading={loading} onClick={onUpdate}>
           Update
         </LoadingButton>
       </DialogActions>

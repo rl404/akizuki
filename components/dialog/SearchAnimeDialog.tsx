@@ -152,36 +152,38 @@ const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose
         </Stack>
       </DialogTitle>
       <DialogTitle style={style.searchArea}>
-        <Stack direction="row" spacing={1}>
-          <TextField
-            label="Search"
-            placeholder="anime title..."
-            value={search}
-            fullWidth
-            onChange={onChangeSearch}
-            size="small"
-            onKeyDown={(e) => e.key === 'Enter' && onSearch()}
-            error={error !== ''}
-            helperText={error}
-          />
-          <div>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm>
+            <TextField
+              label="Search"
+              placeholder="anime title..."
+              value={search}
+              fullWidth
+              onChange={onChangeSearch}
+              size="small"
+              onKeyDown={(e) => e.key === 'Enter' && onSearch()}
+              error={error !== ''}
+              helperText={error}
+            />
+          </Grid>
+          <Grid item xs sm="auto" textAlign="center">
             <IconButton onClick={onSearch}>
               <SearchIcon />
             </IconButton>
-          </div>
-          <div>
+          </Grid>
+          <Grid item xs sm="auto" textAlign="center">
             <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
               <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
             </Tooltip>
-          </div>
-          <div>
+          </Grid>
+          <Grid item xs sm="auto" textAlign="center">
             <Tooltip title={layout === 'list' ? 'List Layout' : 'Grid Layout'} placement="top" arrow>
               <IconButton onClick={toggleLayout}>
                 {layout === 'list' ? <TableRowsIcon /> : <ViewModuleIcon />}
               </IconButton>
             </Tooltip>
-          </div>
-        </Stack>
+          </Grid>
+        </Grid>
       </DialogTitle>
       <DialogContent dividers id="content-area">
         <InfiniteScroll
@@ -192,7 +194,7 @@ const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose
           style={{ display: 'flex', flexDirection: 'column', overflow: 'unset' }}
           loader={
             <div style={style.loadingArea}>
-              <CircularProgress color="warning" />
+              <CircularProgress />
             </div>
           }
         >
@@ -200,7 +202,7 @@ const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose
             {list.map((a) => {
               if (layout === 'grid') {
                 return (
-                  <Grid item xs={4} sm={3} md={2} lg={2} key={a.id}>
+                  <Grid item xs={6} sm={3} md={2} lg={2} key={a.id}>
                     <RenderIfVisible defaultHeight={200}>
                       <AnimeCard username={username} userAnime={a} nsfw={nsfw} />
                     </RenderIfVisible>

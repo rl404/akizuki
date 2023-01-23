@@ -32,7 +32,7 @@ const style = {
   },
   link: {
     '&:hover': {
-      color: theme.palette.warning.main,
+      color: theme.palette.primary.main,
     },
   },
 };
@@ -115,7 +115,7 @@ const UserAnimeCard = React.memo(
                     </Typography>
                   </Link>
                 </Tooltip>
-                <Divider sx={{ color: theme.palette.warning.main }}>
+                <Divider sx={{ color: theme.palette.primary.main }}>
                   {data.status === 'currently_airing' && 'Airing'}
                 </Divider>
               </Grid>
@@ -138,7 +138,7 @@ const UserAnimeCard = React.memo(
             <Tooltip title="edit" placement="left" arrow>
               <IconButton
                 sx={{ position: 'absolute', right: 5, bottom: 5 }}
-                color="warning"
+                color="primary"
                 size="small"
                 onClick={onOpenAnimeDialog}
               >

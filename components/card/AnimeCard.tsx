@@ -41,7 +41,7 @@ const style = {
     },
   },
   airing: {
-    color: theme.palette.warning.main,
+    color: theme.palette.primary.main,
   },
   typeArea: {
     position: 'absolute' as 'absolute',
@@ -84,7 +84,7 @@ const AnimeCard = React.memo(
               loading="lazy"
             />
             <CardContent sx={style.typeArea}>
-              <Chip label={animeTypeToStr(data.mediaType)} size="small" color="warning" sx={{ display: 'none' }} />
+              <Chip label={animeTypeToStr(data.mediaType)} size="small" color="primary" sx={{ display: 'none' }} />
             </CardContent>
             <CardContent sx={{ ...style.titleArea, borderBottom: `solid 3px ${userStatusToColor(data.userStatus)}` }}>
               {data.status === 'currently_airing' && <Divider sx={style.airing}>Airing</Divider>}

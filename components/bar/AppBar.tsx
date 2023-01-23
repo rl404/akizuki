@@ -42,7 +42,7 @@ const AkizukiAppBar = React.memo(({ title = 'Akizuki' }: { title?: string }) => 
     <AppBar
       position="static"
       sx={{
-        background: `linear-gradient(90deg, ${theme.palette.warning.dark} 0%, ${theme.palette.background.paper} 100%)`,
+        background: `linear-gradient(90deg, ${theme.palette.primary.dark} 0%, ${theme.palette.background.paper} 100%)`,
       }}
     >
       <Toolbar>

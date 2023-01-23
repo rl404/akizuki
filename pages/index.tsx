@@ -49,7 +49,7 @@ const style = {
   },
   link: {
     '&:hover': {
-      color: theme.palette.warning.main,
+      color: theme.palette.primary.main,
     },
   },
 };

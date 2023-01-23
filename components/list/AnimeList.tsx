@@ -45,7 +45,7 @@ const AnimeList = React.memo(({ username, userAnime }: { username: string; userA
                 <Typography sx={{ overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                   {data.title}
                   {data.status === 'currently_airing' && (
-                    <Typography display="inline" sx={{ color: theme.palette.warning.main }}>
+                    <Typography display="inline" sx={{ color: theme.palette.primary.main }}>
                       {' '}
                       — Airing
                     </Typography>

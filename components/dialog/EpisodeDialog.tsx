@@ -194,7 +194,7 @@ const EpisodeDialog = ({
             {error}
           </Typography>
         )}
-        <LoadingButton variant="contained" loading={loading} onClick={onUpdate} color="warning">
+        <LoadingButton variant="contained" loading={loading} onClick={onUpdate}>
           Update
         </LoadingButton>
       </DialogActions>

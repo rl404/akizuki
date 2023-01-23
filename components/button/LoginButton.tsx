@@ -5,7 +5,7 @@ import { generateMalOauthURL } from '../../lib/myanimelist';
 const LoginButton = React.memo(() => {
   return (
     <Link href={generateMalOauthURL()}>
-      <Button color="warning">Login with MyAnimeList</Button>
+      <Button>Login with MyAnimeList</Button>
     </Link>
   );
 });

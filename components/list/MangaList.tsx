@@ -45,7 +45,7 @@ const MangaList = React.memo(({ username, userManga }: { username: string; userM
                 <Typography sx={{ overflowX: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                   {data.title}
                   {data.status === 'currently_publishing' && (
-                    <Typography display="inline" sx={{ color: theme.palette.warning.main }}>
+                    <Typography display="inline" sx={{ color: theme.palette.primary.main }}>
                       {' '}
                       — Publishing
                     </Typography>
