@@ -11,6 +11,7 @@ import {
   CircularProgress,
   Container,
   Divider,
+  Fab,
   Grid,
   IconButton,
   InputAdornment,
@@ -18,6 +19,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  Zoom,
 } from '@mui/material';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
@@ -33,6 +35,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Link from 'next/link';
 import { WEB_MAL_HOST } from '../lib/myanimelist';
 import AddMangaButton from '../components/button/AddMangaButton';
+import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const statusOrder = ['reading', 'completed', 'on_hold', 'dropped', 'plan_to_read'];
 
@@ -53,6 +56,11 @@ const style = {
     backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))',
     boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)',
   },
+  fab: {
+    position: 'fixed',
+    bottom: 16,
+    right: 16,
+  },
 };
 
 export default function Mangalist() {
@@ -62,6 +70,7 @@ export default function Mangalist() {
   const [list, setList] = React.useState<Array<UserManga>>([]);
   const [error, setError] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [scrollTop, setScrollTop] = React.useState<boolean>(false);
 
   const [layout, setLayout] = React.useState<string>('grid');
 
@@ -151,6 +160,14 @@ export default function Mangalist() {
     }
 
     callAPI();
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+        setScrollTop(true);
+      } else {
+        setScrollTop(false);
+      }
+    });
   }, [router]);
 
   const [search, setSearch] = React.useState<string>('');
@@ -161,6 +178,13 @@ export default function Mangalist() {
 
   const resetSearch = () => {
     setSearch('');
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   if (loading) {
@@ -334,6 +358,13 @@ export default function Mangalist() {
             })}
         </Grid>
       </Container>
+      <Zoom in={scrollTop}>
+        <Tooltip title="Scroll to top" placement="left" arrow>
+          <Fab sx={style.fab} onClick={scrollToTop} color="primary" size="small">
+            <UpIcon />
+          </Fab>
+        </Tooltip>
+      </Zoom>
     </>
   );
 }
