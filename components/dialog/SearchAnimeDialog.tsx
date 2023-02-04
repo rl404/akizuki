@@ -140,7 +140,7 @@ const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose
   };
 
   return (
-    <Dialog open={open} maxWidth="md" fullWidth>
+    <Dialog open={open} maxWidth="md" fullWidth disableRestoreFocus>
       <DialogTitle>
         <Stack direction="row" justifyContent="space-between" spacing={2}>
           <div>Search Anime</div>
@@ -159,6 +159,7 @@ const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose
               placeholder="anime title..."
               value={search}
               fullWidth
+              autoFocus
               onChange={onChangeSearch}
               size="small"
               onKeyDown={(e) => e.key === 'Enter' && onSearch()}
