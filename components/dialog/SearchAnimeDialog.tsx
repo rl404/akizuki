@@ -4,11 +4,13 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Fab,
   Grid,
   IconButton,
   Stack,
   TextField,
   Tooltip,
+  Zoom,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { akizukiAxios } from '../../lib/axios';
@@ -24,6 +26,7 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AnimeList from '../list/AnimeList';
+import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const style = {
   searchArea: {
@@ -34,15 +37,27 @@ const style = {
     textAlign: 'center' as 'center',
     paddingTop: 10,
   },
+  fabArea: {
+    position: 'absolute' as 'absolute',
+    bottom: '56px',
+    right: '56px',
+  },
+  fab: {
+    position: 'fixed',
+  },
 };
 
 const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose: () => void; username: string }) => {
+  const searchRef = React.useRef<HTMLElement>();
+
   const [list, setList] = React.useState<Array<UserAnime>>([]);
   const [search, setSearch] = React.useState<string>('');
   const [currentSearch, setCurrentSearch] = React.useState<string>('');
   const [page, setPage] = React.useState<number>(1);
   const [moreData, setMoreData] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>('');
+  const [scrollTop, setScrollTop] = React.useState<boolean>(false);
 
   const [layout, setLayout] = React.useState<string>('grid');
 
@@ -72,8 +87,11 @@ const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose
   };
 
   const onSearch = () => {
-    search !== currentSearch && callAPI(true, 1);
+    if (search === currentSearch) return;
+    setLoading(true);
+    callAPI(true, 1);
     setCurrentSearch(search);
+    scrollToTop();
   };
 
   const callAPI = async (reset = false, p = page) => {
@@ -136,8 +154,27 @@ const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose
           return;
         }
         setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
+
+  const scrollToTop = () => {
+    searchRef.current?.scroll({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  searchRef.current?.addEventListener('scroll', () => {
+    if (!searchRef.current) return;
+    if (searchRef.current.scrollTop > 200) {
+      setScrollTop(true);
+    } else {
+      setScrollTop(false);
+    }
+  });
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth disableRestoreFocus>
@@ -186,41 +223,59 @@ const SearchAnimeDialog = ({ open, onClose, username }: { open: boolean; onClose
           </Grid>
         </Grid>
       </DialogTitle>
-      <DialogContent dividers id="content-area">
-        <InfiniteScroll
-          dataLength={list.length}
-          next={callAPI}
-          hasMore={moreData}
-          scrollableTarget="content-area"
-          style={{ display: 'flex', flexDirection: 'column', overflow: 'unset' }}
-          loader={
-            <div style={style.loadingArea}>
-              <CircularProgress />
-            </div>
-          }
-        >
-          <Grid container spacing={layout === 'grid' ? 2 : 1}>
-            {list.map((a) => {
-              if (layout === 'grid') {
-                return (
-                  <Grid item xs={6} sm={3} md={2} lg={2} key={a.id}>
-                    <RenderIfVisible defaultHeight={200}>
-                      <AnimeCard username={username} userAnime={a} nsfw={nsfw} />
-                    </RenderIfVisible>
-                  </Grid>
-                );
+      <DialogContent dividers id="content-area" ref={searchRef} sx={{ position: 'relative' }}>
+        {loading ? (
+          <div style={style.loadingArea}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <>
+            <InfiniteScroll
+              dataLength={list.length}
+              next={callAPI}
+              hasMore={moreData}
+              scrollableTarget="content-area"
+              style={{ display: 'flex', flexDirection: 'column', overflow: 'unset' }}
+              loader={
+                <div style={style.loadingArea}>
+                  <CircularProgress />
+                </div>
               }
+            >
+              <Grid container spacing={layout === 'grid' ? 2 : 1}>
+                {list.map((a) => {
+                  if (layout === 'grid') {
+                    return (
+                      <Grid item xs={6} sm={3} md={2} lg={2} key={a.id}>
+                        <RenderIfVisible defaultHeight={200}>
+                          <AnimeCard username={username} userAnime={a} nsfw={nsfw} />
+                        </RenderIfVisible>
+                      </Grid>
+                    );
+                  }
 
-              return (
-                <Grid item xs={12} key={a.id}>
-                  <RenderIfVisible defaultHeight={80}>
-                    <AnimeList username={username} userAnime={a} />
-                  </RenderIfVisible>
-                </Grid>
-              );
-            })}
-          </Grid>
-        </InfiniteScroll>
+                  return (
+                    <Grid item xs={12} key={a.id}>
+                      <RenderIfVisible defaultHeight={80}>
+                        <AnimeList username={username} userAnime={a} />
+                      </RenderIfVisible>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </InfiniteScroll>
+
+            <div style={style.fabArea}>
+              <Zoom in={scrollTop}>
+                <Tooltip title="Scroll to top" placement="left" arrow>
+                  <Fab sx={style.fab} onClick={scrollToTop} color="primary" size="small">
+                    <UpIcon />
+                  </Fab>
+                </Tooltip>
+              </Zoom>
+            </div>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );
