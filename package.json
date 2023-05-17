@@ -14,7 +14,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.129",
-    "@mui/material": "^5.13.0",
+    "@mui/material": "^5.13.1",
     "@mui/x-date-pickers": "^5.0.20",
     "axios": "^1.4.0",
     "firebase-admin": "^11.8.0",
