@@ -17,7 +17,7 @@
     "@mui/material": "^5.13.3",
     "@mui/x-date-pickers": "^5.0.20",
     "axios": "^1.4.0",
-    "firebase-admin": "^11.8.0",
+    "firebase-admin": "^11.9.0",
     "mathjs": "^11.8.0",
     "moment": "^2.29.4",
     "next": "13.4.4",
