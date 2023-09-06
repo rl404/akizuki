@@ -124,7 +124,7 @@ const AnimeDialog = ({
     setUserEndDate('');
   };
 
-  const onChangeUserTags = (_: any, v: Array<string>) => {
+  const onChangeUserTags = (_: any, v: any) => {
     setUserTags(v);
   };
 
