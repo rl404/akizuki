@@ -20,7 +20,7 @@
     "firebase-admin": "^11.9.0",
     "mathjs": "^11.8.2",
     "moment": "^2.29.4",
-    "next": "13.5.3",
+    "next": "13.5.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-infinite-scroll-component": "^6.1.0",
@@ -31,12 +31,12 @@
     "@types/react": "18.2.24",
     "@types/react-dom": "18.2.8",
     "eslint": "8.50.0",
-    "eslint-config-next": "13.5.3",
+    "eslint-config-next": "13.5.4",
     "typescript": "5.2.2"
   },
   "overrides": {
     "next-auth": {
-      "next": "13.5.3"
+      "next": "13.5.4"
     }
   }
 }
