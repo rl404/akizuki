@@ -21,12 +21,7 @@ akizukiAxios.interceptors.response.use(
   },
   (error) => {
     const originalRequest = error.config;
-    if (originalRequest._retry) {
-      if (error.response.status === 401) {
-        const router = useRouter();
-        router.push('/auth/login');
-        return;
-      }
+    if (originalRequest._retry || error.response.status !== 401) {
       return Promise.reject(error);
     }
 
@@ -44,7 +39,12 @@ akizukiAxios.interceptors.response.use(
 
         return akizukiAxios(originalRequest);
       })
-      .catch(() => {
+      .catch((err) => {
+        localStorage.clear();
+        if (err.response && err.response.status === 401) {
+          window.location.href = '/auth/login';
+          return Promise.reject(error);
+        }
         return Promise.reject(error);
       });
   },
