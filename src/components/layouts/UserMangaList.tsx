@@ -36,7 +36,7 @@ export default function UserMangaList({ userManga }: { userManga: UserManga }) {
     <>
       <Card sx={{ borderLeft: `solid 5px ${UserStatusColor(data.userStatus)}` }}>
         <CardContent sx={{ p: 0.5, pl: 2, pr: 2, ':last-child': { paddingBottom: 0.5 } }}>
-          <Grid container spacing={2} alignItems="center">
+          <Grid container spacing={0.5} alignItems="center">
             <Grid item xs={12} sm={7}>
               <Link href={`${MAL_WEB_HOST}/manga/${data.id}`} target="_blank">
                 <Typography
@@ -53,31 +53,31 @@ export default function UserMangaList({ userManga }: { userManga: UserManga }) {
                 </Typography>
               </Link>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center">
+            <Grid item xs sm={1} textAlign="center">
               <Tooltip title="Type" placement="top" arrow>
                 <Typography>{MangaTypeStr(data.mediaType)}</Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center" onClick={openScoreDialog}>
+            <Grid item xs sm={1} textAlign="center" onClick={openScoreDialog}>
               <Tooltip title="Score" placement="top" arrow>
                 <Typography sx={{ ...style.link, cursor: 'pointer' }}>{data.userScore}</Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center" onClick={openChapterDialog}>
+            <Grid item xs sm={1} textAlign="center" onClick={openChapterDialog}>
               <Tooltip title="Chapter" placement="top" arrow>
                 <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                   {data.userChapter}/{data.chapter}
                 </Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center" onClick={openChapterDialog}>
+            <Grid item xs sm={1} textAlign="center" onClick={openChapterDialog}>
               <Tooltip title="Volume" placement="top" arrow>
                 <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                   {data.userVolume}/{data.volume}
                 </Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center">
+            <Grid item xs sm={1} textAlign="center">
               <Tooltip title="Edit" placement="right" arrow>
                 <IconButton size="small" color="primary" onClick={openMangaDialog}>
                   <EditIcon fontSize="small" />

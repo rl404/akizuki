@@ -35,7 +35,7 @@ export default function UserAnimeList({ userAnime }: { userAnime: UserAnime }) {
     <>
       <Card sx={{ borderLeft: `solid 5px ${UserStatusColor(data.userStatus)}` }}>
         <CardContent sx={{ p: 0.5, pl: 2, pr: 2, ':last-child': { paddingBottom: 0.5 } }}>
-          <Grid container spacing={2} alignItems="center">
+          <Grid container spacing={0.5} alignItems="center">
             <Grid item xs={12} sm={8}>
               <Link href={`${MAL_WEB_HOST}/anime/${data.id}`} target="_blank">
                 <Typography
@@ -52,24 +52,24 @@ export default function UserAnimeList({ userAnime }: { userAnime: UserAnime }) {
                 </Typography>
               </Link>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center">
+            <Grid item xs sm={1} textAlign="center">
               <Tooltip title="Type" placement="top" arrow>
                 <Typography>{AnimeTypeStr(data.mediaType)}</Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center" onClick={openScoreDialog}>
+            <Grid item xs sm={1} textAlign="center" onClick={openScoreDialog}>
               <Tooltip title="Score" placement="top" arrow>
                 <Typography sx={{ ...style.link, cursor: 'pointer' }}>{data.userScore}</Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center" onClick={openEpisodeDialog}>
+            <Grid item xs sm={1} textAlign="center" onClick={openEpisodeDialog}>
               <Tooltip title="Episode" placement="top" arrow>
                 <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                   {data.userEpisode}/{data.episode}
                 </Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs={3} sm={1} textAlign="center">
+            <Grid item xs sm={1} textAlign="center">
               <Tooltip title="Edit" placement="right" arrow>
                 <IconButton size="small" color="primary" onClick={openAnimeDialog}>
                   <EditIcon fontSize="small" />
