@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - '*'
+
 jobs:
   publish_image:
     name: Build and push akizuki image

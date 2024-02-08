@@ -1,0 +1,40 @@
+body {
+  background-image: radial-gradient(rgb(65, 65, 65) 0.5px, #121212 0.5px);
+  background-size: 15px 15px;
+}
+
+body:before {
+  content: '';
+  display: block;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-image: url('/images/akizuki.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: -1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(18, 18, 18);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(117, 117, 117);
+}
