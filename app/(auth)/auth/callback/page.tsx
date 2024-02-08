@@ -7,9 +7,17 @@ import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogT
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
-export default function Callback() {
+export default function CallbackWithSuspense() {
+  return (
+    <Suspense>
+      <Callback />
+    </Suspense>
+  );
+}
+
+function Callback() {
   const router = useRouter();
   const searchParam = useSearchParams();
 

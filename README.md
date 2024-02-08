@@ -58,7 +58,6 @@ git clone https://github.com/rl404/akizuki
 
 | Env                             | Required | Description                                                                            |
 | ------------------------------- | :------: | -------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_NAME`         |   yes    | Website name.                                                                          |
 | `NEXT_PUBLIC_GA_ID`             |    no    | Google analytic id.                                                                    |
 | `NEXT_PUBLIC_MAL_CLIENT_ID`     |   yes    | MyAnimeList client id.                                                                 |
 | `NEXT_PUBLIC_MAL_CLIENT_SECRET` |   yes    | MyAnimeList client secret.                                                             |
