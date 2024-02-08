@@ -1,5 +1,9 @@
 {
-  "singleQuote": true,
-  "trailingComma": "all",
-  "printWidth": 120
+    "trailingComma": "all",
+    "printWidth": 120,
+    "singleQuote": true,
+    "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }
