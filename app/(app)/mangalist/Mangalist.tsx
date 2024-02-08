@@ -82,7 +82,6 @@ export default function Mangalist() {
     const cached = getUserMangalist();
     if (cached) {
       setUserMangaAll(cached);
-      setUserManga(cached);
       setLoading(false);
     }
 
@@ -133,7 +132,6 @@ export default function Mangalist() {
           });
 
         setUserMangaAll(tmp);
-        setUserManga(tmp);
         saveUserMangalist(tmp);
       })
       .catch((error) => setError(getAxiosError(error)))

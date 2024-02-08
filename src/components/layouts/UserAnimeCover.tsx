@@ -3,7 +3,7 @@ import theme from '@/src/components/theme';
 import { UserAnime } from '@/src/types';
 import { AnimeTypeStr, UserStatusColor } from '@/src/utils/const';
 import { Card, CardActionArea, CardContent, CardMedia, Chip, Divider, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const style = {
   titleArea: {
@@ -44,6 +44,10 @@ const style = {
 export default function UserAnimeCover({ userAnime, nsfw }: { userAnime: UserAnime; nsfw: boolean }) {
   const [data, setData] = useState<UserAnime>(userAnime);
   const [dialog, setDialog] = useState<boolean>(false);
+
+  useEffect(() => {
+    setData(userAnime);
+  }, [userAnime]);
 
   const openDialog = () => setDialog(true);
   const closeDialog = () => setDialog(false);

@@ -7,7 +7,7 @@ import { MAL_WEB_HOST } from '@/src/utils/myanimelist';
 import EditIcon from '@mui/icons-material/Edit';
 import { Card, CardContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ChapterDialog from '../dialogs/ChapterDialog';
 
@@ -24,6 +24,10 @@ export default function UserMangaList({ userManga }: { userManga: UserManga }) {
   const [scoreDialog, setScoreDialog] = useState<boolean>(false);
   const [chapterDialog, setChapterDialog] = useState<boolean>(false);
   const [animeDialog, setMangaDialog] = useState<boolean>(false);
+
+  useEffect(() => {
+    setData(userManga);
+  }, [userManga]);
 
   const openScoreDialog = () => setScoreDialog(true);
   const closeScoreDialog = () => setScoreDialog(false);

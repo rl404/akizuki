@@ -17,7 +17,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function EpisodeDialog({
   open,
@@ -37,6 +37,10 @@ export default function EpisodeDialog({
   const [todayEnd, setTodayEnd] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    setNewEpisode(data.userEpisode);
+  }, [data.userEpisode]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewEpisode(parseInt(e.target.value, 10) || 0);
 

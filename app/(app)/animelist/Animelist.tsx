@@ -82,7 +82,6 @@ export default function Animelist() {
     const cached = getUserAnimelist();
     if (cached) {
       setUserAnimeAll(cached);
-      setUserAnime(cached);
       setLoading(false);
     }
 
@@ -131,7 +130,6 @@ export default function Animelist() {
           });
 
         setUserAnimeAll(tmp);
-        setUserAnime(tmp);
         saveUserAnimelist(tmp);
       })
       .catch((error) => setError(getAxiosError(error)))

@@ -8,7 +8,7 @@ import { MAL_WEB_HOST } from '@/src/utils/myanimelist';
 import EditIcon from '@mui/icons-material/Edit';
 import { Card, CardContent, CardMedia, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const style = {
   subtitle: {
@@ -26,6 +26,10 @@ export default function UserMangaCard({ userManga, nsfw }: { userManga: UserMang
   const [scoreDialog, setScoreDialog] = useState<boolean>(false);
   const [chapterDialog, setChapterDialog] = useState<boolean>(false);
   const [mangaDialog, setMangaDialog] = useState<boolean>(false);
+
+  useEffect(() => {
+    setData(userManga);
+  }, [userManga]);
 
   const openScoreDialog = () => setScoreDialog(true);
   const closeScoreDialog = () => setScoreDialog(false);
