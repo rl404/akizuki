@@ -73,6 +73,15 @@ export default function UserMangaDialog({
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
+  useEffect(() => {
+    setUserStatus(data.userStatus);
+    setUserChapter(data.userChapter);
+    setUserVolume(data.userVolume);
+    setUserScore(data.userScore);
+    setUserStartDate(data.userStartDate);
+    setUserEndDate(data.userEndDate);
+  }, [data]);
+
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   const onReset = () => {

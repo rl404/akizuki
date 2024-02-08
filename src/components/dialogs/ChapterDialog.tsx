@@ -17,7 +17,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ChapterDialog({
   open,
@@ -38,6 +38,11 @@ export default function ChapterDialog({
   const [todayEnd, setTodayEnd] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    setNewChapter(data.userChapter);
+    setNewVolume(data.userVolume);
+  }, [data.userChapter, data.userVolume]);
 
   const onChapterChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewChapter(parseInt(e.target.value, 10) || 0);
   const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewVolume(parseInt(e.target.value, 10) || 0);

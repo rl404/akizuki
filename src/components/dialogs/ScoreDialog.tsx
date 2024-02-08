@@ -15,7 +15,7 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ScoreDialog({
   open,
@@ -33,6 +33,10 @@ export default function ScoreDialog({
   const [newScore, setNewScore] = useState<number>(data.userScore);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    setNewScore(data.userScore);
+  }, [data.userScore]);
 
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));
 

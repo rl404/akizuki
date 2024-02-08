@@ -8,7 +8,7 @@ import { MAL_WEB_HOST } from '@/src/utils/myanimelist';
 import EditIcon from '@mui/icons-material/Edit';
 import { Card, CardContent, CardMedia, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const style = {
   subtitle: {
@@ -26,6 +26,10 @@ export default function UserAnimeCard({ userAnime, nsfw }: { userAnime: UserAnim
   const [scoreDialog, setScoreDialog] = useState<boolean>(false);
   const [episodeDialog, setEpisodeDialog] = useState<boolean>(false);
   const [animeDialog, setAnimeDialog] = useState<boolean>(false);
+
+  useEffect(() => {
+    setData(userAnime);
+  }, [userAnime]);
 
   const openScoreDialog = () => setScoreDialog(true);
   const closeScoreDialog = () => setScoreDialog(false);

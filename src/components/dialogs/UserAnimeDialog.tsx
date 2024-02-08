@@ -72,6 +72,14 @@ export default function UserAnimeDialog({
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
+  useEffect(() => {
+    setUserStatus(data.userStatus);
+    setUserEpisode(data.userEpisode);
+    setUserScore(data.userScore);
+    setUserStartDate(data.userStartDate);
+    setUserEndDate(data.userEndDate);
+  }, [data]);
+
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));
 
   const onReset = () => {

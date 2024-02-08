@@ -3,7 +3,7 @@ import theme from '@/src/components/theme';
 import { UserManga } from '@/src/types';
 import { MangaTypeStr, UserStatusColor } from '@/src/utils/const';
 import { Card, CardActionArea, CardContent, CardMedia, Chip, Divider, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const style = {
   titleArea: {
@@ -44,6 +44,10 @@ const style = {
 export default function UserMangaCover({ userManga, nsfw }: { userManga: UserManga; nsfw: boolean }) {
   const [data, setData] = useState<UserManga>(userManga);
   const [dialog, setDialog] = useState<boolean>(false);
+
+  useEffect(() => {
+    setData(userManga);
+  }, [userManga]);
 
   const openDialog = () => setDialog(true);
   const closeDialog = () => setDialog(false);
