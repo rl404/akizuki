@@ -59,7 +59,10 @@ export default function TagEditorDialog({
 
     axios
       .get(`/api/firebase/formula/${user.username}/${type}`)
-      .then((resp) => setFormula(resp.data))
+      .then((resp) => {
+        setFormula(resp.data);
+        saveUserFormula(type, resp.data);
+      })
       .catch((error) => {
         setFormula(getUserFormula(type));
         console.log(getAxiosError(error));

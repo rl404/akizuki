@@ -67,7 +67,7 @@ export default function AkizukiAppBar() {
                 horizontal: 'right',
               }}
             >
-              <Link href="/">
+              <Link href="/" onClick={closeUserMenu}>
                 <MenuItem>
                   <ListItemIcon>
                     <Person2Icon fontSize="small" />
@@ -75,7 +75,7 @@ export default function AkizukiAppBar() {
                   <ListItemText>Profile</ListItemText>
                 </MenuItem>
               </Link>
-              <Link href="/animelist">
+              <Link href="/animelist" onClick={closeUserMenu}>
                 <MenuItem>
                   <ListItemIcon>
                     <MovieIcon fontSize="small" />
@@ -83,7 +83,7 @@ export default function AkizukiAppBar() {
                   <ListItemText>Animelist</ListItemText>
                 </MenuItem>
               </Link>
-              <Link href="/mangalist">
+              <Link href="/mangalist" onClick={closeUserMenu}>
                 <MenuItem>
                   <ListItemIcon>
                     <MenuBookIcon fontSize="small" />
@@ -91,7 +91,7 @@ export default function AkizukiAppBar() {
                   <ListItemText>Mangalist</ListItemText>
                 </MenuItem>
               </Link>
-              <Link href="/auth/logout">
+              <Link href="/auth/logout" onClick={closeUserMenu}>
                 <MenuItem>
                   <ListItemIcon>
                     <LogoutIcon fontSize="small" />
