@@ -216,13 +216,15 @@ export default function UserAnimeDialog({
   return (
     <Dialog open={open} maxWidth={showAnime ? 'md' : 'sm'} fullWidth>
       <DialogTitle>
-        <Stack direction="row" justifyContent="space-between" spacing={2} sx={style.link}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} sx={style.link}>
           <Link href={`${MAL_WEB_HOST}/anime/${data.id}`} target="_blank">
             {data.title}
           </Link>
-          <IconButton onClick={onClose} size="small">
-            <CloseIcon />
-          </IconButton>
+          <div>
+            <IconButton onClick={onClose} size="small">
+              <CloseIcon />
+            </IconButton>
+          </div>
         </Stack>
       </DialogTitle>
       <DialogContent dividers>
