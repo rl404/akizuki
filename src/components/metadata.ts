@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 
-const description =
-  'View and edit your anime and manga list in a more modern design with custom tags editor.';
-const image = '/images/edit-form-3.jpg';
+const description = 'View and edit your anime and manga list in a more modern design with custom tags editor.';
+const image = 'https://akizuki.rl404.com/images/edit-form-3.jpg';
 
 export const AkizukiMetadata = (title = 'Home'): Metadata => ({
   title: title,
