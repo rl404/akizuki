@@ -38,7 +38,7 @@ export default function UserAnimeList({ userAnime }: { userAnime: UserAnime }) {
   return (
     <>
       <Card sx={{ borderLeft: `solid 5px ${UserStatusColor(data.userStatus)}` }}>
-        <CardContent sx={{ p: 0.5, pl: 2, pr: 2, ':last-child': { paddingBottom: 0.5 } }}>
+        <CardContent sx={{ p: 0, pl: 2, pr: 2, ':last-child': { paddingBottom: 0 } }}>
           <Grid container spacing={0.5} alignItems="center">
             <Grid item xs={12} sm={8}>
               <Link href={`${MAL_WEB_HOST}/anime/${data.id}`} target="_blank">
