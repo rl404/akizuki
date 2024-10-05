@@ -106,13 +106,15 @@ export default function ChapterDialog({
             size="small"
             onChange={onChapterChange}
             sx={{ width: 150 }}
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">{`/ ${data.chapter}`}</InputAdornment>,
+              },
+            }}
             onKeyPress={(event) => {
               if (!/[0-9]/.test(event.key)) {
                 event.preventDefault();
               }
-            }}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">{`/ ${data.chapter}`}</InputAdornment>,
             }}
           />
           <IconButton size="small" onClick={decreaseChapter} disabled={newChapter <= 0}>
@@ -133,13 +135,15 @@ export default function ChapterDialog({
             size="small"
             onChange={onVolumeChange}
             sx={{ width: 150 }}
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">{`/ ${data.volume}`}</InputAdornment>,
+              },
+            }}
             onKeyPress={(event) => {
               if (!/[0-9]/.test(event.key)) {
                 event.preventDefault();
               }
-            }}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">{`/ ${data.volume}`}</InputAdornment>,
             }}
           />
           <IconButton size="small" onClick={decreaseVolume} disabled={newVolume <= 0}>

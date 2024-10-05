@@ -278,13 +278,15 @@ export default function UserMangaDialog({
                     fullWidth
                     onChange={onChangeUserChapter}
                     size="small"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="end">{`/ ${data.chapter}`}</InputAdornment>,
+                      },
+                    }}
                     onKeyPress={(event) => {
                       if (!/[0-9]/.test(event.key)) {
                         event.preventDefault();
                       }
-                    }}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">{`/ ${data.chapter}`}</InputAdornment>,
                     }}
                   />
                   <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
@@ -311,13 +313,15 @@ export default function UserMangaDialog({
                     fullWidth
                     onChange={onChangeUserVolume}
                     size="small"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="end">{`/ ${data.volume}`}</InputAdornment>,
+                      },
+                    }}
                     onKeyPress={(event) => {
                       if (!/[0-9]/.test(event.key)) {
                         event.preventDefault();
                       }
-                    }}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">{`/ ${data.volume}`}</InputAdornment>,
                     }}
                   />
                   <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
@@ -578,9 +582,11 @@ const MangaTools = ({
           label="Formula"
           size="small"
           defaultValue={formula}
-          InputProps={{
-            readOnly: true,
-            endAdornment: <InputAdornment position="end">= {result.toFixed(2)}</InputAdornment>,
+          slotProps={{
+            input: {
+              readOnly: true,
+              endAdornment: <InputAdornment position="end">= {result.toFixed(2)}</InputAdornment>,
+            },
           }}
         />
       </Grid>
@@ -593,8 +599,10 @@ const MangaTools = ({
             value={vars[v[0]]}
             onChange={onChangeVar}
             onBlur={() => v[1] !== 0 && formulaVarsToTag(v[0], v[1])}
-            InputProps={{
-              startAdornment: <InputAdornment position="start">{v[0]} =</InputAdornment>,
+            slotProps={{
+              input: {
+                startAdornment: <InputAdornment position="start">{v[0]} =</InputAdornment>,
+              },
             }}
             onKeyPress={(event) => {
               if (!/[0-9]/.test(event.key)) {

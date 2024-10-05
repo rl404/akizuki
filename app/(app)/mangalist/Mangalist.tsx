@@ -183,7 +183,7 @@ export default function Mangalist() {
             <Tooltip
               placement="right"
               arrow
-              componentsProps={{
+              slotProps={{
                 tooltip: {
                   sx: style.tooltipCount,
                 },
@@ -220,19 +220,21 @@ export default function Mangalist() {
               fullWidth
               value={search}
               onChange={onSearch}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon fontSize="inherit" />
-                  </InputAdornment>
-                ),
-                endAdornment: search !== '' && (
-                  <InputAdornment position="end">
-                    <IconButton size="small" onClick={resetSearch}>
-                      <ClearIcon fontSize="inherit" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="inherit" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: search !== '' && (
+                    <InputAdornment position="end">
+                      <IconButton size="small" onClick={resetSearch}>
+                        <ClearIcon fontSize="inherit" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
           </Grid>

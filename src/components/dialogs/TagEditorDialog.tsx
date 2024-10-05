@@ -155,8 +155,10 @@ export default function TagEditorDialog({
                         label="Example"
                         defaultValue={DefaultFormula}
                         sx={{ marginTop: 2, marginBottom: 2 }}
-                        InputProps={{
-                          readOnly: true,
+                        slotProps={{
+                          input: {
+                            readOnly: true,
+                          },
                         }}
                       />
                     )}
@@ -184,8 +186,10 @@ export default function TagEditorDialog({
                 value={formula}
                 onChange={onChangeFormula}
                 disabled={loading}
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">= {result.toFixed(2)}</InputAdornment>,
+                slotProps={{
+                  input: {
+                    endAdornment: <InputAdornment position="end">= {result.toFixed(2)}</InputAdornment>,
+                  },
                 }}
                 error={error !== ''}
                 helperText={error !== '' && error}
@@ -243,8 +247,10 @@ export default function TagEditorDialog({
                   name={v[0]}
                   value={vars[v[0]]}
                   onChange={onChangeVar}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">{v[0]} =</InputAdornment>,
+                  slotProps={{
+                    input: {
+                      startAdornment: <InputAdornment position="start">{v[0]} =</InputAdornment>,
+                    },
                   }}
                   onKeyPress={(event) => {
                     if (!/[0-9]/.test(event.key)) {

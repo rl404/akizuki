@@ -99,13 +99,15 @@ export default function EpisodeDialog({
             size="small"
             onChange={onChange}
             sx={{ width: 150 }}
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">{`/ ${data.episode}`}</InputAdornment>,
+              },
+            }}
             onKeyPress={(event) => {
               if (!/[0-9]/.test(event.key)) {
                 event.preventDefault();
               }
-            }}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">{`/ ${data.episode}`}</InputAdornment>,
             }}
           />
           <IconButton size="small" onClick={decreaseEpisode} disabled={newEpisode <= 0}>
