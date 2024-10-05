@@ -1,5 +1,7 @@
 import UpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Fab, Tooltip, Zoom } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import Tooltip from '@mui/material/Tooltip';
+import Zoom from '@mui/material/Zoom';
 import { useEffect, useState } from 'react';
 
 const style = {

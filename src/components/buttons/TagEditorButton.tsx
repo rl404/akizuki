@@ -1,7 +1,8 @@
 import TagEditorDialog from '@/src/components/dialogs/TagEditorDialog';
 import { MediaType } from '@/src/types';
 import SellIcon from '@mui/icons-material/Sell';
-import { IconButton, Tooltip } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import { useState } from 'react';
 
 export default function TagEditorButton({ type }: { type: MediaType }) {

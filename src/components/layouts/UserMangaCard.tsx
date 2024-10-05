@@ -6,7 +6,14 @@ import { UserManga } from '@/src/types';
 import { MangaTypeStr, UserStatusColor } from '@/src/utils/const';
 import { MAL_WEB_HOST } from '@/src/utils/myanimelist';
 import EditIcon from '@mui/icons-material/Edit';
-import { Card, CardContent, CardMedia, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -65,7 +72,7 @@ export default function UserMangaCard({ userManga, nsfw }: { userManga: UserMang
           }}
         >
           <Grid container spacing={0.5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Tooltip title={data.title}>
                 <Link href={`${MAL_WEB_HOST}/manga/${data.id}`} target="_blank">
                   <Typography
@@ -86,22 +93,22 @@ export default function UserMangaCard({ userManga, nsfw }: { userManga: UserMang
                 {data.status === 'currently_publishing' && 'Publishing'}
               </Divider>
             </Grid>
-            <Grid item xs={6} onClick={openScoreDialog}>
+            <Grid size={6} onClick={openScoreDialog}>
               <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                 <span style={style.subtitle}>Score:</span> {data.userScore}
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <Typography>
                 <span style={style.subtitle}>Type:</span> {MangaTypeStr(data.mediaType)}
               </Typography>
             </Grid>
-            <Grid item xs={6} onClick={openChapterDialog}>
+            <Grid size={6} onClick={openChapterDialog}>
               <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                 <span style={style.subtitle}>Chapter:</span> {data.userChapter}/{data.chapter}
               </Typography>
             </Grid>
-            <Grid item xs={6} onClick={openChapterDialog}>
+            <Grid size={6} onClick={openChapterDialog}>
               <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                 <span style={style.subtitle}>Volume:</span> {data.userVolume}/{data.volume}
               </Typography>

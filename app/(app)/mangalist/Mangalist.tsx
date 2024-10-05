@@ -20,17 +20,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import SyncIcon from '@mui/icons-material/Sync';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import {
-  CircularProgress,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  Skeleton,
-  TextField,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Skeleton from '@mui/material/Skeleton';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
@@ -176,8 +174,8 @@ export default function Mangalist() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} container spacing={2}>
-        <Grid item xs={12} sm={12} md>
+      <Grid size={12} container spacing={2}>
+        <Grid size={{ xs: 12, sm: 12, md: 'grow' }}>
           <Typography variant="h4" sx={style.link}>
             <Link href={`${MAL_WEB_HOST}/mangalist/${user.username}`} target="_blank">
               {`${user.username}'s Mangalist `}
@@ -185,7 +183,7 @@ export default function Mangalist() {
             <Tooltip
               placement="right"
               arrow
-              componentsProps={{
+              slotProps={{
                 tooltip: {
                   sx: style.tooltipCount,
                 },
@@ -194,10 +192,10 @@ export default function Mangalist() {
                 <Grid container spacing={0.5} sx={{ width: 200 }}>
                   {UserMangaStatuses.map((s) => (
                     <Fragment key={s.label}>
-                      <Grid item xs={7}>
+                      <Grid size={7}>
                         <Typography sx={style.subtitle}>{s.label}</Typography>
                       </Grid>
-                      <Grid item xs={5}>
+                      <Grid size={5}>
                         <Typography textAlign="right">
                           {userManga.filter((a) => a.userStatus === s.status).length.toLocaleString()}
                         </Typography>
@@ -213,8 +211,8 @@ export default function Mangalist() {
             </Tooltip>
           </Typography>
         </Grid>
-        <Grid item container spacing={1} xs={12} sm={12} md="auto">
-          <Grid item xs={12} sm>
+        <Grid container spacing={1} size={{ xs: 12, sm: 12, md: 'auto' }}>
+          <Grid size={{ xs: 12, sm: 'grow' }}>
             <TextField
               label="Search"
               placeholder="manga title..."
@@ -222,23 +220,25 @@ export default function Mangalist() {
               fullWidth
               value={search}
               onChange={onSearch}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon fontSize="inherit" />
-                  </InputAdornment>
-                ),
-                endAdornment: search !== '' && (
-                  <InputAdornment position="end">
-                    <IconButton size="small" onClick={resetSearch}>
-                      <ClearIcon fontSize="inherit" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="inherit" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: search !== '' && (
+                    <InputAdornment position="end">
+                      <IconButton size="small" onClick={resetSearch}>
+                        <ClearIcon fontSize="inherit" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
             <Tooltip
               title={layout === 'list' ? 'List Layout' : layout === 'cover' ? 'Cover Layout' : 'Card Layout'}
               placement="top"
@@ -249,18 +249,18 @@ export default function Mangalist() {
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
             <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
               <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
             <TagEditorButton type="manga" />
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
             <AddMangaButton />
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
             <Tooltip title={!loadingSync && 'Data not updated? Try re-sync.'} placement="top" arrow>
               <span>
                 <IconButton onClick={() => callAPI(true)} disabled={loadingSync}>
@@ -271,15 +271,15 @@ export default function Mangalist() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12} container spacing={layout === 'list' ? 1 : 2}>
+      <Grid size={12} container spacing={layout === 'list' ? 1 : 2}>
         {userManga.map((a) => {
           switch (layout) {
             case 'card':
               return (
-                <Grid item xs={12} sm={6} md={6} lg={4} key={a.id}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={a.id}>
                   <RenderIfVisible defaultHeight={200}>
                     <UserMangaCard userManga={a} nsfw={nsfw} />
                   </RenderIfVisible>
@@ -287,7 +287,7 @@ export default function Mangalist() {
               );
             case 'cover':
               return (
-                <Grid item xs={6} sm={3} md={2} lg={2} key={a.id}>
+                <Grid size={{ xs: 6, sm: 3, md: 2, lg: 2 }} key={a.id}>
                   <RenderIfVisible defaultHeight={200}>
                     <UserMangaCover userManga={a} nsfw={nsfw} />
                   </RenderIfVisible>
@@ -295,7 +295,7 @@ export default function Mangalist() {
               );
             case 'list':
               return (
-                <Grid item xs={12} key={a.id}>
+                <Grid size={12} key={a.id}>
                   <RenderIfVisible defaultHeight={40}>
                     <UserMangaList userManga={a} />
                   </RenderIfVisible>
@@ -310,13 +310,13 @@ export default function Mangalist() {
 
 const LoadingSkeleton = () => (
   <Grid container spacing={2}>
-    <Grid item xs={12}>
+    <Grid size={12}>
       <Typography variant="h4" gutterBottom>
         <Skeleton variant="rectangular" width={300} sx={{ maxWidth: '100%' }} />
       </Typography>
       <Divider />
     </Grid>
-    <Grid item xs={12} sx={{ textAlign: 'center' }}>
+    <Grid size={12} sx={{ textAlign: 'center' }}>
       <CircularProgress />
     </Grid>
   </Grid>

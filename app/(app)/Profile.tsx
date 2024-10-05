@@ -13,20 +13,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import MovieIcon from '@mui/icons-material/Movie';
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Collapse,
-  Divider,
-  Grid,
-  IconButton,
-  Skeleton,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Collapse from '@mui/material/Collapse';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import Skeleton from '@mui/material/Skeleton';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 
@@ -127,7 +125,7 @@ export default function Profile() {
 
   return (
     <Grid container justifyContent="center" spacing={2}>
-      <Grid item xs={12} sm={8} md={6} lg={4}>
+      <Grid size={{ xs: 12, sm: 8, md: 6, lg: 4 }}>
         <Card>
           <CardMedia component="img" image={user.picture} alt={user.username} />
           <CardContent>
@@ -145,117 +143,117 @@ export default function Profile() {
           <Divider />
           <CardContent>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography sx={style.subtitle}>Gender</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography textAlign="right">{user.gender || '-'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography sx={style.subtitle}>Birthday</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography textAlign="right">{user.birthday || '-'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography sx={style.subtitle}>Location</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography textAlign="right">{user.location || '-'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography sx={style.subtitle}>Joined</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography textAlign="right">{user.joinedAt.toString().slice(0, 10) || '-'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography sx={style.subtitle}>Timezone</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography textAlign="right">{user.timeZone || '-'}</Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={6}>
                 <Typography sx={style.subtitle}>Anime Statistics</Typography>
               </Grid>
-              <Grid item xs={6} textAlign="right">
+              <Grid size={6} textAlign="right">
                 <Tooltip title={showAnimeStats ? 'Hide anime stats' : 'Show anime stats'} placement="left" arrow>
                   <IconButton size="small" onClick={toggleAnimeStats}>
                     {showAnimeStats ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
                   </IconButton>
                 </Tooltip>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Collapse in={showAnimeStats}>
                   <Grid container spacing={2}>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Watching</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">
                         {user.animeStatistics.numItemsWatching.toLocaleString()}
                       </Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Score</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">{user.animeStatistics?.meanScore.toLocaleString()}</Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Completed</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">
                         {user.animeStatistics?.numItemsCompleted.toLocaleString()}
                       </Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Total Entries</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">{user.animeStatistics?.numItems.toLocaleString()}</Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>On Hold</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">{user.animeStatistics?.numItemsOnHold.toLocaleString()}</Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Rewatched</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">
                         {user.animeStatistics?.numTimesRewatched.toLocaleString()}
                       </Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Dropped</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">
                         {user.animeStatistics?.numItemsDropped.toLocaleString()}
                       </Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Episodes</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">{user.animeStatistics?.numEpisodes.toLocaleString()}</Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Plan to Watch</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">
                         {user.animeStatistics?.numItemsPlanToWatch.toLocaleString()}
                       </Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Typography sx={style.subtitle}>Days</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid size={2}>
                       <Typography textAlign="right">{user.animeStatistics?.numDays.toFixed(1)}</Typography>
                     </Grid>
                   </Grid>
@@ -309,7 +307,7 @@ export default function Profile() {
 
 const LoadingSkeleton = () => (
   <Grid container justifyContent="center" spacing={2}>
-    <Grid item xs={12} sm={8} md={6} lg={4}>
+    <Grid size={{ xs: 12, sm: 8, md: 6, lg: 4 }}>
       <Card>
         <Skeleton variant="rectangular" height={400} />
         <CardContent>
@@ -323,12 +321,12 @@ const LoadingSkeleton = () => (
             {[0, 1, 2, 3, 4, 5].map((i) => {
               return (
                 <Fragment key={i}>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <Typography>
                       <Skeleton />
                     </Typography>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid size={6}>
                     <Typography>
                       <Skeleton />
                     </Typography>
@@ -341,10 +339,10 @@ const LoadingSkeleton = () => (
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <Skeleton variant="rectangular" height={30} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <Skeleton variant="rectangular" height={30} />
             </Grid>
           </Grid>

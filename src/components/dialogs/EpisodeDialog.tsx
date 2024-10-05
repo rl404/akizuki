@@ -3,20 +3,18 @@ import { akizukiAxios } from '@/src/utils/axios';
 import { getAxiosError } from '@/src/utils/utils';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { LoadingButton } from '@mui/lab';
-import {
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  IconButton,
-  InputAdornment,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Checkbox from '@mui/material/Checkbox';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 
 export default function EpisodeDialog({
@@ -101,13 +99,15 @@ export default function EpisodeDialog({
             size="small"
             onChange={onChange}
             sx={{ width: 150 }}
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">{`/ ${data.episode}`}</InputAdornment>,
+              },
+            }}
             onKeyPress={(event) => {
               if (!/[0-9]/.test(event.key)) {
                 event.preventDefault();
               }
-            }}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">{`/ ${data.episode}`}</InputAdornment>,
             }}
           />
           <IconButton size="small" onClick={decreaseEpisode} disabled={newEpisode <= 0}>

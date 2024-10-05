@@ -20,17 +20,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import SyncIcon from '@mui/icons-material/Sync';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import {
-  CircularProgress,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  Skeleton,
-  TextField,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Skeleton from '@mui/material/Skeleton';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 import RenderIfVisible from 'react-render-if-visible';
@@ -174,8 +172,8 @@ export default function Animelist() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} container spacing={2}>
-        <Grid item xs={12} sm={12} md>
+      <Grid size={12} container spacing={2}>
+        <Grid size={{ xs: 12, sm: 12, md: 'grow' }}>
           <Typography variant="h4" sx={style.link}>
             <Link href={`${MAL_WEB_HOST}/animelist/${user.username}`} target="_blank">
               {`${user.username}'s Animelist `}
@@ -183,7 +181,7 @@ export default function Animelist() {
             <Tooltip
               placement="right"
               arrow
-              componentsProps={{
+              slotProps={{
                 tooltip: {
                   sx: style.tooltipCount,
                 },
@@ -192,10 +190,10 @@ export default function Animelist() {
                 <Grid container spacing={0.5} sx={{ width: 200 }}>
                   {UserAnimeStatuses.map((s) => (
                     <Fragment key={s.label}>
-                      <Grid item xs={7}>
+                      <Grid size={7}>
                         <Typography sx={style.subtitle}>{s.label}</Typography>
                       </Grid>
-                      <Grid item xs={5}>
+                      <Grid size={5}>
                         <Typography textAlign="right">
                           {userAnime.filter((a) => a.userStatus === s.status).length.toLocaleString()}
                         </Typography>
@@ -211,8 +209,8 @@ export default function Animelist() {
             </Tooltip>
           </Typography>
         </Grid>
-        <Grid item container spacing={1} xs={12} sm={12} md="auto">
-          <Grid item xs={12} sm>
+        <Grid container spacing={1} size={{ xs: 12, sm: 12, md: 'auto' }}>
+          <Grid size={{ xs: 12, sm: 'grow' }}>
             <TextField
               label="Search"
               placeholder="anime title..."
@@ -220,23 +218,25 @@ export default function Animelist() {
               fullWidth
               value={search}
               onChange={onSearch}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon fontSize="inherit" />
-                  </InputAdornment>
-                ),
-                endAdornment: search !== '' && (
-                  <InputAdornment position="end">
-                    <IconButton size="small" onClick={resetSearch}>
-                      <ClearIcon fontSize="inherit" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="inherit" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: search !== '' && (
+                    <InputAdornment position="end">
+                      <IconButton size="small" onClick={resetSearch}>
+                        <ClearIcon fontSize="inherit" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
             <Tooltip
               title={layout === 'list' ? 'List Layout' : layout === 'cover' ? 'Cover Layout' : 'Card Layout'}
               placement="top"
@@ -247,18 +247,18 @@ export default function Animelist() {
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
             <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
               <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
             <TagEditorButton type="anime" />
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
             <AddAnimeButton />
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
             <Tooltip title={!loadingSync && 'Data not updated? Try re-sync.'} placement="top" arrow>
               <span>
                 <IconButton onClick={() => callAPI(true)} disabled={loadingSync}>
@@ -269,15 +269,15 @@ export default function Animelist() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12} container spacing={layout === 'list' ? 1 : 2}>
+      <Grid size={12} container spacing={layout === 'list' ? 1 : 2}>
         {userAnime.map((a) => {
           switch (layout) {
             case 'card':
               return (
-                <Grid item xs={12} sm={6} md={6} lg={4} key={a.id}>
+                <Grid size={{ xs: 12, sm: 6, md: 6, lg: 4 }} key={a.id}>
                   <RenderIfVisible defaultHeight={200}>
                     <UserAnimeCard userAnime={a} nsfw={nsfw} />
                   </RenderIfVisible>
@@ -285,7 +285,7 @@ export default function Animelist() {
               );
             case 'cover':
               return (
-                <Grid item xs={6} sm={3} md={2} lg={2} key={a.id}>
+                <Grid size={{ xs: 6, sm: 3, md: 2, lg: 2 }} key={a.id}>
                   <RenderIfVisible defaultHeight={200}>
                     <UserAnimeCover userAnime={a} nsfw={nsfw} />
                   </RenderIfVisible>
@@ -293,7 +293,7 @@ export default function Animelist() {
               );
             case 'list':
               return (
-                <Grid item xs={12} key={a.id}>
+                <Grid size={12} key={a.id}>
                   <RenderIfVisible defaultHeight={40}>
                     <UserAnimeList userAnime={a} />
                   </RenderIfVisible>
@@ -308,13 +308,13 @@ export default function Animelist() {
 
 const LoadingSkeleton = () => (
   <Grid container spacing={2}>
-    <Grid item xs={12}>
+    <Grid size={12}>
       <Typography variant="h4" gutterBottom>
         <Skeleton variant="rectangular" width={300} sx={{ maxWidth: '100%' }} />
       </Typography>
       <Divider />
     </Grid>
-    <Grid item xs={12} sx={{ textAlign: 'center' }}>
+    <Grid size={12} sx={{ textAlign: 'center' }}>
       <CircularProgress />
     </Grid>
   </Grid>
