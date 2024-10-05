@@ -12,24 +12,22 @@ import {
 import { getUser } from '@/src/utils/user';
 import { getAxiosError } from '@/src/utils/utils';
 import CloseIcon from '@mui/icons-material/Close';
-import { LoadingButton } from '@mui/lab';
-import {
-  Button,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  Stack,
-  TextField,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -128,7 +126,7 @@ export default function TagEditorDialog({
       </DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Tooltip
               placement={isLg ? 'bottom' : 'right'}
               arrow
@@ -138,13 +136,13 @@ export default function TagEditorDialog({
               disableTouchListener
               title={
                 <Grid container spacing={1}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography variant="h6" gutterBottom>
                       1. Formula
                     </Typography>
                     <Divider />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Typography gutterBottom>
                       This is where you put your score formula. This will be used to calculate the overall score of an
                       anime. You can use variable names for dynamic value. Valid variable name only contains letters and
@@ -164,7 +162,7 @@ export default function TagEditorDialog({
                     )}
                     <Divider />
                   </Grid>
-                  <Grid item xs={12} sx={{ paddingBottom: 0.5 }}>
+                  <Grid size={12} sx={{ paddingBottom: 0.5 }}>
                     <Stack direction="row" spacing={1} justifyContent="space-between">
                       <Button onClick={toggleExample} size="small">
                         {example ? 'Hide example' : 'Show example'}
@@ -194,8 +192,8 @@ export default function TagEditorDialog({
               />
             </Tooltip>
           </Grid>
-          <Grid item xs={12} sm={6} container spacing={1}>
-            <Grid item xs={12}>
+          <Grid size={{ xs: 12, sm: 6 }} container spacing={1}>
+            <Grid size={12}>
               <Tooltip
                 placement={isSm ? 'top' : 'left'}
                 arrow
@@ -205,13 +203,13 @@ export default function TagEditorDialog({
                 disableTouchListener
                 title={
                   <Grid container spacing={1}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography variant="h6" gutterBottom>
                         2. Test the Formula
                       </Typography>
                       <Divider />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography gutterBottom>
                         This is where you test your formula from step 1. Variables from step 1 will be listed here. You
                         can set the value for each variable and will be calculated. The result will be shown on the
@@ -219,7 +217,7 @@ export default function TagEditorDialog({
                       </Typography>
                       <Divider />
                     </Grid>
-                    <Grid item xs={12} sx={{ paddingBottom: 0.5 }}>
+                    <Grid size={12} sx={{ paddingBottom: 0.5 }}>
                       <Stack direction="row" spacing={1} justifyContent="space-between">
                         <Button onClick={prevHelp} size="small">
                           Back
@@ -236,7 +234,7 @@ export default function TagEditorDialog({
               </Tooltip>
             </Grid>
             {Object.entries(vars).map((v) => (
-              <Grid item xs={12} key={v[0]}>
+              <Grid size={12} key={v[0]}>
                 <TextField
                   key={v[0]}
                   size="small"
@@ -257,8 +255,8 @@ export default function TagEditorDialog({
               </Grid>
             ))}
           </Grid>
-          <Grid item xs={12} sm={6} container spacing={1} direction="column">
-            <Grid item xs="auto">
+          <Grid size={{ xs: 12, sm: 6 }} container spacing={1} direction="column">
+            <Grid size="auto">
               <Tooltip
                 placement={isSm ? 'top' : 'right'}
                 arrow
@@ -268,20 +266,20 @@ export default function TagEditorDialog({
                 disableTouchListener
                 title={
                   <Grid container spacing={1}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography variant="h6" gutterBottom>
                         3. Generated Tags
                       </Typography>
                       <Divider />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <Typography gutterBottom>
                         This is generated tags for each anime which contains variable and its value. Underscore (_) in
                         variable name will be converted to hyphen (-).
                       </Typography>
                       <Divider />
                     </Grid>
-                    <Grid item xs={12} sx={{ paddingBottom: 0.5 }}>
+                    <Grid size={12} sx={{ paddingBottom: 0.5 }}>
                       <Stack direction="row" spacing={1} justifyContent="space-between">
                         <Button onClick={prevHelp} size="small">
                           Back
@@ -297,7 +295,7 @@ export default function TagEditorDialog({
                 <Divider>Tags Results</Divider>
               </Tooltip>
             </Grid>
-            <Grid item xs>
+            <Grid size="grow">
               {Object.entries(vars).map((v) => (
                 <Chip
                   key={v[0]}
@@ -323,19 +321,19 @@ export default function TagEditorDialog({
           disableTouchListener
           title={
             <Grid container spacing={1}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant="h6" gutterBottom>
                   4. Save
                 </Typography>
                 <Divider />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography gutterBottom>
                   {`Don't forget to save the formula so you can use it later when updating your anime. Have fun.`}
                 </Typography>
                 <Divider />
               </Grid>
-              <Grid item xs={12} sx={{ paddingBottom: 0.5 }}>
+              <Grid size={12} sx={{ paddingBottom: 0.5 }}>
                 <Stack direction="row" spacing={1} justifyContent="space-between">
                   <Button onClick={prevHelp} size="small">
                     Back

@@ -6,7 +6,12 @@ import { UserAnime } from '@/src/types';
 import { AnimeTypeStr, UserStatusColor } from '@/src/utils/const';
 import { MAL_WEB_HOST } from '@/src/utils/myanimelist';
 import EditIcon from '@mui/icons-material/Edit';
-import { Card, CardContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -40,7 +45,7 @@ export default function UserAnimeList({ userAnime }: { userAnime: UserAnime }) {
       <Card sx={{ borderLeft: `solid 5px ${UserStatusColor(data.userStatus)}` }}>
         <CardContent sx={{ p: 0, pl: 2, pr: 2, ':last-child': { paddingBottom: 0 } }}>
           <Grid container spacing={0.5} alignItems="center">
-            <Grid item xs={12} sm={8}>
+            <Grid size={{ xs: 12, sm: 8 }}>
               <Link href={`${MAL_WEB_HOST}/anime/${data.id}`} target="_blank">
                 <Typography
                   variant="h6"
@@ -56,24 +61,24 @@ export default function UserAnimeList({ userAnime }: { userAnime: UserAnime }) {
                 </Typography>
               </Link>
             </Grid>
-            <Grid item xs sm={1} textAlign="center">
+            <Grid size={{ xs: 'grow', sm: 1 }} textAlign="center">
               <Tooltip title="Type" placement="top" arrow>
                 <Typography>{AnimeTypeStr(data.mediaType)}</Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs sm={1} textAlign="center" onClick={openScoreDialog}>
+            <Grid size={{ xs: 'grow', sm: 1 }} textAlign="center" onClick={openScoreDialog}>
               <Tooltip title="Score" placement="top" arrow>
                 <Typography sx={{ ...style.link, cursor: 'pointer' }}>{data.userScore}</Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs sm={1} textAlign="center" onClick={openEpisodeDialog}>
+            <Grid size={{ xs: 'grow', sm: 1 }} textAlign="center" onClick={openEpisodeDialog}>
               <Tooltip title="Episode" placement="top" arrow>
                 <Typography sx={{ ...style.link, cursor: 'pointer' }}>
                   {data.userEpisode}/{data.episode}
                 </Typography>
               </Tooltip>
             </Grid>
-            <Grid item xs sm={1} textAlign="center">
+            <Grid size={{ xs: 'grow', sm: 1 }} textAlign="center">
               <Tooltip title="Edit" placement="right" arrow>
                 <IconButton size="small" color="primary" onClick={openAnimeDialog}>
                   <EditIcon fontSize="small" />
