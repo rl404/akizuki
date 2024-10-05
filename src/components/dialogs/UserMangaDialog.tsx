@@ -31,8 +31,8 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import moment, { Moment } from 'moment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -64,8 +64,8 @@ export default function UserMangaDialog({
   const [userChapter, setUserChapter] = useState<number>(data.userChapter);
   const [userVolume, setUserVolume] = useState<number>(data.userVolume);
   const [userScore, setUserScore] = useState<number>(data.userScore);
-  const [userStartDate, setUserStartDate] = useState<string>(data.userStartDate);
-  const [userEndDate, setUserEndDate] = useState<string>(data.userEndDate);
+  const [userStartDate, setUserStartDate] = useState<Dayjs | null>();
+  const [userEndDate, setUserEndDate] = useState<Dayjs | null>();
   const [userComment, setUserComment] = useState<string>(data.comments);
   const [userTags, setUserTags] = useState<string[]>(data.tags);
   const [tools, setTools] = useState<boolean>(false);
@@ -78,8 +78,8 @@ export default function UserMangaDialog({
     setUserChapter(data.userChapter);
     setUserVolume(data.userVolume);
     setUserScore(data.userScore);
-    setUserStartDate(data.userStartDate);
-    setUserEndDate(data.userEndDate);
+    setUserStartDate(dayjs(data.userStartDate).isValid() ? dayjs(data.userStartDate) : null);
+    setUserEndDate(dayjs(data.userEndDate).isValid() ? dayjs(data.userEndDate) : null);
   }, [data]);
 
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));
@@ -89,8 +89,8 @@ export default function UserMangaDialog({
     setUserChapter(data.userChapter);
     setUserVolume(data.userVolume);
     setUserScore(data.userScore);
-    setUserStartDate(data.userStartDate);
-    setUserEndDate(data.userEndDate);
+    setUserStartDate(dayjs(data.userStartDate).isValid() ? dayjs(data.userStartDate) : null);
+    setUserEndDate(dayjs(data.userEndDate).isValid() ? dayjs(data.userEndDate) : null);
     setUserComment(data.comments);
     setUserTags(data.tags);
   };
@@ -133,20 +133,12 @@ export default function UserMangaDialog({
     setUserScore(parseInt(e.target.value, 10) || 0);
   };
 
-  const onChangeUserStartDate = (v: Moment | null) => {
-    setUserStartDate(v?.format('YYYY-MM-DD') || '');
+  const onChangeUserStartDate = (v: Dayjs | null) => {
+    setUserStartDate(v);
   };
 
-  const resetUserStartDate = () => {
-    setUserStartDate('');
-  };
-
-  const onChangeUserEndDate = (v: Moment | null) => {
-    setUserEndDate(v?.format('YYYY-MM-DD') || '');
-  };
-
-  const resetUserEndDate = () => {
-    setUserEndDate('');
+  const onChangeUserEndDate = (v: Dayjs | null) => {
+    setUserEndDate(v);
   };
 
   const onChangeUserTags = (_: any, v: any) => {
@@ -186,8 +178,8 @@ export default function UserMangaDialog({
         score: userScore,
         chapter: userChapter,
         volume: userVolume,
-        startDate: userStartDate,
-        endDate: userEndDate,
+        startDate: userStartDate ? userStartDate.format('YYYY-MM-DD') : '',
+        endDate: userEndDate ? userEndDate.format('YYYY-MM-DD') : '',
         comment: userComment,
         tags: userTags,
       })
@@ -198,8 +190,8 @@ export default function UserMangaDialog({
           userScore: userScore,
           userChapter: userChapter,
           userVolume: userVolume,
-          userStartDate: userStartDate,
-          userEndDate: userEndDate,
+          userStartDate: userStartDate ? userStartDate.format('YYYY-MM-DD') : '',
+          userEndDate: userEndDate ? userEndDate.format('YYYY-MM-DD') : '',
           comments: userComment,
           tags: userTags,
         });
@@ -347,69 +339,32 @@ export default function UserMangaDialog({
                 </Stack>
               </Grid>
               <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
-                    value={userStartDate === '' ? null : userStartDate}
+                    value={userStartDate}
                     onChange={onChangeUserStartDate}
-                    inputFormat="YYYY-MM-DD"
+                    format="YYYY-MM-DD"
                     disableFuture
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        size="small"
-                        InputProps={{
-                          ...params.InputProps,
-                          endAdornment: (
-                            <>
-                              {params.InputProps?.endAdornment}
-                              {userStartDate !== '' && (
-                                <InputAdornment position="end">
-                                  <IconButton onClick={resetUserStartDate}>
-                                    <CloseIcon />
-                                  </IconButton>
-                                </InputAdornment>
-                              )}
-                            </>
-                          ),
-                        }}
-                      />
-                    )}
+                    slotProps={{
+                      textField: { size: 'small', fullWidth: true },
+                      field: { clearable: true },
+                    }}
                   />
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
-                    value={userEndDate === '' ? null : userEndDate}
+                    value={userEndDate}
                     onChange={onChangeUserEndDate}
-                    inputFormat="YYYY-MM-DD"
+                    format="YYYY-MM-DD"
                     disableFuture
-                    minDate={userStartDate !== '' ? moment(userStartDate) : undefined}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        size="small"
-                        InputProps={{
-                          ...params.InputProps,
-                          endAdornment: (
-                            <>
-                              {params.InputProps?.endAdornment}
-                              {userEndDate !== '' && (
-                                <InputAdornment position="end">
-                                  <IconButton onClick={resetUserEndDate}>
-                                    <CloseIcon />
-                                  </IconButton>
-                                </InputAdornment>
-                              )}
-                            </>
-                          ),
-                        }}
-                      />
-                    )}
+                    slotProps={{
+                      textField: { size: 'small', fullWidth: true },
+                      field: { clearable: true },
+                    }}
                   />
                 </LocalizationProvider>
               </Grid>
