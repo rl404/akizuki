@@ -60,7 +60,11 @@ export default function UserAnimeCover({ userAnime, nsfw }: { userAnime: UserAni
             component="img"
             image={data.picture}
             alt={data.title}
-            sx={{ height: 200, filter: !nsfw && data.nsfw ? 'blur(5px)' : '', opacity: !nsfw && data.nsfw ? 0.5 : 1 }}
+            sx={{
+              aspectRatio: 7 / 10,
+              filter: !nsfw && data.nsfw ? 'blur(5px)' : '',
+              opacity: !nsfw && data.nsfw ? 0.5 : 1,
+            }}
             loading="lazy"
           />
           <CardContent sx={style.typeArea}>

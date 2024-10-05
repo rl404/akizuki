@@ -11,8 +11,8 @@ export default function AddMangaButton() {
 
   return (
     <>
-      <Tooltip title="Add New Manga" placement="top" arrow>
-        <IconButton onClick={openDialog}>
+      <Tooltip title="Disabled until MAL fix their search manga API" placement="top" arrow>
+        <IconButton>
           <AddIcon />
         </IconButton>
       </Tooltip>
