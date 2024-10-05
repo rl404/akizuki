@@ -3,7 +3,7 @@
 import AkizukiAppBar from '@/src/components/commons/AppBar';
 import ScrollToTop from '@/src/components/commons/ScrollToTop';
 import { getAccessToken } from '@/src/utils/user';
-import { Container } from '@mui/material';
+import Container from '@mui/material/Container';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

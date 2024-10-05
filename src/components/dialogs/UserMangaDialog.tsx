@@ -9,30 +9,28 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { LoadingButton } from '@mui/lab';
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Stack,
-  TextField,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import MenuItem from '@mui/material/MenuItem';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import moment, { Moment } from 'moment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -64,8 +62,8 @@ export default function UserMangaDialog({
   const [userChapter, setUserChapter] = useState<number>(data.userChapter);
   const [userVolume, setUserVolume] = useState<number>(data.userVolume);
   const [userScore, setUserScore] = useState<number>(data.userScore);
-  const [userStartDate, setUserStartDate] = useState<string>(data.userStartDate);
-  const [userEndDate, setUserEndDate] = useState<string>(data.userEndDate);
+  const [userStartDate, setUserStartDate] = useState<Dayjs | null>();
+  const [userEndDate, setUserEndDate] = useState<Dayjs | null>();
   const [userComment, setUserComment] = useState<string>(data.comments);
   const [userTags, setUserTags] = useState<string[]>(data.tags);
   const [tools, setTools] = useState<boolean>(false);
@@ -78,8 +76,8 @@ export default function UserMangaDialog({
     setUserChapter(data.userChapter);
     setUserVolume(data.userVolume);
     setUserScore(data.userScore);
-    setUserStartDate(data.userStartDate);
-    setUserEndDate(data.userEndDate);
+    setUserStartDate(dayjs(data.userStartDate).isValid() ? dayjs(data.userStartDate) : null);
+    setUserEndDate(dayjs(data.userEndDate).isValid() ? dayjs(data.userEndDate) : null);
   }, [data]);
 
   const isSm = useMediaQuery(theme.breakpoints.down('sm'));
@@ -89,8 +87,8 @@ export default function UserMangaDialog({
     setUserChapter(data.userChapter);
     setUserVolume(data.userVolume);
     setUserScore(data.userScore);
-    setUserStartDate(data.userStartDate);
-    setUserEndDate(data.userEndDate);
+    setUserStartDate(dayjs(data.userStartDate).isValid() ? dayjs(data.userStartDate) : null);
+    setUserEndDate(dayjs(data.userEndDate).isValid() ? dayjs(data.userEndDate) : null);
     setUserComment(data.comments);
     setUserTags(data.tags);
   };
@@ -133,20 +131,12 @@ export default function UserMangaDialog({
     setUserScore(parseInt(e.target.value, 10) || 0);
   };
 
-  const onChangeUserStartDate = (v: Moment | null) => {
-    setUserStartDate(v?.format('YYYY-MM-DD') || '');
+  const onChangeUserStartDate = (v: Dayjs | null) => {
+    setUserStartDate(v);
   };
 
-  const resetUserStartDate = () => {
-    setUserStartDate('');
-  };
-
-  const onChangeUserEndDate = (v: Moment | null) => {
-    setUserEndDate(v?.format('YYYY-MM-DD') || '');
-  };
-
-  const resetUserEndDate = () => {
-    setUserEndDate('');
+  const onChangeUserEndDate = (v: Dayjs | null) => {
+    setUserEndDate(v);
   };
 
   const onChangeUserTags = (_: any, v: any) => {
@@ -186,8 +176,8 @@ export default function UserMangaDialog({
         score: userScore,
         chapter: userChapter,
         volume: userVolume,
-        startDate: userStartDate,
-        endDate: userEndDate,
+        startDate: userStartDate ? userStartDate.format('YYYY-MM-DD') : '',
+        endDate: userEndDate ? userEndDate.format('YYYY-MM-DD') : '',
         comment: userComment,
         tags: userTags,
       })
@@ -198,8 +188,8 @@ export default function UserMangaDialog({
           userScore: userScore,
           userChapter: userChapter,
           userVolume: userVolume,
-          userStartDate: userStartDate,
-          userEndDate: userEndDate,
+          userStartDate: userStartDate ? userStartDate.format('YYYY-MM-DD') : '',
+          userEndDate: userEndDate ? userEndDate.format('YYYY-MM-DD') : '',
           comments: userComment,
           tags: userTags,
         });
@@ -254,8 +244,8 @@ export default function UserMangaDialog({
         >
           {showManga && <MangaDetails data={data} />}
           {(!showManga || !isSm) && (
-            <Grid container spacing={2} direction={showManga ? 'column' : 'row'}>
-              <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
+            <Grid container spacing={2} size="grow" direction={showManga ? 'column' : 'row'}>
+              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
                 <TextField
                   select
                   label="Status"
@@ -271,7 +261,7 @@ export default function UserMangaDialog({
                   <MenuItem value="plan_to_read">Plan to Read</MenuItem>
                 </TextField>
               </Grid>
-              <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
+              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
                 <TextField select label="Score" value={userScore} onChange={onChangeUserScore} size="small" fullWidth>
                   {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0].map((s) => (
                     <MenuItem value={s} key={s}>
@@ -280,7 +270,7 @@ export default function UserMangaDialog({
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
+              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
                 <Stack direction="row" spacing={1}>
                   <TextField
                     label="Chapter"
@@ -288,13 +278,15 @@ export default function UserMangaDialog({
                     fullWidth
                     onChange={onChangeUserChapter}
                     size="small"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="end">{`/ ${data.chapter}`}</InputAdornment>,
+                      },
+                    }}
                     onKeyPress={(event) => {
                       if (!/[0-9]/.test(event.key)) {
                         event.preventDefault();
                       }
-                    }}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">{`/ ${data.chapter}`}</InputAdornment>,
                     }}
                   />
                   <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
@@ -313,7 +305,7 @@ export default function UserMangaDialog({
                   </div>
                 </Stack>
               </Grid>
-              <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
+              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
                 <Stack direction="row" spacing={1}>
                   <TextField
                     label="Volume"
@@ -321,13 +313,15 @@ export default function UserMangaDialog({
                     fullWidth
                     onChange={onChangeUserVolume}
                     size="small"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="end">{`/ ${data.volume}`}</InputAdornment>,
+                      },
+                    }}
                     onKeyPress={(event) => {
                       if (!/[0-9]/.test(event.key)) {
                         event.preventDefault();
                       }
-                    }}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">{`/ ${data.volume}`}</InputAdornment>,
                     }}
                   />
                   <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
@@ -346,74 +340,37 @@ export default function UserMangaDialog({
                   </div>
                 </Stack>
               </Grid>
-              <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
+              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
-                    value={userStartDate === '' ? null : userStartDate}
+                    value={userStartDate}
                     onChange={onChangeUserStartDate}
-                    inputFormat="YYYY-MM-DD"
+                    format="YYYY-MM-DD"
                     disableFuture
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        size="small"
-                        InputProps={{
-                          ...params.InputProps,
-                          endAdornment: (
-                            <>
-                              {params.InputProps?.endAdornment}
-                              {userStartDate !== '' && (
-                                <InputAdornment position="end">
-                                  <IconButton onClick={resetUserStartDate}>
-                                    <CloseIcon />
-                                  </IconButton>
-                                </InputAdornment>
-                              )}
-                            </>
-                          ),
-                        }}
-                      />
-                    )}
+                    slotProps={{
+                      textField: { size: 'small', fullWidth: true },
+                      field: { clearable: true },
+                    }}
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={showManga ? false : 12} sm={showManga ? false : 6}>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
+              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
-                    value={userEndDate === '' ? null : userEndDate}
+                    value={userEndDate}
                     onChange={onChangeUserEndDate}
-                    inputFormat="YYYY-MM-DD"
+                    format="YYYY-MM-DD"
                     disableFuture
-                    minDate={userStartDate !== '' ? moment(userStartDate) : undefined}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        size="small"
-                        InputProps={{
-                          ...params.InputProps,
-                          endAdornment: (
-                            <>
-                              {params.InputProps?.endAdornment}
-                              {userEndDate !== '' && (
-                                <InputAdornment position="end">
-                                  <IconButton onClick={resetUserEndDate}>
-                                    <CloseIcon />
-                                  </IconButton>
-                                </InputAdornment>
-                              )}
-                            </>
-                          ),
-                        }}
-                      />
-                    )}
+                    slotProps={{
+                      textField: { size: 'small', fullWidth: true },
+                      field: { clearable: true },
+                    }}
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={showManga ? false : 12}>
+              <Grid size={showManga ? false : 12}>
                 <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
                   <Autocomplete
                     multiple
@@ -451,7 +408,7 @@ export default function UserMangaDialog({
                   formulaVarsToTag={formulaVarsToTag}
                 />
               )}
-              <Grid item xs={showManga ? false : 12}>
+              <Grid size={showManga ? false : 12}>
                 <TextField
                   multiline
                   fullWidth
@@ -494,8 +451,8 @@ export default function UserMangaDialog({
 }
 
 const MangaDetails = ({ data }: { data: UserManga }) => (
-  <Grid container spacing={2} direction="column">
-    <Grid item sx={{ textAlign: 'center' }}>
+  <Grid container spacing={2} size="grow" direction="column">
+    <Grid sx={{ textAlign: 'center' }}>
       <img
         src={data.picture}
         alt={data.title}
@@ -507,45 +464,45 @@ const MangaDetails = ({ data }: { data: UserManga }) => (
         }}
       />
     </Grid>
-    <Grid item container spacing={2}>
-      <Grid item xs={4}>
+    <Grid container spacing={2}>
+      <Grid size={4}>
         <Divider sx={style.subtitle}>Rank</Divider>
         <Typography variant="h6" align="center">
           <b>#{data.rank.toLocaleString()}</b>
         </Typography>
       </Grid>
-      <Grid item xs={4}>
+      <Grid size={4}>
         <Divider sx={style.subtitle}>Score</Divider>
         <Typography variant="h6" align="center">
           <b>{data.score.toLocaleString()}</b>
         </Typography>
       </Grid>
-      <Grid item xs={4}>
+      <Grid size={4}>
         <Divider sx={style.subtitle}>Popularity</Divider>
         <Typography variant="h6" align="center">
           <b>#{data.popularity.toLocaleString()}</b>
         </Typography>
       </Grid>
     </Grid>
-    <Grid item container spacing={2}>
-      <Grid item xs={6}>
+    <Grid container spacing={2}>
+      <Grid size={6}>
         <Divider sx={style.subtitle}>Status</Divider>
         <Typography variant="h6" align="center">
           <b>{MangaStatusStr(data.status)}</b>
         </Typography>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <Divider sx={style.subtitle}>Type</Divider>
         <Typography variant="h6" align="center">
           <b>{MangaTypeStr(data.mediaType)}</b>
         </Typography>
       </Grid>
     </Grid>
-    <Grid item>
+    <Grid>
       <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Synopsis</Divider>
       <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{data.synopsis}</Typography>
     </Grid>
-    <Grid item sx={{ textAlign: 'center' }}>
+    <Grid sx={{ textAlign: 'center' }}>
       <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
       <Stack direction="row" justifyContent="center" gap={1} flexWrap="wrap">
         {data.genres.map((g) => (
@@ -599,15 +556,15 @@ const MangaTools = ({
   };
 
   return (
-    <Grid item xs={showManga ? false : 12} container spacing={2}>
-      <Grid item xs={6}>
+    <Grid size={showManga ? false : 12} container spacing={2}>
+      <Grid size={6}>
         <Tooltip title="Add manga genres to tags" placement="bottom" arrow>
           <Button variant="outlined" onClick={genresToTags} size="small" fullWidth>
             genres to tags
           </Button>
         </Tooltip>
       </Grid>
-      <Grid item xs={6}>
+      <Grid size={6}>
         <Tooltip
           title="Replace comment with tags. Useful in case you have written your review in tags field and want to move it to comment field."
           placement="bottom"
@@ -618,21 +575,23 @@ const MangaTools = ({
           </Button>
         </Tooltip>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <TextField
           multiline
           fullWidth
           label="Formula"
           size="small"
           defaultValue={formula}
-          InputProps={{
-            readOnly: true,
-            endAdornment: <InputAdornment position="end">= {result.toFixed(2)}</InputAdornment>,
+          slotProps={{
+            input: {
+              readOnly: true,
+              endAdornment: <InputAdornment position="end">= {result.toFixed(2)}</InputAdornment>,
+            },
           }}
         />
       </Grid>
       {Object.entries(vars).map((v) => (
-        <Grid item xs={12} sm={showManga ? 12 : 6} key={v[0]}>
+        <Grid size={{ xs: 12, sm: showManga ? 12 : 6 }} key={v[0]}>
           <TextField
             size="small"
             fullWidth
@@ -640,8 +599,10 @@ const MangaTools = ({
             value={vars[v[0]]}
             onChange={onChangeVar}
             onBlur={() => v[1] !== 0 && formulaVarsToTag(v[0], v[1])}
-            InputProps={{
-              startAdornment: <InputAdornment position="start">{v[0]} =</InputAdornment>,
+            slotProps={{
+              input: {
+                startAdornment: <InputAdornment position="start">{v[0]} =</InputAdornment>,
+              },
             }}
             onKeyPress={(event) => {
               if (!/[0-9]/.test(event.key)) {

@@ -2,7 +2,13 @@ import UserAnimeDialog from '@/src/components/dialogs/UserAnimeDialog';
 import theme from '@/src/components/theme';
 import { UserAnime } from '@/src/types';
 import { AnimeTypeStr, UserStatusColor } from '@/src/utils/const';
-import { Card, CardActionArea, CardContent, CardMedia, Chip, Divider, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 
 const style = {
@@ -19,6 +25,7 @@ const style = {
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    textAlign: 'center',
     '&:hover': {
       whiteSpace: 'normal',
     },

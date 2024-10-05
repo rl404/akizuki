@@ -12,19 +12,17 @@ import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SearchIcon from '@mui/icons-material/Search';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import {
-  CircularProgress,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Fab,
-  Grid,
-  IconButton,
-  Stack,
-  TextField,
-  Tooltip,
-  Zoom,
-} from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Fab from '@mui/material/Fab';
+import Grid from '@mui/material/Grid2';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Zoom from '@mui/material/Zoom';
 import { useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import RenderIfVisible from 'react-render-if-visible';
@@ -171,7 +169,7 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
       </DialogTitle>
       <DialogTitle style={style.searchArea}>
         <Grid container spacing={1}>
-          <Grid item xs={12} sm>
+          <Grid size={{ xs: 12, sm: 'grow' }}>
             <TextField
               label="Search"
               placeholder="anime title..."
@@ -185,17 +183,17 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
               helperText={error}
             />
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
             <IconButton onClick={onSearch}>
               <SearchIcon />
             </IconButton>
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
             <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
               <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
             </Tooltip>
           </Grid>
-          <Grid item xs sm="auto" textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
             <Tooltip title={layout === 'list' ? 'List Layout' : 'Cover Layout'} placement="top" arrow>
               <IconButton onClick={toggleLayout}>
                 {layout === 'list' ? <TableRowsIcon /> : <ViewModuleIcon />}
@@ -228,7 +226,7 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
                   switch (layout) {
                     case 'cover':
                       return (
-                        <Grid item xs={6} sm={3} md={2} lg={2} key={a.id}>
+                        <Grid size={{ xs: 6, sm: 3, md: 2, lg: 2 }} key={a.id}>
                           <RenderIfVisible defaultHeight={200}>
                             <UserAnimeCover userAnime={a} nsfw={nsfw} />
                           </RenderIfVisible>
@@ -236,7 +234,7 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
                       );
                     case 'list':
                       return (
-                        <Grid item xs={12} key={a.id}>
+                        <Grid size={12} key={a.id}>
                           <RenderIfVisible defaultHeight={40}>
                             <UserAnimeList userAnime={a} />
                           </RenderIfVisible>

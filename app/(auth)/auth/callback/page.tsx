@@ -3,7 +3,13 @@
 import { Data } from '@/app/api/mal/oauth2/token/route';
 import { deleteCodeChallenge, deleteState, getCodeChallenge, validateState } from '@/src/utils/myanimelist';
 import { saveToken } from '@/src/utils/user';
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
