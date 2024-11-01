@@ -1,7 +1,8 @@
 import { MAL_API_HOST } from '@/src/utils/myanimelist';
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-  const resp = await fetch(`${MAL_API_HOST}/v2/manga/${params.id}/my_list_status`, {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const resp = await fetch(`${MAL_API_HOST}/v2/manga/${id}/my_list_status`, {
     method: 'delete',
     headers: {
       Authorization: request.headers.get('authorization') || '',

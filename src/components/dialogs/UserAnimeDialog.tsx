@@ -185,7 +185,7 @@ export default function UserAnimeDialog({
     setLoadingDelete(true);
 
     akizukiAxios
-      .delete(`/api/mal/useranime/delete/${data.id}`)
+      .delete(`/api/mal/useranime/${data.id}`)
       .then(() => {
         setData({
           ...data,

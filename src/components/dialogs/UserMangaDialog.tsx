@@ -203,7 +203,7 @@ export default function UserMangaDialog({
     setLoadingDelete(true);
 
     akizukiAxios
-      .delete(`/api/mal/usermanga/delete/${data.id}`)
+      .delete(`/api/mal/usermanga/${data.id}`)
       .then(() => {
         setData({
           ...data,
