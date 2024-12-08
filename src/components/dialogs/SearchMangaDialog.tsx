@@ -47,7 +47,7 @@ const style = {
 };
 
 export default function SearchMangaDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const ref = useRef<HTMLElement>();
+  const ref = useRef<HTMLElement>(null);
 
   const [list, setList] = useState<UserManga[]>([]);
   const [search, setSearch] = useState<string>('');
