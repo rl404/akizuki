@@ -3,6 +3,7 @@
 import { Data } from '@/app/api/mal/manga/route';
 import AddMangaButton from '@/src/components/buttons/AddMangaButton';
 import TagEditorButton from '@/src/components/buttons/TagEditorButton';
+import RenderIfVisible from '@/src/components/commons/RenderIfVisible';
 import UserMangaCard from '@/src/components/layouts/UserMangaCard';
 import UserMangaCover from '@/src/components/layouts/UserMangaCover';
 import UserMangaList from '@/src/components/layouts/UserMangaList';
@@ -31,7 +32,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
-import RenderIfVisible from 'react-render-if-visible';
 
 const style = {
   subtitle: {
