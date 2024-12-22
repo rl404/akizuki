@@ -3,6 +3,7 @@
 import { Data } from '@/app/api/mal/useranime/route';
 import AddAnimeButton from '@/src/components/buttons/AddAnimeButton';
 import TagEditorButton from '@/src/components/buttons/TagEditorButton';
+import RenderIfVisible from '@/src/components/commons/RenderIfVisible';
 import UserAnimeCard from '@/src/components/layouts/UserAnimeCard';
 import UserAnimeCover from '@/src/components/layouts/UserAnimeCover';
 import UserAnimeList from '@/src/components/layouts/UserAnimeList';
@@ -31,7 +32,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
-import RenderIfVisible from 'react-render-if-visible';
 
 const style = {
   subtitle: {

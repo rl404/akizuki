@@ -1,4 +1,5 @@
 import { Data } from '@/app/api/mal/anime/route';
+import RenderIfVisible from '@/src/components/commons/RenderIfVisible';
 import UserAnimeCover from '@/src/components/layouts/UserAnimeCover';
 import UserAnimeList from '@/src/components/layouts/UserAnimeList';
 import theme from '@/src/components/theme';
@@ -25,7 +26,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Zoom from '@mui/material/Zoom';
 import { useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import RenderIfVisible from 'react-render-if-visible';
 
 const style = {
   searchArea: {
