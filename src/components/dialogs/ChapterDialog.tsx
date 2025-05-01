@@ -3,7 +3,7 @@ import { akizukiAxios } from '@/src/utils/axios';
 import { getAxiosError } from '@/src/utils/utils';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -199,9 +199,9 @@ export default function ChapterDialog({
             {error}
           </Typography>
         )}
-        <LoadingButton variant="contained" loading={loading} onClick={onUpdate}>
+        <Button variant="contained" loading={loading} onClick={onUpdate}>
           Update
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );

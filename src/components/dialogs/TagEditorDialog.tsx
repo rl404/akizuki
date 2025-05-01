@@ -12,7 +12,6 @@ import {
 import { getUser } from '@/src/utils/user';
 import { getAxiosError } from '@/src/utils/utils';
 import CloseIcon from '@mui/icons-material/Close';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
@@ -20,7 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
@@ -352,9 +351,9 @@ export default function TagEditorDialog({
             </Grid>
           }
         >
-          <LoadingButton variant="contained" onClick={onSave} loading={loading} disabled={error !== ''}>
+          <Button variant="contained" onClick={onSave} loading={loading} disabled={error !== ''}>
             Save
-          </LoadingButton>
+          </Button>
         </Tooltip>
       </DialogActions>
     </Dialog>

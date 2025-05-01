@@ -13,12 +13,13 @@ import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SearchIcon from '@mui/icons-material/Search';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Fab from '@mui/material/Fab';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -33,11 +34,11 @@ const style = {
   },
   loadingArea: {
     width: '100%',
-    textAlign: 'center' as 'center',
-    paddingTop: 10,
+    textAlign: 'center',
+    paddingTop: 1.25,
   },
   fabArea: {
-    position: 'absolute' as 'absolute',
+    position: 'absolute',
     bottom: '56px',
     right: '56px',
   },
@@ -135,7 +136,7 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
           setList((l) => l.concat(tmp.slice(0, 20)));
         }
 
-        cnt > limit ? setMoreData(true) : setMoreData(false);
+        setMoreData(cnt > limit);
         setPage(p + 1);
       })
       .catch((err) => setError(getAxiosError(err)))
@@ -204,9 +205,9 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
       </DialogTitle>
       <DialogContent dividers id="content-area" ref={ref} sx={{ position: 'relative' }}>
         {loading ? (
-          <div style={style.loadingArea}>
+          <Box sx={style.loadingArea}>
             <CircularProgress />
-          </div>
+          </Box>
         ) : (
           <>
             <InfiniteScroll
@@ -216,9 +217,9 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
               scrollableTarget="content-area"
               style={{ display: 'flex', flexDirection: 'column', overflow: 'unset' }}
               loader={
-                <div style={style.loadingArea}>
+                <Box sx={style.loadingArea}>
                   <CircularProgress />
-                </div>
+                </Box>
               }
             >
               <Grid container spacing={layout === 'list' ? 1 : 2}>
@@ -245,7 +246,7 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
               </Grid>
             </InfiniteScroll>
 
-            <div style={style.fabArea}>
+            <Box sx={style.fabArea}>
               <Zoom in={scrollTop}>
                 <Tooltip title="Scroll to Top" placement="left" arrow>
                   <Fab sx={style.fab} onClick={scrollToTop} color="primary" size="small">
@@ -253,7 +254,7 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
                   </Fab>
                 </Tooltip>
               </Zoom>
-            </div>
+            </Box>
           </>
         )}
       </DialogContent>

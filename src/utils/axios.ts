@@ -1,15 +1,12 @@
 import { Data } from '@/app/api/mal/oauth2/refresh/route';
 import axios from 'axios';
-
 import { getAccessToken, getRefreshToken, saveToken } from './user';
 
 export const akizukiAxios = axios.create();
 
 akizukiAxios.interceptors.request.use(
   async (config) => {
-    config &&
-      config.headers &&
-      (config.headers.authorization = `Bearer ${getAccessToken()}`);
+    if (config && config.headers) config.headers.authorization = `Bearer ${getAccessToken()}`;
     return config;
   },
   (error) => Promise.reject(error),

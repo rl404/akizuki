@@ -7,13 +7,13 @@ import { useState } from 'react';
 export default function AddMangaButton() {
   const [dialog, setDialog] = useState<boolean>(false);
 
-  const openDialog = () => setDialog(true);
+  const openDialog = () => {};
   const closeDialog = () => setDialog(false);
 
   return (
     <>
       <Tooltip title="Disabled until MAL fix their search manga API" placement="top" arrow>
-        <IconButton>
+        <IconButton onClick={openDialog}>
           <AddIcon />
         </IconButton>
       </Tooltip>
