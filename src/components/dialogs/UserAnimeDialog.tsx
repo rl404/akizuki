@@ -9,7 +9,6 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import RemoveIcon from '@mui/icons-material/Remove';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -19,7 +18,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import MenuItem from '@mui/material/MenuItem';
@@ -32,7 +31,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 
 const style = {
   subtitle: {
@@ -123,7 +122,7 @@ export default function UserAnimeDialog({
     setUserEndDate(v);
   };
 
-  const onChangeUserTags = (_: any, v: any) => {
+  const onChangeUserTags = (_: SyntheticEvent, v: string[]) => {
     setUserTags(v);
   };
 
@@ -147,7 +146,7 @@ export default function UserAnimeDialog({
     name = name.replaceAll('_', '-');
     const tag = `${name}:${value}`;
     const existUserTags = userTags.filter((t) => name !== t.split(':')[0]);
-    !existUserTags.includes(tag) && setUserTags([...existUserTags, `${name}:${value}`]);
+    if (!existUserTags.includes(tag)) setUserTags([...existUserTags, `${name}:${value}`]);
   };
 
   const onUpdate = () => {
@@ -327,10 +326,11 @@ export default function UserAnimeDialog({
                     size="small"
                     onChange={onChangeUserTags}
                     sx={{ '& .MuiAutocomplete-tag': { maxWidth: '200px' } }}
-                    renderTags={(value: readonly string[], getTagProps) =>
-                      value.map((option: string, index: number) => (
-                        <Chip {...getTagProps({ index })} label={option} size="small" color="primary" key={option} />
-                      ))
+                    renderValue={(value: readonly string[], getItemProps) =>
+                      value.map((option: string, index: number) => {
+                        const { key, ...itemProps } = getItemProps({ index });
+                        return <Chip label={option} size="small" color="primary" key={key} {...itemProps} />;
+                      })
                     }
                     renderInput={(params) => (
                       <TextField {...params} label="Tags" fullWidth placeholder="tags..." size="small" />
@@ -373,9 +373,9 @@ export default function UserAnimeDialog({
       <DialogActions>
         {data.userStatus !== '' && (
           <>
-            <LoadingButton onClick={onDelete} color="error" variant="outlined" loading={loadingDelete}>
+            <Button onClick={onDelete} color="error" variant="outlined" loading={loadingDelete}>
               Delete
-            </LoadingButton>
+            </Button>
             <Box sx={{ flex: 1 }} />
           </>
         )}
@@ -388,9 +388,9 @@ export default function UserAnimeDialog({
         <Button onClick={onReset} variant="outlined">
           Reset
         </Button>
-        <LoadingButton variant="contained" loading={loading} onClick={onUpdate}>
+        <Button variant="contained" loading={loading} onClick={onUpdate}>
           Update
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );

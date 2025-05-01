@@ -9,8 +9,8 @@ export type Data = {
 
 export async function GET(request: Request) {
   const limit = 900;
-  var offset = 0;
-  var userAnime: { node: AnimeData }[] = [];
+  let offset = 0;
+  let userAnime: { node: AnimeData }[] = [];
 
   const fields = [
     'alternative_titles',

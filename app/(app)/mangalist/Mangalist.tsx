@@ -23,7 +23,7 @@ import TableRowsIcon from '@mui/icons-material/TableRows';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Skeleton from '@mui/material/Skeleton';
@@ -87,8 +87,8 @@ export default function Mangalist() {
   }, []);
 
   const callAPI = (withLoading = false) => {
-    withLoading && setLoading(true);
-    withLoading && setLoadingSync(true);
+    if (withLoading) setLoading(true);
+    if (withLoading) setLoadingSync(true);
 
     akizukiAxios
       .get(`/api/mal/usermanga`)

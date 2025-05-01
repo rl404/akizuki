@@ -2,7 +2,6 @@ import theme from '@/src/components/theme';
 import { MediaType, UserAnime, UserManga } from '@/src/types';
 import { akizukiAxios } from '@/src/utils/axios';
 import { getAxiosError } from '@/src/utils/utils';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -92,9 +91,9 @@ export default function ScoreDialog({
             {error}
           </Typography>
         )}
-        <LoadingButton variant="contained" loading={loading} onClick={onUpdate}>
+        <Button variant="contained" loading={loading} onClick={onUpdate}>
           Update
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );
