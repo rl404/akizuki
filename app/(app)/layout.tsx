@@ -15,7 +15,7 @@ export default function Layout({
   const router = useRouter();
 
   useEffect(() => {
-    !getAccessToken() && router.push('/auth/login');
+    if (!getAccessToken()) router.push('/auth/login');
   }, [router]);
 
   return (

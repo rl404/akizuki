@@ -8,7 +8,7 @@ export default function TokenChecker() {
   const router = useRouter();
 
   useEffect(() => {
-    getAccessToken() && router.push('/');
+    if (getAccessToken()) router.push('/');
   }, [router]);
 
   return <></>;

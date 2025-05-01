@@ -18,7 +18,7 @@ export const isFormulaValid = (formula: string): boolean => {
     const math = create(all);
     math.compile(formula);
     return true;
-  } catch (err) {
+  } catch {
     return false;
   }
 };
@@ -27,7 +27,7 @@ export const calculateFormula = (formula: string, vars: { [v: string]: number })
   try {
     const math = create(all);
     return math.evaluate(formula, vars);
-  } catch (err) {
+  } catch {
     return 0;
   }
 };

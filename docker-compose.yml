@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   akizuki:
     container_name: akizuki

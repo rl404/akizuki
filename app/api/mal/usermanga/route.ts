@@ -9,8 +9,8 @@ export type Data = {
 
 export async function GET(request: Request) {
   const limit = 900;
-  var offset = 0;
-  var userManga: { node: MangaData }[] = [];
+  let offset = 0;
+  let userManga: { node: MangaData }[] = [];
 
   const fields = [
     'alternative_titles',

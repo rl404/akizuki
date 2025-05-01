@@ -4,7 +4,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Metadata } from 'next';
-
 import LoginButton from './LoginButton';
 import TokenChecker from './TokenChecker';
 
