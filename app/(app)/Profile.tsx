@@ -124,12 +124,12 @@ export default function Profile() {
     );
 
   return (
-    <Grid container justifyContent="center" spacing={2}>
+    <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
       <Grid size={{ xs: 12, sm: 8, md: 6, lg: 4 }}>
         <Card>
           <CardMedia component="img" image={user.picture} alt={user.username} />
           <CardContent>
-            <Typography variant="h4" textAlign="center" fontWeight="bold" sx={style.link}>
+            <Typography variant="h4" sx={{ ...style.link, textAlign: 'center', fontWeight: 'bold' }}>
               <Link href={`${MAL_WEB_HOST}/profile/${user.username}`} target="_blank">
                 {user.username}{' '}
                 {user.isSupporter && (
@@ -147,36 +147,36 @@ export default function Profile() {
                 <Typography sx={style.subtitle}>Gender</Typography>
               </Grid>
               <Grid size={6}>
-                <Typography textAlign="right">{user.gender || '-'}</Typography>
+                <Typography sx={{ textAlign: 'right' }}>{user.gender || '-'}</Typography>
               </Grid>
               <Grid size={6}>
                 <Typography sx={style.subtitle}>Birthday</Typography>
               </Grid>
               <Grid size={6}>
-                <Typography textAlign="right">{user.birthday || '-'}</Typography>
+                <Typography sx={{ textAlign: 'right' }}>{user.birthday || '-'}</Typography>
               </Grid>
               <Grid size={6}>
                 <Typography sx={style.subtitle}>Location</Typography>
               </Grid>
               <Grid size={6}>
-                <Typography textAlign="right">{user.location || '-'}</Typography>
+                <Typography sx={{ textAlign: 'right' }}>{user.location || '-'}</Typography>
               </Grid>
               <Grid size={6}>
                 <Typography sx={style.subtitle}>Joined</Typography>
               </Grid>
               <Grid size={6}>
-                <Typography textAlign="right">{user.joinedAt.toString().slice(0, 10) || '-'}</Typography>
+                <Typography sx={{ textAlign: 'right' }}>{user.joinedAt.toString().slice(0, 10) || '-'}</Typography>
               </Grid>
               <Grid size={6}>
                 <Typography sx={style.subtitle}>Timezone</Typography>
               </Grid>
               <Grid size={6}>
-                <Typography textAlign="right">{user.timeZone || '-'}</Typography>
+                <Typography sx={{ textAlign: 'right' }}>{user.timeZone || '-'}</Typography>
               </Grid>
               <Grid size={6}>
                 <Typography sx={style.subtitle}>Anime Statistics</Typography>
               </Grid>
-              <Grid size={6} textAlign="right">
+              <Grid size={6} sx={{ textAlign: 'right' }}>
                 <Tooltip title={showAnimeStats ? 'Hide anime stats' : 'Show anime stats'} placement="left" arrow>
                   <IconButton size="small" onClick={toggleAnimeStats}>
                     {showAnimeStats ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
@@ -190,7 +190,7 @@ export default function Profile() {
                       <Typography sx={style.subtitle}>Watching</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">
+                      <Typography sx={{ textAlign: 'right' }}>
                         {user.animeStatistics.numItemsWatching.toLocaleString()}
                       </Typography>
                     </Grid>
@@ -198,13 +198,15 @@ export default function Profile() {
                       <Typography sx={style.subtitle}>Score</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">{user.animeStatistics?.meanScore.toLocaleString()}</Typography>
+                      <Typography sx={{ textAlign: 'right' }}>
+                        {user.animeStatistics?.meanScore.toLocaleString()}
+                      </Typography>
                     </Grid>
                     <Grid size={4}>
                       <Typography sx={style.subtitle}>Completed</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">
+                      <Typography sx={{ textAlign: 'right' }}>
                         {user.animeStatistics?.numItemsCompleted.toLocaleString()}
                       </Typography>
                     </Grid>
@@ -212,19 +214,23 @@ export default function Profile() {
                       <Typography sx={style.subtitle}>Total Entries</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">{user.animeStatistics?.numItems.toLocaleString()}</Typography>
+                      <Typography sx={{ textAlign: 'right' }}>
+                        {user.animeStatistics?.numItems.toLocaleString()}
+                      </Typography>
                     </Grid>
                     <Grid size={4}>
                       <Typography sx={style.subtitle}>On Hold</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">{user.animeStatistics?.numItemsOnHold.toLocaleString()}</Typography>
+                      <Typography sx={{ textAlign: 'right' }}>
+                        {user.animeStatistics?.numItemsOnHold.toLocaleString()}
+                      </Typography>
                     </Grid>
                     <Grid size={4}>
                       <Typography sx={style.subtitle}>Rewatched</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">
+                      <Typography sx={{ textAlign: 'right' }}>
                         {user.animeStatistics?.numTimesRewatched.toLocaleString()}
                       </Typography>
                     </Grid>
@@ -232,7 +238,7 @@ export default function Profile() {
                       <Typography sx={style.subtitle}>Dropped</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">
+                      <Typography sx={{ textAlign: 'right' }}>
                         {user.animeStatistics?.numItemsDropped.toLocaleString()}
                       </Typography>
                     </Grid>
@@ -240,13 +246,15 @@ export default function Profile() {
                       <Typography sx={style.subtitle}>Episodes</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">{user.animeStatistics?.numEpisodes.toLocaleString()}</Typography>
+                      <Typography sx={{ textAlign: 'right' }}>
+                        {user.animeStatistics?.numEpisodes.toLocaleString()}
+                      </Typography>
                     </Grid>
                     <Grid size={4}>
                       <Typography sx={style.subtitle}>Plan to Watch</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">
+                      <Typography sx={{ textAlign: 'right' }}>
                         {user.animeStatistics?.numItemsPlanToWatch.toLocaleString()}
                       </Typography>
                     </Grid>
@@ -254,7 +262,7 @@ export default function Profile() {
                       <Typography sx={style.subtitle}>Days</Typography>
                     </Grid>
                     <Grid size={2}>
-                      <Typography textAlign="right">{user.animeStatistics?.numDays.toFixed(1)}</Typography>
+                      <Typography sx={{ textAlign: 'right' }}>{user.animeStatistics?.numDays.toFixed(1)}</Typography>
                     </Grid>
                   </Grid>
                 </Collapse>
@@ -306,7 +314,7 @@ export default function Profile() {
 }
 
 const LoadingSkeleton = () => (
-  <Grid container justifyContent="center" spacing={2}>
+  <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
     <Grid size={{ xs: 12, sm: 8, md: 6, lg: 4 }}>
       <Card>
         <Skeleton variant="rectangular" height={400} />

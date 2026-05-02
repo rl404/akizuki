@@ -116,7 +116,7 @@ export default function TagEditorDialog({
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
-        <Stack direction="row" justifyContent="space-between" spacing={2}>
+        <Stack direction="row" spacing={2} sx={{ justifyContent: 'space-between' }}>
           <Typography variant="h6">{`${MediaTypeStr(type)} Custom Tags Editor`}</Typography>
           <IconButton onClick={onClose} size="small">
             <CloseIcon />
@@ -164,7 +164,7 @@ export default function TagEditorDialog({
                     <Divider />
                   </Grid>
                   <Grid size={12} sx={{ paddingBottom: 0.5 }}>
-                    <Stack direction="row" spacing={1} justifyContent="space-between">
+                    <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between' }}>
                       <Button onClick={toggleExample} size="small">
                         {example ? 'Hide example' : 'Show example'}
                       </Button>
@@ -221,7 +221,7 @@ export default function TagEditorDialog({
                       <Divider />
                     </Grid>
                     <Grid size={12} sx={{ paddingBottom: 0.5 }}>
-                      <Stack direction="row" spacing={1} justifyContent="space-between">
+                      <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between' }}>
                         <Button onClick={prevHelp} size="small">
                           Back
                         </Button>
@@ -260,8 +260,8 @@ export default function TagEditorDialog({
               </Grid>
             ))}
           </Grid>
-          <Grid size={{ xs: 12, sm: 6 }} container spacing={1} direction="column">
-            <Grid size="auto">
+          <Grid size={{ xs: 12, sm: 6 }} container spacing={1}>
+            <Stack spacing={1} sx={{ width: '100%' }}>
               <Tooltip
                 placement={isSm ? 'top' : 'right'}
                 arrow
@@ -285,7 +285,7 @@ export default function TagEditorDialog({
                       <Divider />
                     </Grid>
                     <Grid size={12} sx={{ paddingBottom: 0.5 }}>
-                      <Stack direction="row" spacing={1} justifyContent="space-between">
+                      <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between' }}>
                         <Button onClick={prevHelp} size="small">
                           Back
                         </Button>
@@ -299,19 +299,19 @@ export default function TagEditorDialog({
               >
                 <Divider>Tags Results</Divider>
               </Tooltip>
-            </Grid>
-            <Grid size="grow">
-              {Object.entries(vars).map((v) => (
-                <Chip
-                  key={v[0]}
-                  disabled={loading || error !== ''}
-                  label={`${v[0]}:${v[1]}`.replaceAll('_', '-')}
-                  size="small"
-                  sx={{ margin: 0.5 }}
-                  color="primary"
-                />
-              ))}
-            </Grid>
+              <Grid>
+                {Object.entries(vars).map((v) => (
+                  <Chip
+                    key={v[0]}
+                    disabled={loading || error !== ''}
+                    label={`${v[0]}:${v[1]}`.replaceAll('_', '-')}
+                    size="small"
+                    sx={{ margin: 0.5 }}
+                    color="primary"
+                  />
+                ))}
+              </Grid>
+            </Stack>
           </Grid>
         </Grid>
       </DialogContent>
@@ -339,7 +339,7 @@ export default function TagEditorDialog({
                 <Divider />
               </Grid>
               <Grid size={12} sx={{ paddingBottom: 0.5 }}>
-                <Stack direction="row" spacing={1} justifyContent="space-between">
+                <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between' }}>
                   <Button onClick={prevHelp} size="small">
                     Back
                   </Button>

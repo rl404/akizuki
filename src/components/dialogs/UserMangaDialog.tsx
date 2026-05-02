@@ -224,7 +224,11 @@ export default function UserMangaDialog({
   return (
     <Dialog open={open} maxWidth={showManga ? 'md' : 'sm'} fullWidth>
       <DialogTitle>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} sx={style.link}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ ...style.link, justifyContent: 'space-between', alignItems: 'center' }}
+        >
           <Link href={`${MAL_WEB_HOST}/manga/${data.id}`} target="_blank">
             {data.title}
           </Link>
@@ -243,183 +247,194 @@ export default function UserMangaDialog({
         >
           {showManga && <MangaDetails data={data} />}
           {(!showManga || !isSm) && (
-            <Grid container spacing={2} size="grow" direction={showManga ? 'column' : 'row'}>
-              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
-                <TextField
-                  select
-                  label="Status"
-                  value={userStatus}
-                  onChange={onChangeUserStatus}
-                  size="small"
-                  fullWidth
-                >
-                  <MenuItem value="reading">Reading</MenuItem>
-                  <MenuItem value="completed">Completed</MenuItem>
-                  <MenuItem value="on_hold">On Hold</MenuItem>
-                  <MenuItem value="dropped">Dropped</MenuItem>
-                  <MenuItem value="plan_to_read">Plan to Read</MenuItem>
-                </TextField>
-              </Grid>
-              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
-                <TextField select label="Score" value={userScore} onChange={onChangeUserScore} size="small" fullWidth>
-                  {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0].map((s) => (
-                    <MenuItem value={s} key={s}>
-                      {s}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
-                <Stack direction="row" spacing={1}>
-                  <TextField
-                    label="Chapter"
-                    value={userChapter}
-                    fullWidth
-                    onChange={onChangeUserChapter}
-                    size="small"
-                    slotProps={{
-                      input: {
-                        endAdornment: <InputAdornment position="end">{`/ ${data.chapter}`}</InputAdornment>,
-                      },
-                    }}
-                    onKeyPress={(event) => {
-                      if (!/[0-9]/.test(event.key)) {
-                        event.preventDefault();
-                      }
-                    }}
-                  />
-                  <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                    <IconButton size="small" onClick={decreaseChapter} disabled={userChapter <= 0}>
-                      <RemoveIcon fontSize="small" />
-                    </IconButton>
-                  </div>
-                  <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                    <IconButton
+            <Grid size="grow">
+              <Stack>
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, sm: showManga ? 12 : 6 }}>
+                    <TextField
+                      select
+                      label="Status"
+                      value={userStatus}
+                      onChange={onChangeUserStatus}
                       size="small"
-                      onClick={increaseChapter}
-                      disabled={data.chapter !== 0 && userChapter >= data.chapter}
+                      fullWidth
                     >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
-                  </div>
-                </Stack>
-              </Grid>
-              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
-                <Stack direction="row" spacing={1}>
-                  <TextField
-                    label="Volume"
-                    value={userVolume}
-                    fullWidth
-                    onChange={onChangeUserVolume}
-                    size="small"
-                    slotProps={{
-                      input: {
-                        endAdornment: <InputAdornment position="end">{`/ ${data.volume}`}</InputAdornment>,
-                      },
-                    }}
-                    onKeyPress={(event) => {
-                      if (!/[0-9]/.test(event.key)) {
-                        event.preventDefault();
-                      }
-                    }}
-                  />
-                  <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                    <IconButton size="small" onClick={decreaseVolume} disabled={userVolume <= 0}>
-                      <RemoveIcon fontSize="small" />
-                    </IconButton>
-                  </div>
-                  <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                    <IconButton
+                      <MenuItem value="reading">Reading</MenuItem>
+                      <MenuItem value="completed">Completed</MenuItem>
+                      <MenuItem value="on_hold">On Hold</MenuItem>
+                      <MenuItem value="dropped">Dropped</MenuItem>
+                      <MenuItem value="plan_to_read">Plan to Read</MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showManga ? 12 : 6 }}>
+                    <TextField
+                      select
+                      label="Score"
+                      value={userScore}
+                      onChange={onChangeUserScore}
                       size="small"
-                      onClick={increaseVolume}
-                      disabled={data.volume !== 0 && userVolume >= data.volume}
+                      fullWidth
                     >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
-                  </div>
-                </Stack>
-              </Grid>
-              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Start Date"
-                    value={userStartDate}
-                    onChange={onChangeUserStartDate}
-                    format="YYYY-MM-DD"
-                    disableFuture
-                    slotProps={{
-                      textField: { size: 'small', fullWidth: true },
-                      field: { clearable: true },
-                    }}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid size={{ xs: showManga ? false : 12, sm: showManga ? false : 6 }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="End Date"
-                    value={userEndDate}
-                    onChange={onChangeUserEndDate}
-                    format="YYYY-MM-DD"
-                    disableFuture
-                    slotProps={{
-                      textField: { size: 'small', fullWidth: true },
-                      field: { clearable: true },
-                    }}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid size={showManga ? false : 12}>
-                <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
-                  <Autocomplete
-                    multiple
-                    freeSolo
-                    value={userTags}
-                    options={[]}
-                    fullWidth
-                    size="small"
-                    onChange={onChangeUserTags}
-                    sx={{ '& .MuiAutocomplete-tag': { maxWidth: '200px' } }}
-                    renderValue={(value: readonly string[], getItemProps) =>
-                      value.map((option: string, index: number) => {
-                        const { key, ...itemProps } = getItemProps({ index });
-                        return <Chip label={option} size="small" color="primary" key={key} {...itemProps} />;
-                      })
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} label="Tags" fullWidth placeholder="tags..." size="small" />
-                    )}
-                  />
-                  <Box>
-                    <Tooltip title="Tools for Tags Editor" placement="right" arrow>
-                      <IconButton onClick={toggleTools}>
-                        <ConstructionIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </Stack>
-              </Grid>
-              {tools && (
-                <MangaTools
-                  showManga={showManga}
-                  userTags={userTags}
-                  genresToTags={genresToTags}
-                  tagsToComment={tagsToComment}
-                  formulaVarsToTag={formulaVarsToTag}
-                />
-              )}
-              <Grid size={showManga ? false : 12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  label="Comment"
-                  rows={3}
-                  value={userComment}
-                  onChange={onChangeUserComment}
-                  placeholder="your manga review..."
-                  size="small"
-                />
-              </Grid>
+                      {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0].map((s) => (
+                        <MenuItem value={s} key={s}>
+                          {s}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showManga ? 12 : 6 }}>
+                    <Stack direction="row" spacing={1}>
+                      <TextField
+                        label="Chapter"
+                        value={userChapter}
+                        fullWidth
+                        onChange={onChangeUserChapter}
+                        size="small"
+                        slotProps={{
+                          input: {
+                            endAdornment: <InputAdornment position="end">{`/ ${data.chapter}`}</InputAdornment>,
+                          },
+                        }}
+                        onKeyPress={(event) => {
+                          if (!/[0-9]/.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
+                      />
+                      <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                        <IconButton size="small" onClick={decreaseChapter} disabled={userChapter <= 0}>
+                          <RemoveIcon fontSize="small" />
+                        </IconButton>
+                      </div>
+                      <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                        <IconButton
+                          size="small"
+                          onClick={increaseChapter}
+                          disabled={data.chapter !== 0 && userChapter >= data.chapter}
+                        >
+                          <AddIcon fontSize="small" />
+                        </IconButton>
+                      </div>
+                    </Stack>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showManga ? 12 : 6 }}>
+                    <Stack direction="row" spacing={1}>
+                      <TextField
+                        label="Volume"
+                        value={userVolume}
+                        fullWidth
+                        onChange={onChangeUserVolume}
+                        size="small"
+                        slotProps={{
+                          input: {
+                            endAdornment: <InputAdornment position="end">{`/ ${data.volume}`}</InputAdornment>,
+                          },
+                        }}
+                        onKeyPress={(event) => {
+                          if (!/[0-9]/.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
+                      />
+                      <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                        <IconButton size="small" onClick={decreaseVolume} disabled={userVolume <= 0}>
+                          <RemoveIcon fontSize="small" />
+                        </IconButton>
+                      </div>
+                      <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                        <IconButton
+                          size="small"
+                          onClick={increaseVolume}
+                          disabled={data.volume !== 0 && userVolume >= data.volume}
+                        >
+                          <AddIcon fontSize="small" />
+                        </IconButton>
+                      </div>
+                    </Stack>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showManga ? 12 : 6 }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="Start Date"
+                        value={userStartDate}
+                        onChange={onChangeUserStartDate}
+                        format="YYYY-MM-DD"
+                        disableFuture
+                        slotProps={{
+                          textField: { size: 'small', fullWidth: true },
+                          field: { clearable: true },
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showManga ? 12 : 6 }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="End Date"
+                        value={userEndDate}
+                        onChange={onChangeUserEndDate}
+                        format="YYYY-MM-DD"
+                        disableFuture
+                        slotProps={{
+                          textField: { size: 'small', fullWidth: true },
+                          field: { clearable: true },
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid size={12}>
+                    <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
+                      <Autocomplete
+                        multiple
+                        freeSolo
+                        value={userTags}
+                        options={[]}
+                        fullWidth
+                        size="small"
+                        onChange={onChangeUserTags}
+                        sx={{ '& .MuiAutocomplete-tag': { maxWidth: '200px' } }}
+                        renderValue={(value: readonly string[], getItemProps) =>
+                          value.map((option: string, index: number) => {
+                            const { key, ...itemProps } = getItemProps({ index });
+                            return <Chip label={option} size="small" color="primary" key={key} {...itemProps} />;
+                          })
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} label="Tags" fullWidth placeholder="tags..." size="small" />
+                        )}
+                      />
+                      <Box>
+                        <Tooltip title="Tools for Tags Editor" placement="right" arrow>
+                          <IconButton onClick={toggleTools}>
+                            <ConstructionIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </Stack>
+                  </Grid>
+                  {tools && (
+                    <MangaTools
+                      showManga={showManga}
+                      userTags={userTags}
+                      genresToTags={genresToTags}
+                      tagsToComment={tagsToComment}
+                      formulaVarsToTag={formulaVarsToTag}
+                    />
+                  )}
+                  <Grid size={12}>
+                    <TextField
+                      multiline
+                      fullWidth
+                      label="Comment"
+                      rows={3}
+                      value={userComment}
+                      onChange={onChangeUserComment}
+                      placeholder="your manga review..."
+                      size="small"
+                    />
+                  </Grid>
+                </Grid>
+              </Stack>
             </Grid>
           )}
         </Stack>
@@ -451,65 +466,67 @@ export default function UserMangaDialog({
 }
 
 const MangaDetails = ({ data }: { data: UserManga }) => (
-  <Grid container spacing={2} size="grow" direction="column">
-    <Grid sx={{ textAlign: 'center' }}>
-      <img
-        src={data.picture}
-        alt={data.title}
-        height={300}
-        style={{
-          objectFit: 'cover',
-          borderRadius: 5,
-          maxWidth: '100%',
-        }}
-      />
-    </Grid>
-    <Grid container spacing={2}>
-      <Grid size={4}>
-        <Divider sx={style.subtitle}>Rank</Divider>
-        <Typography variant="h6" align="center">
-          <b>#{data.rank.toLocaleString()}</b>
-        </Typography>
+  <Grid container spacing={2} size="grow">
+    <Stack spacing={2}>
+      <Grid sx={{ textAlign: 'center' }}>
+        <img
+          src={data.picture}
+          alt={data.title}
+          height={300}
+          style={{
+            objectFit: 'cover',
+            borderRadius: 5,
+            maxWidth: '100%',
+          }}
+        />
       </Grid>
-      <Grid size={4}>
-        <Divider sx={style.subtitle}>Score</Divider>
-        <Typography variant="h6" align="center">
-          <b>{data.score.toLocaleString()}</b>
-        </Typography>
+      <Grid container spacing={2}>
+        <Grid size={4}>
+          <Divider sx={style.subtitle}>Rank</Divider>
+          <Typography variant="h6" align="center">
+            <b>#{data.rank.toLocaleString()}</b>
+          </Typography>
+        </Grid>
+        <Grid size={4}>
+          <Divider sx={style.subtitle}>Score</Divider>
+          <Typography variant="h6" align="center">
+            <b>{data.score.toLocaleString()}</b>
+          </Typography>
+        </Grid>
+        <Grid size={4}>
+          <Divider sx={style.subtitle}>Popularity</Divider>
+          <Typography variant="h6" align="center">
+            <b>#{data.popularity.toLocaleString()}</b>
+          </Typography>
+        </Grid>
       </Grid>
-      <Grid size={4}>
-        <Divider sx={style.subtitle}>Popularity</Divider>
-        <Typography variant="h6" align="center">
-          <b>#{data.popularity.toLocaleString()}</b>
-        </Typography>
+      <Grid container spacing={2}>
+        <Grid size={6}>
+          <Divider sx={style.subtitle}>Status</Divider>
+          <Typography variant="h6" align="center">
+            <b>{MangaStatusStr(data.status)}</b>
+          </Typography>
+        </Grid>
+        <Grid size={6}>
+          <Divider sx={style.subtitle}>Type</Divider>
+          <Typography variant="h6" align="center">
+            <b>{MangaTypeStr(data.mediaType)}</b>
+          </Typography>
+        </Grid>
       </Grid>
-    </Grid>
-    <Grid container spacing={2}>
-      <Grid size={6}>
-        <Divider sx={style.subtitle}>Status</Divider>
-        <Typography variant="h6" align="center">
-          <b>{MangaStatusStr(data.status)}</b>
-        </Typography>
+      <Grid>
+        <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Synopsis</Divider>
+        <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{data.synopsis}</Typography>
       </Grid>
-      <Grid size={6}>
-        <Divider sx={style.subtitle}>Type</Divider>
-        <Typography variant="h6" align="center">
-          <b>{MangaTypeStr(data.mediaType)}</b>
-        </Typography>
+      <Grid sx={{ textAlign: 'center' }}>
+        <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
+        <Stack direction="row" sx={{ justifyContent: 'center', flexWrap: 'wrap', gap: 1 }}>
+          {data.genres.map((g) => (
+            <Chip key={g} label={g} size="small" color="primary" />
+          ))}
+        </Stack>
       </Grid>
-    </Grid>
-    <Grid>
-      <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Synopsis</Divider>
-      <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{data.synopsis}</Typography>
-    </Grid>
-    <Grid sx={{ textAlign: 'center' }}>
-      <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
-      <Stack direction="row" justifyContent="center" gap={1} flexWrap="wrap">
-        {data.genres.map((g) => (
-          <Chip key={g} label={g} size="small" color="primary" />
-        ))}
-      </Stack>
-    </Grid>
+    </Stack>
   </Grid>
 );
 

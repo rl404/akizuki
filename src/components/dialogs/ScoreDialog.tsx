@@ -62,7 +62,7 @@ export default function ScoreDialog({
       <DialogTitle>{`${data.title}'s Score`}</DialogTitle>
       <DialogContent dividers>
         {!isSm ? (
-          <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
+          <Stack direction="row" spacing={1} sx={{ justifyContent: 'center', alignItems: 'center' }}>
             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((s) => (
               <Button
                 key={s}

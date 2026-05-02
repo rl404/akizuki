@@ -196,7 +196,7 @@ export default function Mangalist() {
                         <Typography sx={style.subtitle}>{s.label}</Typography>
                       </Grid>
                       <Grid size={5}>
-                        <Typography textAlign="right">
+                        <Typography sx={{ textAlign: 'right' }}>
                           {userManga.filter((a) => a.userStatus === s.status).length.toLocaleString()}
                         </Typography>
                       </Grid>
@@ -205,7 +205,7 @@ export default function Mangalist() {
                 </Grid>
               }
             >
-              <Typography display="inline" sx={style.subtitle}>
+              <Typography sx={{ ...style.subtitle, display: 'inline' }}>
                 — {userManga.length.toLocaleString()}
               </Typography>
             </Tooltip>
@@ -238,7 +238,7 @@ export default function Mangalist() {
               }}
             />
           </Grid>
-          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} sx={{ textAlign: 'center' }}>
             <Tooltip
               title={layout === 'list' ? 'List Layout' : layout === 'cover' ? 'Cover Layout' : 'Card Layout'}
               placement="top"
@@ -249,18 +249,18 @@ export default function Mangalist() {
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} sx={{ textAlign: 'center' }}>
             <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
               <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
             </Tooltip>
           </Grid>
-          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} sx={{ textAlign: 'center' }}>
             <TagEditorButton type="manga" />
           </Grid>
-          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} sx={{ textAlign: 'center' }}>
             <AddMangaButton />
           </Grid>
-          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} sx={{ textAlign: 'center' }}>
             <Tooltip title={!loadingSync && 'Data not updated? Try re-sync.'} placement="top" arrow>
               <span>
                 <IconButton onClick={() => callAPI(true)} disabled={loadingSync}>
