@@ -92,7 +92,7 @@ export default function EpisodeDialog({
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle>{`${data.title}'s Episode`}</DialogTitle>
       <DialogContent dividers>
-        <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
+        <Stack direction="row" spacing={1} sx={{ justifyContent: 'center', alignItems: 'center' }}>
           <TextField
             label="Episode"
             value={newEpisode}

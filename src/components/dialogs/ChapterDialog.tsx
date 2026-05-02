@@ -99,7 +99,7 @@ export default function ChapterDialog({
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle>{`${data.title}'s Chapter`}</DialogTitle>
       <DialogContent dividers>
-        <Stack direction="row" spacing={1} justifyContent="center" alignItems="center" sx={{ marginBottom: 2 }}>
+        <Stack direction="row" spacing={1} sx={{ marginBottom: 2, justifyContent: 'center', alignItems: 'center' }}>
           <TextField
             label="Chapter"
             value={newChapter}
@@ -128,7 +128,7 @@ export default function ChapterDialog({
             <AddIcon />
           </IconButton>
         </Stack>
-        <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
+        <Stack direction="row" spacing={1} sx={{ justifyContent: 'center', alignItems: 'center' }}>
           <TextField
             label="Volume"
             value={newVolume}

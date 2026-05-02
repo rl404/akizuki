@@ -194,7 +194,7 @@ export default function Animelist() {
                         <Typography sx={style.subtitle}>{s.label}</Typography>
                       </Grid>
                       <Grid size={5}>
-                        <Typography textAlign="right">
+                        <Typography sx={{ textAlign: 'right' }}>
                           {userAnime.filter((a) => a.userStatus === s.status).length.toLocaleString()}
                         </Typography>
                       </Grid>
@@ -203,7 +203,7 @@ export default function Animelist() {
                 </Grid>
               }
             >
-              <Typography display="inline" sx={style.subtitle}>
+              <Typography sx={{ ...style.subtitle, display: 'inline' }}>
                 — {userAnime.length.toLocaleString()}
               </Typography>
             </Tooltip>
@@ -236,7 +236,7 @@ export default function Animelist() {
               }}
             />
           </Grid>
-          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} sx={{ textAlign: 'center' }}>
             <Tooltip
               title={layout === 'list' ? 'List Layout' : layout === 'cover' ? 'Cover Layout' : 'Card Layout'}
               placement="top"
@@ -247,18 +247,18 @@ export default function Animelist() {
               </IconButton>
             </Tooltip>
           </Grid>
-          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} sx={{ textAlign: 'center' }}>
             <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
               <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
             </Tooltip>
           </Grid>
-          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} sx={{ textAlign: 'center' }}>
             <TagEditorButton type="anime" />
           </Grid>
-          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} sx={{ textAlign: 'center' }}>
             <AddAnimeButton />
           </Grid>
-          <Grid size={{ sm: 'auto', xs: 'grow' }} textAlign="center">
+          <Grid size={{ sm: 'auto', xs: 'grow' }} sx={{ textAlign: 'center' }}>
             <Tooltip title={!loadingSync && 'Data not updated? Try re-sync.'} placement="top" arrow>
               <span>
                 <IconButton onClick={() => callAPI(true)} disabled={loadingSync}>

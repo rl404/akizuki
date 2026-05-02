@@ -205,7 +205,11 @@ export default function UserAnimeDialog({
   return (
     <Dialog open={open} maxWidth={showAnime ? 'md' : 'sm'} fullWidth>
       <DialogTitle>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} sx={style.link}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ ...style.link, justifyContent: 'space-between', alignItems: 'center' }}
+        >
           <Link href={`${MAL_WEB_HOST}/anime/${data.id}`} target="_blank">
             {data.title}
           </Link>
@@ -224,148 +228,159 @@ export default function UserAnimeDialog({
         >
           {showAnime && <AnimeDetails data={data} />}
           {(!showAnime || !isSm) && (
-            <Grid container spacing={2} size="grow" direction={showAnime ? 'column' : 'row'}>
-              <Grid size={{ xs: showAnime ? false : 12, sm: showAnime ? false : 4 }}>
-                <TextField
-                  select
-                  label="Status"
-                  value={userStatus}
-                  onChange={onChangeUserStatus}
-                  size="small"
-                  fullWidth
-                >
-                  <MenuItem value="watching">Watching</MenuItem>
-                  <MenuItem value="completed">Completed</MenuItem>
-                  <MenuItem value="on_hold">On Hold</MenuItem>
-                  <MenuItem value="dropped">Dropped</MenuItem>
-                  <MenuItem value="plan_to_watch">Plan to Watch</MenuItem>
-                </TextField>
-              </Grid>
-              <Grid size={{ xs: showAnime ? false : 12, sm: showAnime ? false : 4 }}>
-                <TextField select label="Score" value={userScore} onChange={onChangeUserScore} size="small" fullWidth>
-                  {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0].map((s) => (
-                    <MenuItem value={s} key={s}>
-                      {s}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid size={{ xs: showAnime ? false : 12, sm: showAnime ? false : 4 }}>
-                <Stack direction="row" spacing={1}>
-                  <TextField
-                    label="Episode"
-                    value={userEpisode}
-                    fullWidth
-                    onChange={onChangeUserEpisode}
-                    size="small"
-                    slotProps={{
-                      input: {
-                        endAdornment: <InputAdornment position="end">{`/ ${data.episode}`}</InputAdornment>,
-                      },
-                    }}
-                    onKeyPress={(event) => {
-                      if (!/[0-9]/.test(event.key)) {
-                        event.preventDefault();
-                      }
-                    }}
-                  />
-                  <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                    <IconButton size="small" onClick={decreaseEpisode} disabled={userEpisode <= 0}>
-                      <RemoveIcon fontSize="small" />
-                    </IconButton>
-                  </div>
-                  <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                    <IconButton
+            <Grid size="grow">
+              <Stack>
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, sm: showAnime ? 12 : 4 }}>
+                    <TextField
+                      select
+                      label="Status"
+                      value={userStatus}
+                      onChange={onChangeUserStatus}
                       size="small"
-                      onClick={increaseEpisode}
-                      disabled={data.episode !== 0 && userEpisode >= data.episode}
+                      fullWidth
                     >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
-                  </div>
-                </Stack>
-              </Grid>
-              <Grid size={{ xs: showAnime ? false : 12, sm: showAnime ? false : 6 }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Start Date"
-                    value={userStartDate}
-                    onChange={onChangeUserStartDate}
-                    format="YYYY-MM-DD"
-                    disableFuture
-                    slotProps={{
-                      textField: { size: 'small', fullWidth: true },
-                      field: { clearable: true },
-                    }}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid size={{ xs: showAnime ? false : 12, sm: showAnime ? false : 6 }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="End Date"
-                    value={userEndDate}
-                    onChange={onChangeUserEndDate}
-                    format="YYYY-MM-DD"
-                    disableFuture
-                    slotProps={{
-                      textField: { size: 'small', fullWidth: true },
-                      field: { clearable: true },
-                    }}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid size={showAnime ? false : 12}>
-                <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
-                  <Autocomplete
-                    multiple
-                    freeSolo
-                    value={userTags}
-                    options={[]}
-                    fullWidth
-                    size="small"
-                    onChange={onChangeUserTags}
-                    sx={{ '& .MuiAutocomplete-tag': { maxWidth: '200px' } }}
-                    renderValue={(value: readonly string[], getItemProps) =>
-                      value.map((option: string, index: number) => {
-                        const { key, ...itemProps } = getItemProps({ index });
-                        return <Chip label={option} size="small" color="primary" key={key} {...itemProps} />;
-                      })
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} label="Tags" fullWidth placeholder="tags..." size="small" />
-                    )}
-                  />
-                  <Box>
-                    <Tooltip title="Tools for Tags Editor" placement="right" arrow>
-                      <IconButton onClick={toggleTools}>
-                        <ConstructionIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </Stack>
-              </Grid>
-              {tools && (
-                <AnimeTools
-                  showAnime={showAnime}
-                  userTags={userTags}
-                  genresToTags={genresToTags}
-                  tagsToComment={tagsToComment}
-                  formulaVarsToTag={formulaVarsToTag}
-                />
-              )}
-              <Grid size={showAnime ? false : 12}>
-                <TextField
-                  multiline
-                  fullWidth
-                  label="Comment"
-                  rows={3}
-                  value={userComment}
-                  onChange={onChangeUserComment}
-                  placeholder="your anime review..."
-                  size="small"
-                />
-              </Grid>
+                      <MenuItem value="watching">Watching</MenuItem>
+                      <MenuItem value="completed">Completed</MenuItem>
+                      <MenuItem value="on_hold">On Hold</MenuItem>
+                      <MenuItem value="dropped">Dropped</MenuItem>
+                      <MenuItem value="plan_to_watch">Plan to Watch</MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showAnime ? 12 : 4 }}>
+                    <TextField
+                      select
+                      label="Score"
+                      value={userScore}
+                      onChange={onChangeUserScore}
+                      size="small"
+                      fullWidth
+                    >
+                      {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0].map((s) => (
+                        <MenuItem value={s} key={s}>
+                          {s}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showAnime ? 12 : 4 }}>
+                    <Stack direction="row" spacing={1}>
+                      <TextField
+                        label="Episode"
+                        value={userEpisode}
+                        fullWidth
+                        onChange={onChangeUserEpisode}
+                        size="small"
+                        slotProps={{
+                          input: {
+                            endAdornment: <InputAdornment position="end">{`/ ${data.episode}`}</InputAdornment>,
+                          },
+                        }}
+                        onKeyPress={(event) => {
+                          if (!/[0-9]/.test(event.key)) {
+                            event.preventDefault();
+                          }
+                        }}
+                      />
+                      <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                        <IconButton size="small" onClick={decreaseEpisode} disabled={userEpisode <= 0}>
+                          <RemoveIcon fontSize="small" />
+                        </IconButton>
+                      </div>
+                      <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                        <IconButton
+                          size="small"
+                          onClick={increaseEpisode}
+                          disabled={data.episode !== 0 && userEpisode >= data.episode}
+                        >
+                          <AddIcon fontSize="small" />
+                        </IconButton>
+                      </div>
+                    </Stack>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showAnime ? 12 : 6 }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="Start Date"
+                        value={userStartDate}
+                        onChange={onChangeUserStartDate}
+                        format="YYYY-MM-DD"
+                        disableFuture
+                        slotProps={{
+                          textField: { size: 'small', fullWidth: true },
+                          field: { clearable: true },
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: showAnime ? 12 : 6 }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="End Date"
+                        value={userEndDate}
+                        onChange={onChangeUserEndDate}
+                        format="YYYY-MM-DD"
+                        disableFuture
+                        slotProps={{
+                          textField: { size: 'small', fullWidth: true },
+                          field: { clearable: true },
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid size={12}>
+                    <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
+                      <Autocomplete
+                        multiple
+                        freeSolo
+                        value={userTags}
+                        options={[]}
+                        fullWidth
+                        size="small"
+                        onChange={onChangeUserTags}
+                        sx={{ '& .MuiAutocomplete-tag': { maxWidth: '200px' } }}
+                        renderValue={(value: readonly string[], getItemProps) =>
+                          value.map((option: string, index: number) => {
+                            const { key, ...itemProps } = getItemProps({ index });
+                            return <Chip label={option} size="small" color="primary" key={key} {...itemProps} />;
+                          })
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} label="Tags" fullWidth placeholder="tags..." size="small" />
+                        )}
+                      />
+                      <Box>
+                        <Tooltip title="Tools for Tags Editor" placement="right" arrow>
+                          <IconButton onClick={toggleTools}>
+                            <ConstructionIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </Stack>
+                  </Grid>
+                  {tools && (
+                    <AnimeTools
+                      showAnime={showAnime}
+                      userTags={userTags}
+                      genresToTags={genresToTags}
+                      tagsToComment={tagsToComment}
+                      formulaVarsToTag={formulaVarsToTag}
+                    />
+                  )}
+                  <Grid size={12}>
+                    <TextField
+                      multiline
+                      fullWidth
+                      label="Comment"
+                      rows={3}
+                      value={userComment}
+                      onChange={onChangeUserComment}
+                      placeholder="your anime review..."
+                      size="small"
+                    />
+                  </Grid>
+                </Grid>
+              </Stack>
             </Grid>
           )}
         </Stack>
@@ -397,65 +412,67 @@ export default function UserAnimeDialog({
 }
 
 const AnimeDetails = ({ data }: { data: UserAnime }) => (
-  <Grid container size="grow" spacing={2} direction="column">
-    <Grid sx={{ textAlign: 'center' }}>
-      <img
-        src={data.picture}
-        alt={data.title}
-        height={300}
-        style={{
-          objectFit: 'cover',
-          borderRadius: 5,
-          maxWidth: '100%',
-        }}
-      />
-    </Grid>
-    <Grid container spacing={2}>
-      <Grid size={4}>
-        <Divider sx={style.subtitle}>Rank</Divider>
-        <Typography variant="h6" align="center">
-          <b>#{data.rank.toLocaleString()}</b>
-        </Typography>
+  <Grid container size="grow" spacing={2}>
+    <Stack spacing={2}>
+      <Grid sx={{ textAlign: 'center' }}>
+        <img
+          src={data.picture}
+          alt={data.title}
+          height={300}
+          style={{
+            objectFit: 'cover',
+            borderRadius: 5,
+            maxWidth: '100%',
+          }}
+        />
       </Grid>
-      <Grid size={4}>
-        <Divider sx={style.subtitle}>Score</Divider>
-        <Typography variant="h6" align="center">
-          <b>{data.score.toLocaleString()}</b>
-        </Typography>
+      <Grid container spacing={2}>
+        <Grid size={4}>
+          <Divider sx={style.subtitle}>Rank</Divider>
+          <Typography variant="h6" align="center">
+            <b>#{data.rank.toLocaleString()}</b>
+          </Typography>
+        </Grid>
+        <Grid size={4}>
+          <Divider sx={style.subtitle}>Score</Divider>
+          <Typography variant="h6" align="center">
+            <b>{data.score.toLocaleString()}</b>
+          </Typography>
+        </Grid>
+        <Grid size={4}>
+          <Divider sx={style.subtitle}>Popularity</Divider>
+          <Typography variant="h6" align="center">
+            <b>#{data.popularity.toLocaleString()}</b>
+          </Typography>
+        </Grid>
       </Grid>
-      <Grid size={4}>
-        <Divider sx={style.subtitle}>Popularity</Divider>
-        <Typography variant="h6" align="center">
-          <b>#{data.popularity.toLocaleString()}</b>
-        </Typography>
+      <Grid container spacing={2}>
+        <Grid size={6}>
+          <Divider sx={style.subtitle}>Status</Divider>
+          <Typography variant="h6" align="center">
+            <b>{AnimeStatusStr(data.status)}</b>
+          </Typography>
+        </Grid>
+        <Grid size={6}>
+          <Divider sx={style.subtitle}>Type</Divider>
+          <Typography variant="h6" align="center">
+            <b>{AnimeTypeStr(data.mediaType)}</b>
+          </Typography>
+        </Grid>
       </Grid>
-    </Grid>
-    <Grid container spacing={2}>
-      <Grid size={6}>
-        <Divider sx={style.subtitle}>Status</Divider>
-        <Typography variant="h6" align="center">
-          <b>{AnimeStatusStr(data.status)}</b>
-        </Typography>
+      <Grid>
+        <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Synopsis</Divider>
+        <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{data.synopsis}</Typography>
       </Grid>
-      <Grid size={6}>
-        <Divider sx={style.subtitle}>Type</Divider>
-        <Typography variant="h6" align="center">
-          <b>{AnimeTypeStr(data.mediaType)}</b>
-        </Typography>
+      <Grid sx={{ textAlign: 'center' }}>
+        <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
+        <Stack direction="row" sx={{ justifyContent: 'center', flexWrap: 'wrap', gap: 1 }}>
+          {data.genres.map((g) => (
+            <Chip key={g} label={g} size="small" color="primary" />
+          ))}
+        </Stack>
       </Grid>
-    </Grid>
-    <Grid>
-      <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Synopsis</Divider>
-      <Typography sx={{ whiteSpace: 'pre-line', textAlign: 'justify' }}>{data.synopsis}</Typography>
-    </Grid>
-    <Grid sx={{ textAlign: 'center' }}>
-      <Divider sx={{ ...style.subtitle, marginBottom: 1 }}>Genres</Divider>
-      <Stack direction="row" justifyContent="center" gap={1} flexWrap="wrap">
-        {data.genres.map((g) => (
-          <Chip key={g} label={g} size="small" color="primary" />
-        ))}
-      </Stack>
-    </Grid>
+    </Stack>
   </Grid>
 );
 

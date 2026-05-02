@@ -161,7 +161,7 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
   return (
     <Dialog open={open} maxWidth="md" fullWidth disableRestoreFocus>
       <DialogTitle>
-        <Stack direction="row" justifyContent="space-between" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={2} sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <div>Search Anime</div>
           <IconButton onClick={close} size="small">
             <CloseIcon />
@@ -184,17 +184,17 @@ export default function SearchAnimeDialog({ open, onClose }: { open: boolean; on
               helperText={error}
             />
           </Grid>
-          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} sx={{ textAlign: 'center' }}>
             <IconButton onClick={onSearch}>
               <SearchIcon />
             </IconButton>
           </Grid>
-          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} sx={{ textAlign: 'center' }}>
             <Tooltip title={nsfw ? 'Show NSFW' : 'Hide NSFW'} placement="top" arrow>
               <IconButton onClick={toggleNsfw}>{nsfw ? <FavoriteIcon /> : <FavoriteBorderIcon />}</IconButton>
             </Tooltip>
           </Grid>
-          <Grid size={{ xs: 'grow', sm: 'auto' }} textAlign="center">
+          <Grid size={{ xs: 'grow', sm: 'auto' }} sx={{ textAlign: 'center' }}>
             <Tooltip title={layout === 'list' ? 'List Layout' : 'Cover Layout'} placement="top" arrow>
               <IconButton onClick={toggleLayout}>
                 {layout === 'list' ? <TableRowsIcon /> : <ViewModuleIcon />}
