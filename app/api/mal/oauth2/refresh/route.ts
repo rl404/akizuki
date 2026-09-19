@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   const refreshToken = searchParams.get('refresh_token') || '';
 
   const clientID = process.env.NEXT_PUBLIC_MAL_CLIENT_ID || '';
-  const clientSecret = process.env.NEXT_PUBLIC_MAL_CLIENT_SECRET || '';
+  const clientSecret = process.env.MAL_CLIENT_SECRET || '';
 
   const resp = await fetch(`${MAL_WEB_HOST}/v1/oauth2/token`, {
     method: 'post',
