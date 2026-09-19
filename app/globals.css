@@ -9,7 +9,7 @@ body:before {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-image: url('/images/akizuki.png');
+  background-image: url('/akizuki.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: top center;
