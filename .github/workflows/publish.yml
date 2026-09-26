@@ -49,6 +49,8 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          secret-envs: |
+            NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }}
           tags: |
             rl404/akizuki:latest
             rl404/akizuki:${{ env.IMG_TAG }}
