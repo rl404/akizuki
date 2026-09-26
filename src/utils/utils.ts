@@ -1,13 +1,13 @@
 import axios, { AxiosError } from 'axios';
 
-const dec2hex = (dec: number): string => {
-  return dec.toString(16).padStart(2, '0');
-};
+const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
 export const generateRandomStr = (len: number): string => {
-  const arr = new Uint8Array((len || 40) / 2);
-  window.crypto.getRandomValues(arr);
-  return Array.from(arr, dec2hex).join('');
+  let result = '';
+  for (let i = 0; i < len; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
 };
 
 export const getAxiosError = (error: Error | AxiosError): string => {
