@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios';
 
+const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
 export const generateRandomStr = (len: number): string => {
-  var result = '';
-  var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
+  let result = '';
   for (var i = 0; i < len; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return result;
 };
