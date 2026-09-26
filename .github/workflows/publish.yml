@@ -45,8 +45,6 @@ jobs:
           gcloud --quiet auth configure-docker ${{ secrets.GCR_HOSTNAME }}
       - name: Build and push image
         uses: docker/build-push-action@v7
-        env:
-          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
         with:
           context: .
           file: ./Dockerfile
