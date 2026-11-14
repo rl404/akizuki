@@ -20,6 +20,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
+          build-args: |
+            NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }}
           push: false
           tags: akizuki:build
           outputs: type=docker,dest=/tmp/akizuki.tar
