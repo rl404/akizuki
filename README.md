@@ -50,32 +50,32 @@ _More will be coming soon..._
 
 1. Clone the repo.
 
-```sh
-git clone https://github.com/rl404/akizuki
-```
+   ```sh
+   git clone https://github.com/rl404/akizuki
+   ```
 
 2. Rename `.env.sample` to `.env` and modify the value according to your setup.
 
-| Env                            | Required | Description                                                                            |
-| ------------------------------ | :------: | -------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_GA_ID`            |    no    | Google analytic id.                                                                    |
-| `NEXT_PUBLIC_MAL_CLIENT_ID`    |   yes    | MyAnimeList client id.                                                                 |
-| `NEXT_PUBLIC_MAL_REDIRECT_URI` |   yes    | MyAnimeList oauth2 redirect uri. Must be the same as when you register to MyAnimeList. |
-| `MAL_CLIENT_SECRET`            |   yes    | MyAnimeList client secret.                                                             |
-| `FIREBASE_DATABASE_URL`        |    no    | Firebase realtime database URL.                                                        |
-| `FIREBASE_SERVICE_ACCOUNT`     |    no    | Firebase service account credential.                                                   |
+   | Env                            | Required | Description                                                                            |
+   | ------------------------------ | :------: | -------------------------------------------------------------------------------------- |
+   | `NEXT_PUBLIC_GA_ID`            |    no    | Google analytic id.                                                                    |
+   | `NEXT_PUBLIC_MAL_CLIENT_ID`    |   yes    | MyAnimeList client id.                                                                 |
+   | `NEXT_PUBLIC_MAL_REDIRECT_URI` |   yes    | MyAnimeList oauth2 redirect uri. Must be the same as when you register to MyAnimeList. |
+   | `MAL_CLIENT_SECRET`            |   yes    | MyAnimeList client secret.                                                             |
+   | `FIREBASE_DATABASE_URL`        |    no    | Firebase realtime database URL.                                                        |
+   | `FIREBASE_SERVICE_ACCOUNT`     |    no    | Firebase service account credential.                                                   |
 
 3. Install depedencies.
 
-```sh
-npm ci
-```
+   ```sh
+   npm i
+   ```
 
 4. Start.
 
-```sh
-npm run dev
-```
+   ```sh
+   npm run dev
+   ```
 
 5. [http://localhost:3000](http://localhost:3000) is ready.
 
