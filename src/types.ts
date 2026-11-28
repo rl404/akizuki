@@ -98,3 +98,5 @@ export type MangaStatus = 'finished' | 'currently_publishing' | 'not_yet_publish
 export type AnimeType = 'tv' | 'ova' | 'movie' | 'special' | 'ona' | 'music';
 
 export type MangaType = 'manga' | 'novel' | 'one_shot' | 'doujinshi' | 'manhwa' | 'manhua' | 'oel' | 'light_novel';
+
+export const isMediaType = (value: unknown): value is MediaType => value === 'anime' || value === 'manga';

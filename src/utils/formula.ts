@@ -1,3 +1,4 @@
+import { MediaType } from '@/src/types';
 import { all, create } from 'mathjs';
 
 const animeFormula = 'formula-anime';
@@ -5,11 +6,11 @@ const mangaFormula = 'formula-manga';
 
 export const DefaultFormula = '(art*0.3) + (story*0.4) + (sound*0.3)';
 
-export const saveUserFormula = (type: string, formula: string) => {
+export const saveUserFormula = (type: MediaType, formula: string) => {
   localStorage.setItem(type === 'anime' ? animeFormula : mangaFormula, formula);
 };
 
-export const getUserFormula = (type: string): string => {
+export const getUserFormula = (type: MediaType): string => {
   return localStorage.getItem(type === 'anime' ? animeFormula : mangaFormula) || DefaultFormula;
 };
 
