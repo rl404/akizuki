@@ -145,13 +145,14 @@ export default function Mangalist() {
   const resetSearch = () => setSearch('');
 
   useEffect(() => {
+    const lowerCaseSearch = search.toLowerCase();
     setUserManga(
       userMangaAll.filter(
         (a) =>
-          a.title.toLowerCase().includes(search) ||
-          a.synonyms.join(',').toLowerCase().includes(search) ||
-          a.enTitle.toLowerCase().includes(search) ||
-          a.jpTitle.toLowerCase().includes(search),
+          a.title.toLowerCase().includes(lowerCaseSearch) ||
+          a.synonyms.join(',').toLowerCase().includes(lowerCaseSearch) ||
+          a.enTitle.toLowerCase().includes(lowerCaseSearch) ||
+          a.jpTitle.toLowerCase().includes(lowerCaseSearch),
       ),
     );
   }, [userMangaAll, search]);
