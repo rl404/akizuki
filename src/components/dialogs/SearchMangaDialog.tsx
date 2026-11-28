@@ -96,8 +96,14 @@ export default function SearchMangaDialog({ open, onClose }: { open: boolean; on
 
     const limit = 20;
 
+    const searchParams = new URLSearchParams({
+      query: search,
+      offset: ((p - 1) * limit).toString(),
+      limit: (limit + 1).toString(),
+    });
+
     akizukiAxios
-      .get(`/api/mal/manga?query=${search}&offset=${(p - 1) * limit}&limit=${limit + 1}`)
+      .get(`/api/mal/manga?${searchParams.toString()}`)
       .then((resp) => {
         const data: Data = resp.data;
 
